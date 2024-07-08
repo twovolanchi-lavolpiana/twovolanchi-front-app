@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <div class="container">
     <div class="controls" v-if="selectPlayer !== null">
       <button @click="resetCurrentPlayerLine">선수 움직임 리셋</button>
@@ -13,16 +13,16 @@
         <img src="@/assets/soccer-dashboard.jpg" alt="Soccer Field" class="field-image" ref="fieldImage" @load="updateCanvasSize"/>
         <canvas ref="canvas" class="field-canvas"></canvas>
       </div>
-      <VueDraggableNext
-        v-model="blueTeam.players"
-        item-key="'number'"
-        group="players"
-        ghost-class="ghost"
-        animation="150"
-        @start="dragStart"
-        @end="dragEnd"
-        @change="updatePlayerPosition(blueTeam, $event)"
-        ref="blueDraggable"
+      <VueDraggable
+      v-model="blueTeam.players"
+      :item-key="'number'"
+      group="players"
+      ghost-class="ghost"
+      :animation="150"
+      @start="dragStart"
+      @end="dragEnd"
+      @change="updatePlayerPosition(blueTeam, $event)"
+      ref="blueDraggable"
       >
         <template #item="{ element, index }">
           <div
@@ -34,13 +34,13 @@
             {{ element.number }}
           </div>
         </template>
-      </VueDraggableNext>
-      <VueDraggableNext
+      </VueDraggable>
+      <VueDraggable
         v-model="redTeam.players"
-        item-key="'number'"
+        :item-key="'number'"
         group="players"
         ghost-class="ghost"
-        animation="150"
+        :animation="150"
         @start="dragStart"
         @end="dragEnd"
         @change="updatePlayerPosition(redTeam, $event)"
@@ -56,14 +56,14 @@
             {{ element.number }}
           </div>
         </template>
-      </VueDraggableNext>
+      </VueDraggable>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, onMounted, reactive } from 'vue';
-import { VueDraggableNext } from 'vue-draggable-next';
+import { defineComponent, ref, onMounted } from 'vue';
+import draggable from 'vuedraggable';
 import Team from '@/domain/Team';
 import Player from '@/domain/Player';
 import TeamColor from '@/domain/TeamColor';
@@ -76,7 +76,7 @@ import SelectPlayer from '@/domain/SelectPlayer';
 
 export default defineComponent({
   components: {
-    VueDraggableNext,
+    VueDraggable: draggable,
   },
   setup() {
     const resetBlueTeam = new Team(TeamColor.Blue,
@@ -106,7 +106,8 @@ export default defineComponent({
         new Player(9, "42%", "47.5%"),
       )
 
-    const blueTeam = reactive(new Team(TeamColor.Blue,
+
+    const blueTeam = new Team(TeamColor.Blue,
         new Player(1, '90%', '47.5%'),
         new Player(2, '80%', '20%'),
         new Player(4, '80%', '35%'),
@@ -118,9 +119,8 @@ export default defineComponent({
         new Player(7, '60%', '20%'),
         new Player(11, '60%', '75%'),
         new Player(9, '52%', '47.5%'),
-      ))
-
-    const redTeam = reactive(new Team(TeamColor.Red,
+      )
+    const redTeam = new Team(TeamColor.Red,
         new Player(1, "5%", "47.5%"),
         new Player(2, "14%", "20%%"),
         new Player(4, "14%", "35%"),
@@ -132,7 +132,7 @@ export default defineComponent({
         new Player(7, "34%", "20%"),
         new Player(11, "34%", "75%"),
         new Player(9, "42%", "47.5%"),
-      ))
+      )
 
     const initialBall = new Ball('50%', '50%');
     const initialBallSequenceLine = new BallSequenceLine(initialBall);
@@ -300,7 +300,6 @@ export default defineComponent({
     };
     
     const setPoint = (event: any) => {
-      console.log("setPoint")
       if (selectPlayer.selectedPlayer !== null && canvas.value) {
         const x = (event.offsetX / canvas.value.clientWidth) * 100;
         const y = (event.offsetY / canvas.value.clientHeight) * 100;
@@ -332,25 +331,15 @@ export default defineComponent({
         updatedTeam.players[index].top = player.top;
         updatedTeam.players[index].left = player.left;
       });
-    };
-
+    }
     onMounted(() => {
       console.log("ctx:", ctx)
-      console.log("blueTeam", blueTeam)
-      console.log("redTeam", redTeam)
       if (canvas.value) {
         ctx.value = canvas.value.getContext('2d');
       }
     });
 
-    const testList = reactive([
-      { id: 1, name: 'Item 1' },
-      { id: 2, name: 'Item 2' },
-      { id: 3, name: 'Item 3' }
-    ]);
-
     return {
-      testList: testList,
       blueTeam: blueTeam,
       redTeam: redTeam,
       draggingPlayer: null as Player | null,
@@ -378,4 +367,4 @@ export default defineComponent({
 });
 
 import '../css/SoccerField.css';
-</script>
+</script> -->

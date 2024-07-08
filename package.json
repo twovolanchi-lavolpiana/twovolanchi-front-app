@@ -9,8 +9,10 @@
   },
   "dependencies": {
     "core-js": "^3.8.3",
+    "draggable": "^4.2.0",
     "vue": "^3.2.13",
     "vue-class-component": "^8.0.0-0",
+    "vue-draggable-next": "^2.2.1",
     "vuedraggable": "^2.24.3"
   },
   "devDependencies": {
