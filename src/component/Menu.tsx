@@ -26,7 +26,7 @@ export const Menu = () => {
     }
 
     const handlePlayerMoveNotPossible = () => {
-        if (!selectedPlayer || !possibleMoveState || possibleMoveState.isPossible) return;
+        if (!selectedPlayer || !possibleMoveState) return;
         dispatch(setPossibleMoveState({ playerId: null, isPossible: false }))
     }
 

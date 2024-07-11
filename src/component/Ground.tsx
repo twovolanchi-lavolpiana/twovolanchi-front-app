@@ -30,7 +30,7 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
             const top = Math.round(item.top + delta.y);
             movePlayer(item.id, left, top);
             dispatch(selectPlayer({ id: item.id, backNumber: item.backNumber, team: item.team, left, top }));
-            dispatch(setPlayerMovingSequences({ id:item.id, left, top, team: item.team, isFirst: true }));
+            dispatch(setPlayerMovingSequences({ id: item.id, left, top, team: item.team, isFirst: true }));
         },
     });
 
@@ -48,7 +48,7 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
 
         dispatch(setPlayerMovingSequences({ id, left: clickedLeft, top: clickedTop, team: team, isFirst: false }));
     }
-    
+
     useEffect(() => {
         if (imgRef.current) {
             const rect = imgRef.current.getBoundingClientRect();
@@ -87,6 +87,33 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
                     onClick={handlePlayerClick} />
             ))}
             <svg style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 50 }}>
+                <defs>
+                    <marker
+                        id="arrow-blue"
+                        viewBox="0 0 10 10"
+                        refX="5"
+                        refY="5"
+                        markerWidth="3"
+                        markerHeight="3"
+                        opacity={0.7}
+                        orient="auto-start-reverse">
+                        <path d="M 0 0 L 10 5 L 0 10 z" fill='blue' />
+                    </marker>
+                </defs>
+                <defs>
+                    <marker
+                        id="arrow-red"
+                        viewBox="0 0 10 10"
+                        refX="5"
+                        refY="5"
+                        markerWidth="3"
+                        markerHeight="3"
+                        opacity={0.7}
+                        orient="auto-start-reverse">
+                        <path d="M 0 0 L 10 5 L 0 10 z" fill='red' />
+                    </marker>
+                </defs>
+
                 {sequences.sequences.map(sequence => (
                     sequence.moves.map((move) => (
                         move.sequence.map((location, index) => (
@@ -100,6 +127,7 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
                                     stroke={location.team}
                                     strokeWidth="5"
                                     strokeOpacity={0.7}
+                                    markerEnd={location.team === 'red' ? 'url(#arrow-red)' : 'url(#arrow-blue)'}
                                 />
                             )
                         ))
