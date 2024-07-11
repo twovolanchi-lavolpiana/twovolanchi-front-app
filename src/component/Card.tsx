@@ -2,8 +2,11 @@ import '../css/Card.css';
 import { Stack } from "@mui/material";
 import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
+import SportsSoccerIcon from '@mui/icons-material/SportsSoccer';
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined';
 import SkipNextOutlinedIcon from '@mui/icons-material/SkipNextOutlined';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 
 type LeftAlignedChipProps = {
     icon: React.ReactElement;
@@ -40,11 +43,11 @@ export const Card = () => {
         <div className='cards'>
             <div className="cards__container">
                 <Stack direction="column" spacing={2}>
-                    <Chip variant="outlined" color="primary" icon={<SkipNextOutlinedIcon />} label="Simulation" />
-                    <Chip variant="outlined" color="primary" icon={<NavigateNextOutlinedIcon />} label="Next Sequence" />
-                    {/* <LeftAlignedChip variant="outlined" color="primary" icon={<SportsSoccerOutlinedIcon />} label="Pass" />
-                    <LeftAlignedChip variant="outlined" color="primary" icon={<SkipNextOutlinedIcon />} label="Simulation" />
-                    <LeftAlignedChip variant="outlined" color="primary" icon={<NavigateNextOutlinedIcon />} label="Next Sequence" /> */}
+                    <Chip variant="outlined" color="warning" icon={<SportsSoccerIcon />} label="Move" />
+                    <Chip variant="outlined" color="warning" icon={<SkipNextOutlinedIcon />} label="Simulation" />
+                    <Chip variant="outlined" color="warning" icon={<NavigateNextOutlinedIcon />} label="Save Sequence" />
+                    <Chip variant="outlined" color="warning" icon={<ArrowBackIcon />} label="Back" />
+                    <Chip variant="outlined" color="warning" icon={<RestartAltIcon />} label="Reset" />
                 </Stack>
             </div>
         </div>

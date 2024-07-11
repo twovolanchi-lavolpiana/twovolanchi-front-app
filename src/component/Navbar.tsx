@@ -54,7 +54,7 @@ function Navbar() {
                             textDecoration: 'none',
                         }}
                     >
-                        TWO-VOLANCHI
+                        Lavolpiana
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>

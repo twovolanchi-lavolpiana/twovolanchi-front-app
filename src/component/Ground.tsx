@@ -5,6 +5,8 @@ import { useEffect, useRef, useState } from 'react';
 import { useDrop } from 'react-dnd';
 import { ItemTypes } from './ItemTypes';
 import { DraggablePlayer } from './DraggablePlayer';
+import { useDispatch } from 'react-redux';
+import { selectPlayer } from '../store/PlayerSlice';
 
 interface GroundProps {
     players: PlayerPosition[];
@@ -24,12 +26,19 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
         },
     });
 
+    const dispatch = useDispatch();
+
+    const handlePlayerClick = (event: React.MouseEvent<HTMLElement>, player: PlayerPosition) => {
+        dispatch(selectPlayer(player));
+    };
+
+
     useEffect(() => {
         if (imgRef.current) {
-          const rect = imgRef.current.getBoundingClientRect();
-          console.log(rect);
+            const rect = imgRef.current.getBoundingClientRect();
+            console.log(rect);
         }
-      }, [imgRef]);
+    }, [imgRef]);
 
     return (
         <Box
@@ -42,7 +51,14 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
         >
             <img ref={imgRef} src={boardImage} alt="board" style={{ width: '100%', height: '100%' }} />
             {players.map((player) => (
-                <DraggablePlayer key={player.id} id={player.id} team={player.team} left={player.left} top={player.top} />
+                <DraggablePlayer
+                    key={player.id}
+                    id={player.id}
+                    backNumber={player.backNumber}
+                    team={player.team}
+                    left={player.left}
+                    top={player.top}
+                    onClick={handlePlayerClick} />
             ))}
         </Box>
     );

@@ -1,5 +1,5 @@
 .cards {
-    padding: 4rem;
+    padding: 1rem;
     background: #fff;
   }
   
@@ -97,4 +97,17 @@
     .cards__item {
       margin-bottom: 2rem;
     }
+  }
+
+  .draggable-icon {
+    transition: transform 0.2s, box-shadow 0.2s;
+    filter: brightness(1.2); /* 밝기 효과 */
+  }
+  
+  .draggable-icon:hover {
+    transform: scale(1.1);
+  }
+  
+  .draggable-icon:active {
+    transform: scale(0.9);
   }
