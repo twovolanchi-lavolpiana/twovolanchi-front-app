@@ -3,11 +3,11 @@ import { Stack } from "@mui/material";
 import Chip from '@mui/material/Chip';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 
-interface PlayerCardProps {
+interface PlayerPlusProps {
     onAddPlayer: (team: 'red' | 'blue', x: number, y: number) => void;
 }
 
-export const PlayerCard: React.FC<PlayerCardProps> = ({ onAddPlayer }) => {
+export const PlayerPlus: React.FC<PlayerPlusProps> = ({ onAddPlayer }) => {
     const handleAddPlayer = (team: 'red' | 'blue') => {
         const x = 205; // 임의의 x 좌표
         const y = 298; // 임의의 y 좌표

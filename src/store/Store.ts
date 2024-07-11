@@ -1,11 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import playerReducer from "./PlayerSlice";
-import playerMovingSequenceSlice from "./PlayerMovingSlice";
+import sequencesReducer from "./SequenceSlice";
+import possibleMoveReducer from './PossibleMoveSlice';
 
 export const store = configureStore({
     reducer: {
         player: playerReducer,
-        playerMovingSequences: playerMovingSequenceSlice
+        sequences: sequencesReducer,
+        possibleMove: possibleMoveReducer
     }
 });
 

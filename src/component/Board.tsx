@@ -1,6 +1,6 @@
 import '../css/Board.css';
-import { Card } from './Card'
-import { PlayerCard } from './PlayerCard';
+import { Menu } from './Menu'
+import { PlayerPlus } from './PlayerPlus';
 import { Ground } from './Ground';
 import { useState } from 'react'
 import { PlayerPosition } from './PlayerPosition';
@@ -41,8 +41,8 @@ export const Board = () => {
                 </div>
                 <div className="board-sidebar">
                     <PlayerProfile />
-                    <PlayerCard onAddPlayer={handleAddPlayer} />
-                    <Card />
+                    <PlayerPlus onAddPlayer={handleAddPlayer} />
+                    <Menu />
                 </div>
             </div>
         </DndProvider>
