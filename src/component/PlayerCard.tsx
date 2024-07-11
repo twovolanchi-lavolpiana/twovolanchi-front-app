@@ -3,16 +3,16 @@ import { Stack } from "@mui/material";
 import Chip from '@mui/material/Chip';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 
-export const PlayerCard = () => {
+interface PlayerCardProps {
+    onAddPlayer: (team: 'red' | 'blue', x: number, y: number) => void;
+}
 
-    const handleRedTeamClick = () => {
-        console.log("Red 플레이어 추가")
-    };
-
-    const handleBlueTeamClick = () => {
-        console.log("Blue 플레이어 추가")
-    };
-
+export const PlayerCard: React.FC<PlayerCardProps> = ({ onAddPlayer }) => {
+    const handleAddPlayer = (team: 'red' | 'blue') => {
+        const x = 205; // 임의의 x 좌표
+        const y = 298; // 임의의 y 좌표
+        onAddPlayer(team, x, y);
+      };
 
     return (
         <div className='cards'>
@@ -23,14 +23,14 @@ export const PlayerCard = () => {
                         color="error"
                         icon={<AddCircleOutlineOutlinedIcon />}
                         label="Red Team Player"
-                        onClick={handleRedTeamClick}
+                        onClick={() => handleAddPlayer('red')}
                     />
                     <Chip
                         variant="outlined"
                         color="primary"
                         icon={<AddCircleOutlineOutlinedIcon />}
                         label="Blue Team Player"
-                        onClick={handleBlueTeamClick}
+                        onClick={() => handleAddPlayer('blue')}
                     />
                 </Stack>
             </div>

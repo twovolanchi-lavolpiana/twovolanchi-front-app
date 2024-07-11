@@ -1,9 +1,7 @@
 import '../css/Card.css';
-import { OutlinedButton } from "./OutlinedButton";
 import { Stack } from "@mui/material";
 import Chip from '@mui/material/Chip';
 import Box from '@mui/material/Box';
-import SportsSoccerOutlinedIcon from '@mui/icons-material/SportsSoccerOutlined';
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined';
 import SkipNextOutlinedIcon from '@mui/icons-material/SkipNextOutlined';
 

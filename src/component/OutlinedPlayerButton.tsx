@@ -1,5 +1,8 @@
 import * as React from 'react';
 import Button from '@mui/material/Button';
+import { DndProvider, useDrag, useDrop } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { ItemTypes } from './ItemTypes';
 
 type OutlinedPlayerButtonProps = {
   text: string,
@@ -7,8 +10,17 @@ type OutlinedPlayerButtonProps = {
 }
 
 export const OutlinedPlayerButton = ({ text, onClick }: OutlinedPlayerButtonProps) => {
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: ItemTypes.PLAYER,
+    item: { text },
+    collect: (monitor) => ({
+      isDragging: !monitor.isDragging(),
+    })
+  }))
+
   return (
     <Button
+      ref={drag}
       variant="outlined"
       sx={{
         borderColor: 'black',
@@ -22,6 +34,7 @@ export const OutlinedPlayerButton = ({ text, onClick }: OutlinedPlayerButtonProp
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        opacity: isDragging ? 0.5 : 1,
       }}
       onClick={onClick}
     >
