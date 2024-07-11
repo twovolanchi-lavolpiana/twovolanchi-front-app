@@ -5,7 +5,6 @@ import { Box, Typography } from '@mui/material';
 
 export const PlayerProfile = () => {
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
-    console.log("selectedPlayer = ", selectedPlayer)
     return (
         <Box className="cards"
             sx={{

@@ -29,6 +29,7 @@ type PlayerMovingProps = {
     id: number,
     left: number,
     top: number,
+    isFirst: boolean,
 }
 
 const sequenceSlice = createSlice({
@@ -40,14 +41,16 @@ const sequenceSlice = createSlice({
         },
 
         setPlayerMovingSequences: (state, action: PayloadAction<PlayerMovingProps>) => {
-            const { id, left, top } = action.payload;
+            const { id, left, top, isFirst } = action.payload;
             const currentSequence = state.sequences.find((s) => s.sequenceNumber === state.currentSequenceNumber);
 
             if (currentSequence) {
                 const existingPlayer = currentSequence.moves.find((m) => m.id === id);
 
                 if (existingPlayer) {
-                    existingPlayer.sequence.push({ left, top });
+                    if (!isFirst) {
+                        existingPlayer.sequence.push({ left, top });
+                    }
                 } else {
                     currentSequence.moves.push({
                         id,

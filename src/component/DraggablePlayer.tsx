@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDrag } from "react-dnd";
 import { ItemTypes } from "./ItemTypes";
 import CircleIcon from '@mui/icons-material/Circle';
@@ -6,6 +6,12 @@ import CircleIcon from '@mui/icons-material/Circle';
 import '../css/Card.css';
 import { PlayerPosition } from './PlayerPosition';
 import { Box } from '@mui/material';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store/Store';
+import { setPossibleMoveState } from '../store/PossibleMoveSlice';
+import { selectPlayer } from '../store/PlayerSlice';
+
 
 type PlayerProps = {
     id: number,
@@ -17,19 +23,36 @@ type PlayerProps = {
 }
 
 export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, left, top, onClick }) => {
-    console.log(id, team, backNumber, left, top)
+    const dispatch = useDispatch();
+    const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
+    const possibleMoveState = useSelector((state: RootState) => state.possibleMove);
+
+    const handlePlayerMoveNotPossible = () => {
+        if (!selectedPlayer || !possibleMoveState) return;
+        dispatch(setPossibleMoveState({ playerId: null, isPossible: false }))
+    }
+    
     const [{ isDragging }, dragRef] = useDrag(() => ({
         type: ItemTypes.PLAYER,
-        item: { id, left, top },
+        item: () => {
+            handlePlayerMoveNotPossible()
+            return { id, left, top };
+        },
         collect: (monitor) => ({
             isDragging: !!monitor.isDragging(),
         }),
     }), [id, left, top]);
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-        console.log(`Player ${id} clicked`);
+        handlePlayerMoveNotPossible()
         onClick(event, { id, team, backNumber, left, top });
     };
+
+    useEffect(() => {
+        if (!possibleMoveState.isPossible) {
+            console.log('possibleMoveState has changed:', possibleMoveState);
+        }
+    }, [possibleMoveState]);
 
     return (
         <div

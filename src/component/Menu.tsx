@@ -18,36 +18,69 @@ export const Menu = () => {
     const sequencesState = useSelector((state: RootState) => state.sequences);
     const possibleMoveState = useSelector((state: RootState) => state.possibleMove);
 
-    useEffect(() => {
-        console.log("possibleMoveState = ", possibleMoveState);
-      }, [possibleMoveState]);
-
-    useEffect(() => {
-        console.log("sequencesState = ", sequencesState);
-      }, [sequencesState]);
-
     const handlePlayerMovePossible = () => {
         if (!selectedPlayer) return;
-        const {id, left, top} = selectedPlayer;
-        dispatch(setPossibleMoveState({isPossible: true}))
-        dispatch(setPlayerMovingSequences({ id, left, top}));
+        const { id, left, top } = selectedPlayer;
+        dispatch(setPossibleMoveState({ playerId: id, isPossible: true }))
+        dispatch(setPlayerMovingSequences({ id, left, top, isFirst: true }));
     }
+
+    const handlePlayerMoveNotPossible = () => {
+        if (!selectedPlayer || !possibleMoveState) return;
+        dispatch(setPossibleMoveState({ playerId: null, isPossible: false }))
+    }
+
+    useEffect(() => {
+    }, [possibleMoveState]);
+
+    useEffect(() => {
+    }, [sequencesState]);
 
     return (
         <div className='cards'>
             <div className="cards__container">
                 <Stack direction="column" spacing={2}>
-                    {selectedPlayer && <Chip 
-                    variant="outlined" 
-                    color="warning" 
-                    icon={<SportsSoccerIcon />} 
-                    label="Move"
-                    onClick={handlePlayerMovePossible}
+                    {selectedPlayer && possibleMoveState.playerId !== selectedPlayer.id && <Chip
+                        variant="outlined"
+                        color="warning"
+                        icon={<SportsSoccerIcon />}
+                        label="Move"
+                        onClick={handlePlayerMovePossible}
                     />}
-                    {selectedPlayer && <Chip variant="outlined" color="warning" icon={<ArrowBackIcon />} label="Back" />}
-                    <Chip variant="outlined" color="warning" icon={<SkipNextOutlinedIcon />} label="Simulation" />
-                    <Chip variant="outlined" color="warning" icon={<NavigateNextOutlinedIcon />} label="Save Sequence" />
-                    <Chip variant="outlined" color="warning" icon={<RestartAltIcon />} label="Reset" />
+                    {selectedPlayer && possibleMoveState.playerId !== selectedPlayer.id && <Chip
+                        variant="outlined"
+                        color="warning"
+                        icon={<ArrowBackIcon />}
+                        label="Back"
+                    />}
+                    {selectedPlayer && possibleMoveState.playerId !== null && <Chip
+                        variant="outlined"
+                        color="warning"
+                        icon={<SportsSoccerIcon />}
+                        label="Stop"
+                        onClick={handlePlayerMoveNotPossible}
+                    />}
+                    <Chip
+                        variant="outlined"
+                        color="warning"
+                        icon={<SkipNextOutlinedIcon />}
+                        label="Simulation"
+                        onClick={handlePlayerMoveNotPossible}
+                    />
+                    <Chip
+                        variant="outlined"
+                        color="warning"
+                        icon={<NavigateNextOutlinedIcon />}
+                        label="Save Sequence"
+                        onClick={handlePlayerMoveNotPossible}
+                    />
+                    <Chip
+                        variant="outlined"
+                        color="warning"
+                        icon={<RestartAltIcon />}
+                        label="Reset"
+                        onClick={handlePlayerMoveNotPossible}
+                    />
                 </Stack>
             </div>
         </div>

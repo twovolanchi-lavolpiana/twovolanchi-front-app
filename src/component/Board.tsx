@@ -2,14 +2,19 @@ import '../css/Board.css';
 import { Menu } from './Menu'
 import { PlayerPlus } from './PlayerPlus';
 import { Ground } from './Ground';
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { PlayerPosition } from './PlayerPosition';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { PlayerProfile } from './PlayerProfile';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store/Store';
+import { selectPlayer } from '../store/PlayerSlice';
 
 export const Board = () => {
+    const dispatch = useDispatch();
     const [players, setPlayers] = useState<PlayerPosition[]>([]);
+    const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
     const [playerId, setPlayerId] = useState(0);
 
     const handleAddPlayer = (team: 'red' | 'blue', left: number, top: number) => {
@@ -25,13 +30,20 @@ export const Board = () => {
     };
 
     const movePlayer = (id: number, left: number, top: number) => {
-        console.log("move Player = ", id, left, top)
         setPlayers((prevPlayers) =>
             prevPlayers.map((player) =>
                 player.id === id ? { ...player, left: left, top: top } : player
             )
         );
     };
+
+    useEffect(() => {
+        console.log(players)
+    }, [players]);
+
+    useEffect(() => {
+        console.log(selectedPlayer)
+    }, [selectedPlayer]);
 
     return (
         <DndProvider backend={HTML5Backend}>

@@ -1,14 +1,17 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface PossibleMoveState {
+    playerId: number | null,
     isPossible: boolean, 
 }
 
 type PossibleMoveProp = {
+  playerId: number | null,
   isPossible: boolean,
 }
 
 const initialState: PossibleMoveState = {
+    playerId: null,
     isPossible: false
   };
   
@@ -17,6 +20,7 @@ const initialState: PossibleMoveState = {
     initialState,
     reducers: {
       setPossibleMoveState: (state, action: PayloadAction<PossibleMoveProp>) => {
+        state.playerId = action.payload.playerId
         state.isPossible = action.payload.isPossible
       },
       clearSelection: (state) => {
