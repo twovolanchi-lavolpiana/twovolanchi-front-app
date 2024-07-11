@@ -7,12 +7,10 @@ import { PlayerPosition } from './PlayerPosition';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { PlayerProfile } from './PlayerProfile';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../store/Store';
-import { selectPlayer } from '../store/PlayerSlice';
 
 export const Board = () => {
-    const dispatch = useDispatch();
     const [players, setPlayers] = useState<PlayerPosition[]>([]);
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
     const [playerId, setPlayerId] = useState(0);

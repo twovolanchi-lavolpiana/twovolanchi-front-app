@@ -30,6 +30,7 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
             const top = Math.round(item.top + delta.y);
             movePlayer(item.id, left, top);
             dispatch(selectPlayer({ id: item.id, backNumber: item.backNumber, team: item.team, left, top }));
+            dispatch(setPlayerMovingSequences({ id:item.id, left, top, team: item.team, isFirst: true }));
         },
     });
 
@@ -38,15 +39,14 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
     };
 
     const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-        console.log("click = ", event.clientX, event.clientY);
         if (!imgRef.current || !possibleMoveState || !possibleMoveState.isPossible || !selectedPlayer) return;
 
         const rect = imgRef.current.getBoundingClientRect();
         const clickedLeft = event.clientX - rect.left
         const clickedTop = event.clientY - rect.top;
+        const { id, left, top, team } = selectedPlayer;
 
-        const { id, left, top } = selectedPlayer;
-        dispatch(setPlayerMovingSequences({ id, left: clickedLeft, top: clickedTop, isFirst: false }));
+        dispatch(setPlayerMovingSequences({ id, left: clickedLeft, top: clickedTop, team: team, isFirst: false }));
     }
     
     useEffect(() => {
@@ -65,8 +65,6 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
     useEffect(() => {
     }, [selectedPlayer]);
 
-
-    const move = sequences.sequences.find((s) => s.sequenceNumber === sequences.currentSequenceNumber)?.moves.find((m) => m.id === selectedPlayer?.id);
     return (
         <Box
             ref={drop}
@@ -88,19 +86,24 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
                     top={player.top}
                     onClick={handlePlayerClick} />
             ))}
-            <svg style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex:50 }}>
-                {move?.sequence.map((location, index) => (
-                    index !== 0 && (
-                        <line
-                            key={index}
-                            x1={move.sequence[index - 1].left}
-                            y1={move.sequence[index - 1].top}
-                            x2={location.left}
-                            y2={location.top}
-                            stroke="red"
-                            strokeWidth="2"
-                        />
-                    )
+            <svg style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 50 }}>
+                {sequences.sequences.map(sequence => (
+                    sequence.moves.map((move) => (
+                        move.sequence.map((location, index) => (
+                            index !== 0 && (
+                                <line
+                                    key={`${move.id}-${index}`}
+                                    x1={move.sequence[index - 1].left}
+                                    y1={move.sequence[index - 1].top}
+                                    x2={location.left}
+                                    y2={location.top}
+                                    stroke={location.team}
+                                    strokeWidth="5"
+                                    strokeOpacity={0.7}
+                                />
+                            )
+                        ))
+                    ))
                 ))}
             </svg>
         </Box>

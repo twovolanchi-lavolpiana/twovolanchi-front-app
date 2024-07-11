@@ -1,9 +1,8 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
-import { PlayerPosition } from "../component/PlayerPosition";
 
 interface PlayerMove {
     id: number;
-    sequence: { left: number; top: number }[];
+    sequence: { left: number; top: number, team: 'red' | 'blue' }[];
 }
 
 interface Sequence {
@@ -29,6 +28,7 @@ type PlayerMovingProps = {
     id: number,
     left: number,
     top: number,
+    team: 'red' | 'blue',
     isFirst: boolean,
 }
 
@@ -41,7 +41,7 @@ const sequenceSlice = createSlice({
         },
 
         setPlayerMovingSequences: (state, action: PayloadAction<PlayerMovingProps>) => {
-            const { id, left, top, isFirst } = action.payload;
+            const { id, left, top, team, isFirst } = action.payload;
             const currentSequence = state.sequences.find((s) => s.sequenceNumber === state.currentSequenceNumber);
 
             if (currentSequence) {
@@ -49,12 +49,15 @@ const sequenceSlice = createSlice({
 
                 if (existingPlayer) {
                     if (!isFirst) {
-                        existingPlayer.sequence.push({ left, top });
+                        existingPlayer.sequence.push({ left, top, team });
+                    } else {
+                        existingPlayer.sequence = [];
+                        existingPlayer.sequence.push({ left, top, team });
                     }
                 } else {
                     currentSequence.moves.push({
                         id,
-                        sequence: [{ left, top }],
+                        sequence: [{ left, top, team }],
                     });
                 }
             } else {
@@ -63,7 +66,7 @@ const sequenceSlice = createSlice({
                     moves: [
                         {
                             id,
-                            sequence: [{ left, top }],
+                            sequence: [{ left, top, team }],
                         },
                     ],
                 });
@@ -76,7 +79,7 @@ const sequenceSlice = createSlice({
             if (currentSequence) {
                 const player = currentSequence.moves.find((m) => m.id === playerId);
 
-                if (player && player.sequence.length > 0) {
+                if (player && player.sequence.length > 1) {
                     player.sequence.pop();
                 }
             }

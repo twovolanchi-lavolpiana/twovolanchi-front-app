@@ -36,12 +36,12 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, l
         type: ItemTypes.PLAYER,
         item: () => {
             handlePlayerMoveNotPossible()
-            return { id, left, top };
+            return { id, left, top, team };
         },
         collect: (monitor) => ({
             isDragging: !!monitor.isDragging(),
         }),
-    }), [id, left, top]);
+    }), [id, left, top, team]);
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         handlePlayerMoveNotPossible()
@@ -49,9 +49,6 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, l
     };
 
     useEffect(() => {
-        if (!possibleMoveState.isPossible) {
-            console.log('possibleMoveState has changed:', possibleMoveState);
-        }
     }, [possibleMoveState]);
 
     return (
@@ -65,6 +62,7 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, l
                 transform: 'translate(-50%, -50%)',
                 cursor: 'move',
                 opacity: isDragging ? 0.5 : 1,
+                zIndex: 100,
             }}
         >
             <Box

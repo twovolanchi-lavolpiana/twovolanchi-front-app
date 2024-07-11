@@ -9,7 +9,7 @@ import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/Store';
 import { useEffect } from 'react';
-import { setPlayerMovingSequences } from '../store/SequenceSlice';
+import { removeBackPlayerMovingSequences, setPlayerMovingSequences } from '../store/SequenceSlice';
 import { setPossibleMoveState } from '../store/PossibleMoveSlice';
 
 export const Menu = () => {
@@ -20,14 +20,19 @@ export const Menu = () => {
 
     const handlePlayerMovePossible = () => {
         if (!selectedPlayer) return;
-        const { id, left, top } = selectedPlayer;
+        const { id, left, top, team } = selectedPlayer;
         dispatch(setPossibleMoveState({ playerId: id, isPossible: true }))
-        dispatch(setPlayerMovingSequences({ id, left, top, isFirst: true }));
+        dispatch(setPlayerMovingSequences({ id, left, top, team, isFirst: true }));
     }
 
     const handlePlayerMoveNotPossible = () => {
-        if (!selectedPlayer || !possibleMoveState) return;
+        if (!selectedPlayer || !possibleMoveState || possibleMoveState.isPossible) return;
         dispatch(setPossibleMoveState({ playerId: null, isPossible: false }))
+    }
+
+    const handlePlayerRemoveBack = () => {
+        if (!selectedPlayer || !possibleMoveState) return;
+        dispatch(removeBackPlayerMovingSequences(selectedPlayer.id))
     }
 
     useEffect(() => {
@@ -52,6 +57,7 @@ export const Menu = () => {
                         color="warning"
                         icon={<ArrowBackIcon />}
                         label="Back"
+                        onClick={handlePlayerRemoveBack}
                     />}
                     {selectedPlayer && possibleMoveState.playerId !== null && <Chip
                         variant="outlined"
