@@ -29,7 +29,7 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
             const left = Math.round(item.left + delta.x);
             const top = Math.round(item.top + delta.y);
             movePlayer(item.id, left, top);
-            dispatch(selectPlayer({ id: item.id, backNumber: item.backNumber, team: item.team, left, top }));
+            dispatch(selectPlayer({ id: item.id, backNumber: item.backNumber, team: item.team, left, top, position: item.position }));
             dispatch(setPlayerMovingSequences({ id: item.id, left, top, team: item.team, isFirst: true }));
         },
     });
@@ -84,6 +84,7 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
                     team={player.team}
                     left={player.left}
                     top={player.top}
+                    position={player.position}
                     onClick={handlePlayerClick} />
             ))}
             <svg style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 50 }}>

@@ -6,22 +6,23 @@ import { useEffect, useState } from 'react'
 import { PlayerPosition } from './PlayerPosition';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { PlayerProfile } from './PlayerProfile';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/Store';
+import { PlayerPositionEnum } from './PlayerPositionEnum';
 
 export const Board = () => {
     const [players, setPlayers] = useState<PlayerPosition[]>([]);
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
     const [playerId, setPlayerId] = useState(0);
 
-    const handleAddPlayer = (team: 'red' | 'blue', left: number, top: number) => {
+    const handleAddPlayer = (team: 'red' | 'blue', left: number, top: number, position: PlayerPositionEnum) => {
         const newPlayer = {
             id: playerId,
             backNumber: playerId,
-            team,
-            left,
-            top,
+            position: position,
+            team: team,
+            left: left,
+            top: top,            
         };
         setPlayers([...players, newPlayer]);
         setPlayerId(playerId + 1);
@@ -50,9 +51,12 @@ export const Board = () => {
                     <Ground players={players} movePlayer={movePlayer} />
                 </div>
                 <div className="board-sidebar">
-                    <PlayerProfile />
-                    <PlayerPlus onAddPlayer={handleAddPlayer} />
-                    <Menu />
+                    <div className='cards'>
+                        <div className="cards__container">
+                            <PlayerPlus onAddPlayer={handleAddPlayer} />
+                            <Menu />
+                        </div>
+                    </div>
                 </div>
             </div>
         </DndProvider>

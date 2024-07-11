@@ -2,12 +2,14 @@ import { configureStore } from "@reduxjs/toolkit";
 import playerReducer from "./PlayerSlice";
 import sequencesReducer from "./SequenceSlice";
 import possibleMoveReducer from './PossibleMoveSlice';
+import playersListReducer from './PlayersListSlice'
 
 export const store = configureStore({
     reducer: {
         player: playerReducer,
         sequences: sequencesReducer,
-        possibleMove: possibleMoveReducer
+        possibleMove: possibleMoveReducer,
+        payers: playersListReducer,
     }
 });
 

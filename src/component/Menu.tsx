@@ -1,16 +1,17 @@
 import '../css/Card.css';
-import { Stack } from "@mui/material";
-import Chip from '@mui/material/Chip';
+import { Box, IconButton, Stack } from "@mui/material";
 import SportsSoccerIcon from '@mui/icons-material/SportsSoccer';
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined';
-import SkipNextOutlinedIcon from '@mui/icons-material/SkipNextOutlined';
+import StartOutlinedIcon from '@mui/icons-material/StartOutlined';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useDispatch, useSelector } from 'react-redux';
+import PlayArrowOutlinedIcon from '@mui/icons-material/PlayArrowOutlined';
 import { RootState } from '../store/Store';
 import { useEffect } from 'react';
 import { removeBackPlayerMovingSequences, setPlayerMovingSequences } from '../store/SequenceSlice';
 import { setPossibleMoveState } from '../store/PossibleMoveSlice';
+import TrendingUpOutlinedIcon from '@mui/icons-material/TrendingUpOutlined';
 
 export const Menu = () => {
     const dispatch = useDispatch();
@@ -42,53 +43,36 @@ export const Menu = () => {
     }, [sequencesState]);
 
     return (
-        <div className='cards'>
-            <div className="cards__container">
-                <Stack direction="column" spacing={2}>
-                    {selectedPlayer && possibleMoveState.playerId !== selectedPlayer.id && <Chip
-                        variant="outlined"
-                        color="warning"
-                        icon={<SportsSoccerIcon />}
-                        label="Move"
-                        onClick={handlePlayerMovePossible}
-                    />}
-                    {selectedPlayer && possibleMoveState.playerId !== selectedPlayer.id && <Chip
-                        variant="outlined"
-                        color="warning"
-                        icon={<ArrowBackIcon />}
-                        label="Back"
-                        onClick={handlePlayerRemoveBack}
-                    />}
-                    {selectedPlayer && possibleMoveState.playerId !== null && <Chip
-                        variant="outlined"
-                        color="warning"
-                        icon={<SportsSoccerIcon />}
-                        label="Stop"
-                        onClick={handlePlayerMoveNotPossible}
-                    />}
-                    <Chip
-                        variant="outlined"
-                        color="warning"
-                        icon={<SkipNextOutlinedIcon />}
-                        label="Simulation"
-                        onClick={handlePlayerMoveNotPossible}
-                    />
-                    <Chip
-                        variant="outlined"
-                        color="warning"
-                        icon={<NavigateNextOutlinedIcon />}
-                        label="Save Sequence"
-                        onClick={handlePlayerMoveNotPossible}
-                    />
-                    <Chip
-                        variant="outlined"
-                        color="warning"
-                        icon={<RestartAltIcon />}
-                        label="Reset"
-                        onClick={handlePlayerMoveNotPossible}
-                    />
-                </Stack>
-            </div>
-        </div>
+        <>
+            {selectedPlayer && possibleMoveState.playerId !== selectedPlayer.id &&
+                <Box sx={{ display: 'inline-block', border: '1px solid orange', borderRadius: '50%', margin: '5px' }}>
+                    <IconButton color="warning" onClick={handlePlayerMovePossible}>
+                        <TrendingUpOutlinedIcon />
+                    </IconButton>
+                </Box>
+            }
+            {selectedPlayer && possibleMoveState &&
+                <Box sx={{ display: 'inline-block', border: '1px solid orange', borderRadius: '50%', margin: '5px' }}>
+                    <IconButton color="warning" onClick={handlePlayerRemoveBack}>
+                        <ArrowBackIcon />
+                    </IconButton>
+                </Box>
+            }
+            <Box sx={{ display: 'inline-block', border: '1px solid orange', borderRadius: '50%', margin: '5px' }}>
+                <IconButton color="warning" onClick={handlePlayerMoveNotPossible}>
+                    <PlayArrowOutlinedIcon />
+                </IconButton>
+            </Box>
+            <Box sx={{ display: 'inline-block', border: '1px solid orange', borderRadius: '50%', margin: '5px' }}>
+                <IconButton color="warning" onClick={handlePlayerMoveNotPossible}>
+                    <RestartAltIcon />
+                </IconButton>
+            </Box>
+            <Box sx={{ display: 'inline-block', border: '1px solid orange', borderRadius: '50%', margin: '5px' }}>
+                <IconButton color="warning" onClick={handlePlayerMoveNotPossible}>
+                    <StartOutlinedIcon />
+                </IconButton>
+            </Box>
+        </>
     )
 }

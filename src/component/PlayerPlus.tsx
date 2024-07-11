@@ -1,14 +1,16 @@
 import '../css/Card.css';
-import { Stack } from "@mui/material";
+import { Box, IconButton, Stack } from "@mui/material";
 import Chip from '@mui/material/Chip';
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/Store';
 import { setPossibleMoveState } from '../store/PossibleMoveSlice';
 import { useEffect } from 'react';
+import { PlayerPositionEnum } from './PlayerPositionEnum';
 
 interface PlayerPlusProps {
-    onAddPlayer: (team: 'red' | 'blue', x: number, y: number) => void;
+    onAddPlayer: (team: 'red' | 'blue', x: number, y: number, position: PlayerPositionEnum) => void;
 }
 
 export const PlayerPlus: React.FC<PlayerPlusProps> = ({ onAddPlayer }) => {
@@ -21,36 +23,28 @@ export const PlayerPlus: React.FC<PlayerPlusProps> = ({ onAddPlayer }) => {
         dispatch(setPossibleMoveState({ playerId: null, isPossible: false }))
     }
 
-    const handleAddPlayer = (team: 'red' | 'blue') => {
+    const handleAddPlayer = (team: 'red' | 'blue', position: PlayerPositionEnum) => {
         handlePlayerMoveNotPossible()
         const x = 205; // 임의의 x 좌표
         const y = 298; // 임의의 y 좌표
-        onAddPlayer(team, x, y);
+        onAddPlayer(team, x, y, position);
     };
 
     useEffect(() => {
     }, [possibleMoveState]);
 
     return (
-        <div className='cards'>
-            <div className="cards__container">
-                <Stack direction="column" spacing={2}>
-                    <Chip
-                        variant="outlined"
-                        color="error"
-                        icon={<AddCircleOutlineOutlinedIcon />}
-                        label="Red Team Player"
-                        onClick={() => handleAddPlayer('red')}
-                    />
-                    <Chip
-                        variant="outlined"
-                        color="primary"
-                        icon={<AddCircleOutlineOutlinedIcon />}
-                        label="Blue Team Player"
-                        onClick={() => handleAddPlayer('blue')}
-                    />
-                </Stack>
-            </div>
-        </div>
+        <>
+            <Box sx={{ display: 'inline-block', border: '1px solid red', borderRadius: '50%', margin: '5px' }}>
+                <IconButton color="error" onClick={() => handleAddPlayer('red', PlayerPositionEnum.CM)}>
+                    <AddOutlinedIcon />
+                </IconButton>
+            </Box>
+            <Box sx={{ display: 'inline-block', border: '1px solid blue', borderRadius: '50%', margin: '5px' }}>
+                <IconButton color="primary" onClick={() => handleAddPlayer('blue', PlayerPositionEnum.CM)}>
+                    <AddOutlinedIcon />
+                </IconButton>
+            </Box>
+        </>
     )
 }

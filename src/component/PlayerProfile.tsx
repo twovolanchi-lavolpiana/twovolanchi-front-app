@@ -12,21 +12,15 @@ export const PlayerProfile = () => {
                 flexDirection: 'column',
                 alignItems: 'center',
                 backgroundColor: 'white',
-                padding: '20px',
+                padding: '10px',
                 border: '1px solid green',
                 borderRadius: '8px',
                 boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
-                maxWidth: '200px',
+                maxWidth: '100px',
             }}
         >
             <FaceIcon sx={{ fontSize: '2rem', color: 'green' }} />
             <Box sx={{ textAlign: 'center', marginTop: '10px' }}>
-                <Typography variant="h6" component="h3" sx={{ color: 'green', margin: 0 }}>
-                    Profile
-                </Typography>
-                <Typography sx={{ color: 'green', margin: '5px 0' }}>
-                    Team: {selectedPlayer ? selectedPlayer.team : ''}
-                </Typography>
                 <Typography sx={{ color: 'green', margin: '5px 0' }}>
                     BackNumber: {selectedPlayer?.backNumber}
                 </Typography>
