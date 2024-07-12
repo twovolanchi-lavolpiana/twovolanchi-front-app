@@ -75,10 +75,8 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
             ref={drop}
             onClick={handleClick}
             sx={{
-                position: 'relative',
                 width: '100%',
                 height: '100%',
-                display: 'flex',
                 justifyContent: 'center',
                 alignItems: 'center',
             }}

@@ -1,5 +1,4 @@
-import '../css/Card.css';
-import { Box, Chip, IconButton, Stack } from "@mui/material";
+import { Box, Chip, IconButton, Stack, Typography } from "@mui/material";
 import SettingsIcon from '@mui/icons-material/Settings';
 import StartOutlinedIcon from '@mui/icons-material/StartOutlined';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
@@ -56,61 +55,40 @@ export const Menu = () => {
 
     return (
         <>
-            {selectedPlayer && possibleMoveState.playerId !== selectedPlayer.id &&
-                <Chip
-                    variant="outlined"
-                    color="warning"
-                    icon={<DirectionsRunIcon />}
-                    label="Move"
-                    onClick={handlePlayerMovePossible}
-                />
-            }
-            {selectedPlayer && possibleMoveState &&
-                <Chip
-                    variant="outlined"
-                    color="warning"
-                    icon={<ArrowBackIcon />}
-                    label="Move Back"
-                    onClick={handlePlayerRemoveBack}
-                />
-            }
-            {selectedPlayer && possibleMoveState && possibleMoveState.isPossible &&
-                <Chip
-                    variant="outlined"
-                    color="warning"
-                    icon={<StopIcon />}
-                    label="Stop"
-                    onClick={handlePlayerMoveNotPossible}
-                />
-            }
-            <Chip
-                variant="outlined"
-                color="warning"
-                icon={<PlayArrowOutlinedIcon />}
-                label="Simulation"
-                onClick={handleSimulation}
-            />
-            <Chip
-                variant="outlined"
-                color="warning"
-                icon={<RestartAltIcon />}
-                label="Reset"
-                onClick={handlePlayerMoveNotPossible}
-            />
-            <Chip
-                variant="outlined"
-                color="success"
-                icon={<SettingsIcon />}
-                label="Player View Change"
-                onClick={handlePlayerViewState}
-            />
-            <Chip
-                variant="outlined"
-                color="success"
-                icon={<StartOutlinedIcon />}
-                label="Next Sequence"
-                onClick={handlePlayerMoveNotPossible}
-            />
+            {selectedPlayer && possibleMoveState.playerId !== selectedPlayer.id && (
+                <Box display="flex" alignItems="center" onClick={handlePlayerMovePossible} sx={{ cursor: 'pointer' }}>
+                    <DirectionsRunIcon color="warning" />
+                    <Typography variant="body1" color="warning" ml={1}>Move</Typography>
+                </Box>
+            )}
+            {selectedPlayer && possibleMoveState && (
+                <Box display="flex" alignItems="center" onClick={handlePlayerRemoveBack} sx={{ cursor: 'pointer' }}>
+                    <ArrowBackIcon color="warning" />
+                    <Typography variant="body1" color="warning" ml={1}>Move Back</Typography>
+                </Box>
+            )}
+            {selectedPlayer && possibleMoveState && possibleMoveState.isPossible && (
+                <Box display="flex" alignItems="center" onClick={handlePlayerMoveNotPossible} sx={{ cursor: 'pointer' }}>
+                    <StopIcon color="warning" />
+                    <Typography variant="body1" color="warning" ml={1}>Stop</Typography>
+                </Box>
+            )}
+            <Box display="flex" alignItems="center" onClick={handleSimulation} sx={{ cursor: 'pointer' }}>
+                <PlayArrowOutlinedIcon color="warning" />
+                <Typography variant="body1" color="warning" ml={1}>Simulation</Typography>
+            </Box>
+            <Box display="flex" alignItems="center" onClick={handlePlayerMoveNotPossible} sx={{ cursor: 'pointer' }}>
+                <RestartAltIcon color="warning" />
+                <Typography variant="body1" color="warning" ml={1}>Reset</Typography>
+            </Box>
+            <Box display="flex" alignItems="center" onClick={handlePlayerViewState} sx={{ cursor: 'pointer' }}>
+                <SettingsIcon color="success" />
+                <Typography variant="body1" color="success" ml={1}>Player View Change</Typography>
+            </Box>
+            <Box display="flex" alignItems="center" onClick={handlePlayerMoveNotPossible} sx={{ cursor: 'pointer' }}>
+                <StartOutlinedIcon color="success" />
+                <Typography variant="body1" color="success" ml={1}>Next Sequence</Typography>
+            </Box>
         </>
     )
 }

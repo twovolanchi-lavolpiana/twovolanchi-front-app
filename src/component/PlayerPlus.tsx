@@ -1,11 +1,10 @@
-import '../css/Card.css';
-import Chip from '@mui/material/Chip';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/Store';
 import { setPossibleMoveState } from '../store/PossibleMoveSlice';
 import { useEffect } from 'react';
 import { PlayerPositionEnum } from './PlayerPositionEnum';
+import { Box, Typography } from '@mui/material';
 
 interface PlayerPlusProps {
     onAddPlayer: (team: 'red' | 'blue', x: number, y: number, position: PlayerPositionEnum) => void;
@@ -33,20 +32,14 @@ export const PlayerPlus: React.FC<PlayerPlusProps> = ({ onAddPlayer }) => {
 
     return (
         <>
-            <Chip
-                variant="outlined"
-                color="error"
-                icon={<AddOutlinedIcon />}
-                label="Red Team Player"
-                onClick={() => handleAddPlayer('red', PlayerPositionEnum.CM)}
-            />
-            <Chip
-                variant="outlined"
-                color="primary"
-                icon={<AddOutlinedIcon />}
-                label="Blue Team Player"
-                onClick={() => handleAddPlayer('blue', PlayerPositionEnum.CM)}
-            />
+            <Box display="flex" alignItems="center" onClick={() => handleAddPlayer('red', PlayerPositionEnum.CM)} sx={{ cursor: 'pointer' }}>
+                <AddOutlinedIcon color="error" />
+                <Typography variant="body1" color="warning" ml={1}>Red Team Player</Typography>
+            </Box>
+            <Box display="flex" alignItems="center" onClick={() => () => handleAddPlayer('blue', PlayerPositionEnum.CM)} sx={{ cursor: 'pointer' }}>
+                <AddOutlinedIcon color="primary" />
+                <Typography variant="body1" color="warning" ml={1}>Blue Team Player</Typography>
+            </Box>
         </>
     )
 }

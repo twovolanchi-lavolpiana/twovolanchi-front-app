@@ -1,4 +1,4 @@
-import '../css/Board.css';
+import '../App.css';
 import { Menu } from './Menu'
 import { PlayerPlus } from './PlayerPlus';
 import { Ground } from './Ground';
@@ -9,7 +9,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/Store';
 import { PlayerPositionEnum } from './PlayerPositionEnum';
-import { Stack } from '@mui/material';
+import { Card, CardContent, Grid, Stack } from '@mui/material';
 
 export const Board = () => {
     const [players, setPlayers] = useState<PlayerPosition[]>([]);
@@ -48,19 +48,23 @@ export const Board = () => {
     return (
         <DndProvider backend={HTML5Backend}>
             <div className="board-container">
-                <div className="board-image">
-                    <Ground players={players} movePlayer={movePlayer} />
-                </div>
-                <div className="board-sidebar">
-                    <div className='cards'>
-                        <div className="cards__container">
-                            <Stack direction="column" spacing={2}>
-                                <PlayerPlus onAddPlayer={handleAddPlayer} />
-                                <Menu />
-                            </Stack>
-                        </div>
-                    </div>
-                </div>
+                <Grid container spacing={2} justifyContent="center" alignItems="center">
+                    <Grid item xs={12} md={8} className="ground" width='30rem'>
+                        <Card sx={{width: '30rem'}}>
+                            <Ground players={players} movePlayer={movePlayer} />
+                        </Card>
+                    </Grid>
+                    <Grid item xs={12} md={4} className="operation" width='30rem'>
+                        <Card sx={{width: '30rem'}}>
+                            <CardContent>
+                                <Stack direction="column" spacing={2}>
+                                    <PlayerPlus onAddPlayer={handleAddPlayer} />
+                                    <Menu />
+                                </Stack>
+                            </CardContent>
+                        </Card>
+                    </Grid>
+                </Grid>
             </div>
         </DndProvider>
     );
