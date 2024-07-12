@@ -9,6 +9,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useSelector } from 'react-redux';
 import { RootState } from '../store/Store';
 import { PlayerPositionEnum } from './PlayerPositionEnum';
+import { Stack } from '@mui/material';
 
 export const Board = () => {
     const [players, setPlayers] = useState<PlayerPosition[]>([]);
@@ -22,7 +23,7 @@ export const Board = () => {
             position: position,
             team: team,
             left: left,
-            top: top,            
+            top: top,
         };
         setPlayers([...players, newPlayer]);
         setPlayerId(playerId + 1);
@@ -53,8 +54,10 @@ export const Board = () => {
                 <div className="board-sidebar">
                     <div className='cards'>
                         <div className="cards__container">
-                            <PlayerPlus onAddPlayer={handleAddPlayer} />
-                            <Menu />
+                            <Stack direction="column" spacing={2}>
+                                <PlayerPlus onAddPlayer={handleAddPlayer} />
+                                <Menu />
+                            </Stack>
                         </div>
                     </div>
                 </div>

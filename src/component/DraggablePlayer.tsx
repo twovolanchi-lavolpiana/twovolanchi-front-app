@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useDrag } from "react-dnd";
 import { ItemTypes } from "./ItemTypes";
 import CircleIcon from '@mui/icons-material/Circle';
-import DirectionsRunTwoToneIcon from '@mui/icons-material/DirectionsRunTwoTone';
 
 import '../css/Card.css';
 import { PlayerPosition } from './PlayerPosition';
@@ -32,6 +31,7 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, l
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [positionState, setPosition] = useState<PlayerPositionEnum>(PlayerPositionEnum.CM);
     const [backNumberState, setBackNumber] = useState<number>(0);
+    const playerViewState = useSelector((state: RootState) => state.playerView.playerView);
 
     const handlePlayerMoveNotPossible = () => {
         if (!selectedPlayer || !possibleMoveState) return;
@@ -84,6 +84,35 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, l
         setIsModalOpen(false); // 모달 닫기
     };
 
+    const renderPlayerInfo = () => {
+        switch (playerViewState) {
+            case 'backNumber':
+                return backNumberState;
+            case 'position':
+                return positionState;
+            case 'name':
+                return backNumberState || ''; // 필요한 경우 'name' 필드를 추가하세요.
+            case 'backNumber&position':
+                return `${backNumberState} - ${positionState}`;
+            case 'all':
+                return `${''} - ${backNumberState} - ${positionState}`;
+            default:
+                return backNumberState;
+        }
+    }
+
+    const renderSaveButtonInfo = () => {
+        if (!selectPlayer) return 'success'        
+        switch (selectedPlayer?.team) {
+            case 'red':
+                return 'error';
+            case 'blue':
+                return 'primary';
+            default:
+                return 'success';
+        }
+    }
+
     useEffect(() => {
     }, [possibleMoveState]);
 
@@ -125,7 +154,7 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, l
                         fontWeight: 'bold',
                     }}
                 >
-                    {backNumberState}
+                    {renderPlayerInfo()}
                 </span>
             </Box>
 
@@ -190,14 +219,14 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, l
                             marginTop: 2, // 버튼과 다른 요소들 간의 간격
                         }}
                         variant="contained"
-                        color="success"
-                        onClick={handlePlayerProfileUpdate}
+                        color={renderSaveButtonInfo()}
+                    onClick={handlePlayerProfileUpdate}
                     >
-                        Save
-                    </Button>
-                </Box>
-            </Modal>
+                    Save
+                </Button>
+            </Box>
+        </Modal>
 
-        </div>
+        </div >
     );
 }

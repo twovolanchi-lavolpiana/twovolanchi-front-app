@@ -1,7 +1,6 @@
 import '../css/Card.css';
-import { Box, IconButton, Stack } from "@mui/material";
-import SportsSoccerIcon from '@mui/icons-material/SportsSoccer';
-import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined';
+import { Box, Chip, IconButton, Stack } from "@mui/material";
+import SettingsIcon from '@mui/icons-material/Settings';
 import StartOutlinedIcon from '@mui/icons-material/StartOutlined';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -11,7 +10,10 @@ import { RootState } from '../store/Store';
 import { useEffect } from 'react';
 import { removeBackPlayerMovingSequences, setPlayerMovingSequences } from '../store/SequenceSlice';
 import { setPossibleMoveState } from '../store/PossibleMoveSlice';
-import TrendingUpOutlinedIcon from '@mui/icons-material/TrendingUpOutlined';
+import { setPlayerViewState } from '../store/PlayerViewSlice';
+import StopIcon from '@mui/icons-material/Stop';
+import { setSimulationOn } from '../store/SimulationOnSlice';
+import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 
 export const Menu = () => {
     const dispatch = useDispatch();
@@ -36,6 +38,16 @@ export const Menu = () => {
         dispatch(removeBackPlayerMovingSequences(selectedPlayer.id))
     }
 
+    const handleSimulation = () => {
+        if (!selectedPlayer || !possibleMoveState) return;
+        dispatch(setPossibleMoveState({ playerId: null, isPossible: false }))
+        dispatch(setSimulationOn({ isSimulationOn: true }))
+    }
+
+    const handlePlayerViewState = () => {
+        dispatch(setPlayerViewState({ playerView: 'position' }))
+    }
+
     useEffect(() => {
     }, [possibleMoveState]);
 
@@ -45,34 +57,60 @@ export const Menu = () => {
     return (
         <>
             {selectedPlayer && possibleMoveState.playerId !== selectedPlayer.id &&
-                <Box sx={{ display: 'inline-block', border: '1px solid orange', borderRadius: '50%', margin: '5px' }}>
-                    <IconButton color="warning" onClick={handlePlayerMovePossible}>
-                        <TrendingUpOutlinedIcon />
-                    </IconButton>
-                </Box>
+                <Chip
+                    variant="outlined"
+                    color="warning"
+                    icon={<DirectionsRunIcon />}
+                    label="Move"
+                    onClick={handlePlayerMovePossible}
+                />
             }
             {selectedPlayer && possibleMoveState &&
-                <Box sx={{ display: 'inline-block', border: '1px solid orange', borderRadius: '50%', margin: '5px' }}>
-                    <IconButton color="warning" onClick={handlePlayerRemoveBack}>
-                        <ArrowBackIcon />
-                    </IconButton>
-                </Box>
+                <Chip
+                    variant="outlined"
+                    color="warning"
+                    icon={<ArrowBackIcon />}
+                    label="Move Back"
+                    onClick={handlePlayerRemoveBack}
+                />
             }
-            <Box sx={{ display: 'inline-block', border: '1px solid orange', borderRadius: '50%', margin: '5px' }}>
-                <IconButton color="warning" onClick={handlePlayerMoveNotPossible}>
-                    <PlayArrowOutlinedIcon />
-                </IconButton>
-            </Box>
-            <Box sx={{ display: 'inline-block', border: '1px solid orange', borderRadius: '50%', margin: '5px' }}>
-                <IconButton color="warning" onClick={handlePlayerMoveNotPossible}>
-                    <RestartAltIcon />
-                </IconButton>
-            </Box>
-            <Box sx={{ display: 'inline-block', border: '1px solid orange', borderRadius: '50%', margin: '5px' }}>
-                <IconButton color="warning" onClick={handlePlayerMoveNotPossible}>
-                    <StartOutlinedIcon />
-                </IconButton>
-            </Box>
+            {selectedPlayer && possibleMoveState && possibleMoveState.isPossible &&
+                <Chip
+                    variant="outlined"
+                    color="warning"
+                    icon={<StopIcon />}
+                    label="Stop"
+                    onClick={handlePlayerMoveNotPossible}
+                />
+            }
+            <Chip
+                variant="outlined"
+                color="warning"
+                icon={<PlayArrowOutlinedIcon />}
+                label="Simulation"
+                onClick={handleSimulation}
+            />
+            <Chip
+                variant="outlined"
+                color="warning"
+                icon={<RestartAltIcon />}
+                label="Reset"
+                onClick={handlePlayerMoveNotPossible}
+            />
+            <Chip
+                variant="outlined"
+                color="success"
+                icon={<SettingsIcon />}
+                label="Player View Change"
+                onClick={handlePlayerViewState}
+            />
+            <Chip
+                variant="outlined"
+                color="success"
+                icon={<StartOutlinedIcon />}
+                label="Next Sequence"
+                onClick={handlePlayerMoveNotPossible}
+            />
         </>
     )
 }

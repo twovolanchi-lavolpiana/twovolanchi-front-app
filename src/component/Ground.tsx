@@ -1,5 +1,5 @@
 import { Box } from '@mui/material';
-import boardImage from '../image/board2.jpeg'
+import boardImage from '../image/board5.png'
 import { PlayerPosition } from './PlayerPosition';
 import { useEffect, useRef, useState } from 'react';
 import { useDrop } from 'react-dnd';
@@ -20,6 +20,7 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
     const possibleMoveState = useSelector((state: RootState) => state.possibleMove)
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
     const sequences = useSelector((state: RootState) => state.sequences)
+    const simulationOnState = useSelector((state: RootState) => state.simulationOn)
     const dispatch = useDispatch()
 
     const [, drop] = useDrop({
@@ -65,6 +66,9 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
     useEffect(() => {
     }, [selectedPlayer]);
 
+    useEffect(() => {
+    }, [simulationOnState])
+
     return (
         <Box
             ref={drop}
@@ -87,54 +91,56 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
                     position={player.position}
                     onClick={handlePlayerClick} />
             ))}
-            <svg style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 50 }}>
-                <defs>
-                    <marker
-                        id="arrow-blue"
-                        viewBox="0 0 10 10"
-                        refX="5"
-                        refY="5"
-                        markerWidth="3"
-                        markerHeight="3"
-                        opacity={0.7}
-                        orient="auto-start-reverse">
-                        <path d="M 0 0 L 10 5 L 0 10 z" fill='blue' />
-                    </marker>
-                </defs>
-                <defs>
-                    <marker
-                        id="arrow-red"
-                        viewBox="0 0 10 10"
-                        refX="5"
-                        refY="5"
-                        markerWidth="3"
-                        markerHeight="3"
-                        opacity={0.7}
-                        orient="auto-start-reverse">
-                        <path d="M 0 0 L 10 5 L 0 10 z" fill='red' />
-                    </marker>
-                </defs>
+            {
+                !simulationOnState.isSimulationOn && <svg style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 50 }}>
+                    <defs>
+                        <marker
+                            id="arrow-blue"
+                            viewBox="0 0 10 10"
+                            refX="5"
+                            refY="5"
+                            markerWidth="3"
+                            markerHeight="3"
+                            opacity={0.7}
+                            orient="auto-start-reverse">
+                            <path d="M 0 0 L 10 5 L 0 10 z" fill='blue' />
+                        </marker>
+                    </defs>
+                    <defs>
+                        <marker
+                            id="arrow-red"
+                            viewBox="0 0 10 10"
+                            refX="5"
+                            refY="5"
+                            markerWidth="3"
+                            markerHeight="3"
+                            opacity={0.7}
+                            orient="auto-start-reverse">
+                            <path d="M 0 0 L 10 5 L 0 10 z" fill='red' />
+                        </marker>
+                    </defs>
 
-                {sequences.sequences.map(sequence => (
-                    sequence.moves.map((move) => (
-                        move.sequence.map((location, index) => (
-                            index !== 0 && (
-                                <line
-                                    key={`${move.id}-${index}`}
-                                    x1={move.sequence[index - 1].left}
-                                    y1={move.sequence[index - 1].top}
-                                    x2={location.left}
-                                    y2={location.top}
-                                    stroke={location.team}
-                                    strokeWidth="5"
-                                    strokeOpacity={0.7}
-                                    markerEnd={location.team === 'red' ? 'url(#arrow-red)' : 'url(#arrow-blue)'}
-                                />
-                            )
+                    {sequences.sequences.map(sequence => (
+                        sequence.moves.map((move) => (
+                            move.sequence.map((location, index) => (
+                                index !== 0 && (
+                                    <line
+                                        key={`${move.id}-${index}`}
+                                        x1={move.sequence[index - 1].left}
+                                        y1={move.sequence[index - 1].top}
+                                        x2={location.left}
+                                        y2={location.top}
+                                        stroke={location.team}
+                                        strokeWidth="5"
+                                        strokeOpacity={0.7}
+                                        markerEnd={location.team === 'red' ? 'url(#arrow-red)' : 'url(#arrow-blue)'}
+                                    />
+                                )
+                            ))
                         ))
-                    ))
-                ))}
-            </svg>
+                    ))}
+                </svg>
+            }
         </Box>
     );
 };

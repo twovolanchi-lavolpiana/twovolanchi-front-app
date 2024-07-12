@@ -3,6 +3,8 @@ import playerReducer from "./PlayerSlice";
 import sequencesReducer from "./SequenceSlice";
 import possibleMoveReducer from './PossibleMoveSlice';
 import playersListReducer from './PlayersListSlice'
+import playerViewReducer from './PlayerViewSlice';
+import simulationOnReducer from './SimulationOnSlice';
 
 export const store = configureStore({
     reducer: {
@@ -10,6 +12,8 @@ export const store = configureStore({
         sequences: sequencesReducer,
         possibleMove: possibleMoveReducer,
         payers: playersListReducer,
+        playerView: playerViewReducer,
+        simulationOn: simulationOnReducer,
     }
 });
 

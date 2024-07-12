@@ -1,7 +1,5 @@
 import '../css/Card.css';
-import { Box, IconButton, Stack } from "@mui/material";
 import Chip from '@mui/material/Chip';
-import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined';
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/Store';
@@ -35,16 +33,20 @@ export const PlayerPlus: React.FC<PlayerPlusProps> = ({ onAddPlayer }) => {
 
     return (
         <>
-            <Box sx={{ display: 'inline-block', border: '1px solid red', borderRadius: '50%', margin: '5px' }}>
-                <IconButton color="error" onClick={() => handleAddPlayer('red', PlayerPositionEnum.CM)}>
-                    <AddOutlinedIcon />
-                </IconButton>
-            </Box>
-            <Box sx={{ display: 'inline-block', border: '1px solid blue', borderRadius: '50%', margin: '5px' }}>
-                <IconButton color="primary" onClick={() => handleAddPlayer('blue', PlayerPositionEnum.CM)}>
-                    <AddOutlinedIcon />
-                </IconButton>
-            </Box>
+            <Chip
+                variant="outlined"
+                color="error"
+                icon={<AddOutlinedIcon />}
+                label="Red Team Player"
+                onClick={() => handleAddPlayer('red', PlayerPositionEnum.CM)}
+            />
+            <Chip
+                variant="outlined"
+                color="primary"
+                icon={<AddOutlinedIcon />}
+                label="Blue Team Player"
+                onClick={() => handleAddPlayer('blue', PlayerPositionEnum.CM)}
+            />
         </>
     )
 }
