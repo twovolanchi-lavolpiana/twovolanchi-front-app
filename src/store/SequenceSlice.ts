@@ -2,7 +2,7 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
 interface PlayerMove {
     id: number;
-    sequence: { left: number; top: number, team: 'red' | 'blue' }[];
+    sequence: { left: number; top: number, team: 'home' | 'away' }[];
 }
 
 interface Sequence {
@@ -28,7 +28,7 @@ type PlayerMovingProps = {
     id: number,
     left: number,
     top: number,
-    team: 'red' | 'blue',
+    team: 'home' | 'away',
     isFirst: boolean,
 }
 

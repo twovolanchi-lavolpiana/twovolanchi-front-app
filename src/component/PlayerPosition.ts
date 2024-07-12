@@ -4,7 +4,7 @@ export type PlayerPosition = {
   id: number;
   backNumber: number;
   position: PlayerPositionEnum,
-  team: 'red' | 'blue';
+  team: 'home' | 'away';
   left: number;
   top: number;
 };

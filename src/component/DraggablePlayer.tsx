@@ -17,7 +17,7 @@ import { PlayerPositionEnum } from './PlayerPositionEnum';
 type PlayerProps = {
     id: number,
     backNumber: number,
-    team: 'red' | 'blue',
+    team: 'home' | 'away',
     left: number,
     top: number,
     position: PlayerPositionEnum,
@@ -91,7 +91,7 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, l
             case 'position':
                 return positionState;
             case 'name':
-                return backNumberState || ''; // 필요한 경우 'name' 필드를 추가하세요.
+                return backNumberState || '';
             case 'backNumber&position':
                 return `${backNumberState} - ${positionState}`;
             case 'all':
@@ -102,14 +102,14 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, l
     }
 
     const renderSaveButtonInfo = () => {
-        if (!selectPlayer) return 'success'        
+        if (!selectPlayer) return '#3BB24A'        
         switch (selectedPlayer?.team) {
-            case 'red':
-                return 'error';
-            case 'blue':
-                return 'primary';
+            case 'home':
+                return '#3B6FB2';
+            case 'away':
+                return '#B23B7F';
             default:
-                return 'success';
+                return '#3BB24A';
         }
     }
 
@@ -142,7 +142,7 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, l
                 <CircleIcon
                     className="draggable-icon"
                     sx={{
-                        color: team === 'red' ? 'red' : 'blue',
+                        color: team === 'home' ? '#3B6FB2' : '#B23B7F',
                         fontSize: '2.5rem',
                     }}
                 />
@@ -217,9 +217,9 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, l
                     <Button
                         sx={{
                             marginTop: 2, // 버튼과 다른 요소들 간의 간격
+                            color: renderSaveButtonInfo()
                         }}
                         variant="contained"
-                        color={renderSaveButtonInfo()}
                     onClick={handlePlayerProfileUpdate}
                     >
                     Save

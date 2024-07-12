@@ -16,7 +16,7 @@ export const Board = () => {
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
     const [playerId, setPlayerId] = useState(0);
 
-    const handleAddPlayer = (team: 'red' | 'blue', left: number, top: number, position: PlayerPositionEnum) => {
+    const handleAddPlayer = (team: 'home' | 'away', left: number, top: number, position: PlayerPositionEnum) => {
         const newPlayer = {
             id: playerId,
             backNumber: playerId,

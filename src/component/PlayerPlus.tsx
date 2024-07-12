@@ -7,7 +7,7 @@ import { PlayerPositionEnum } from './PlayerPositionEnum';
 import { Box, Typography } from '@mui/material';
 
 interface PlayerPlusProps {
-    onAddPlayer: (team: 'red' | 'blue', x: number, y: number, position: PlayerPositionEnum) => void;
+    onAddPlayer: (team: 'home' | 'away', x: number, y: number, position: PlayerPositionEnum) => void;
 }
 
 export const PlayerPlus: React.FC<PlayerPlusProps> = ({ onAddPlayer }) => {
@@ -20,7 +20,7 @@ export const PlayerPlus: React.FC<PlayerPlusProps> = ({ onAddPlayer }) => {
         dispatch(setPossibleMoveState({ playerId: null, isPossible: false }))
     }
 
-    const handleAddPlayer = (team: 'red' | 'blue', position: PlayerPositionEnum) => {
+    const handleAddPlayer = (team: 'home' | 'away', position: PlayerPositionEnum) => {
         handlePlayerMoveNotPossible()
         const x = 205; // 임의의 x 좌표
         const y = 298; // 임의의 y 좌표
@@ -32,12 +32,12 @@ export const PlayerPlus: React.FC<PlayerPlusProps> = ({ onAddPlayer }) => {
 
     return (
         <>
-            <Box display="flex" alignItems="center" onClick={() => handleAddPlayer('red', PlayerPositionEnum.CM)} sx={{ cursor: 'pointer' }}>
-                <AddOutlinedIcon color="error" />
-                <Typography variant="body1" color="warning" ml={1}>Home Team Player</Typography>
+            <Box display="flex" alignItems="center" onClick={() => handleAddPlayer('home', PlayerPositionEnum.CM)} sx={{ cursor: 'pointer' }}>
+                <AddOutlinedIcon sx={{ color: '#3B6FB2'}} />
+                <Typography variant="body1" ml={1}>Home Team Player</Typography>
             </Box>
-            <Box display="flex" alignItems="center" onClick={() => () => handleAddPlayer('blue', PlayerPositionEnum.CM)} sx={{ cursor: 'pointer' }}>
-                <AddOutlinedIcon color="primary" />
+            <Box display="flex" alignItems="center" onClick={() => () => handleAddPlayer('away', PlayerPositionEnum.CM)} sx={{ cursor: 'pointer' }}>
+                <AddOutlinedIcon sx={{ color: '#B23B7F'}} />
                 <Typography variant="body1" color="warning" ml={1}>Away Team Player</Typography>
             </Box>
         </>
