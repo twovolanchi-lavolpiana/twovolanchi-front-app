@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { selectPlayer } from '../store/PlayerSlice';
 import { RootState } from '../store/Store';
 import { setPlayerMovingSequences } from '../store/SequenceSlice';
+import SoccerField from './SoccerField';
 
 interface GroundProps {
     players: PlayerPosition[];
@@ -77,10 +78,14 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
                 position: 'relative',
                 width: '100%',
                 height: '100%',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
             }}
         >
-            <img ref={imgRef} src={boardImage} alt="board" style={{ width: '100%', height: '100%' }} />
-            {players.map((player) => (
+            <SoccerField/>
+            {/* <img ref={imgRef} src={boardImage} alt="board" style={{ width: '100%', height: '100%' }} /> */}
+            {/* {players.map((player) => (
                 <DraggablePlayer
                     key={player.id}
                     id={player.id}
@@ -140,7 +145,7 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
                         ))
                     ))}
                 </svg>
-            }
+            } */}
         </Box>
     );
 };
