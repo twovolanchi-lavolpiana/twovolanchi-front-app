@@ -3,7 +3,7 @@
 body, html, #root {
   margin: 0;
   padding-left: 30px; /* 기본 패딩 */
-  padding-right: 30px; /* 기본 패딩 */
+  padding-right: 30px;
   height: 100%;
 }
 

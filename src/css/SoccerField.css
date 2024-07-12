@@ -8,6 +8,8 @@
     background-color: #3BB26F;
     border: 4px solid #ffffff;
     margin: 0 auto; /* 중앙 정렬 */
+    box-sizing: content-box;
+    padding: 0
 }
 
 .field-line {

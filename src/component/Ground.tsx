@@ -74,10 +74,14 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
         <Box
             ref={drop}
             onClick={handleClick}
+            sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center'}}
         >
-            <SoccerField/>
-            {/* <img ref={imgRef} src={boardImage} alt="board" style={{ width: '100%', height: '100%' }} /> */}
-            {/* {players.map((player) => (
+            {/* <SoccerField/> */}
+            <div style={{ width: '60%', height: '30%', padding: 30, justifyContent: 'center', alignItems: 'center' }}>
+                <img ref={imgRef} src={boardImage} alt="board" style={{  maxWidth: '100%', maxHeight: '100%' }} />
+            </div>
+
+            {players.map((player) => (
                 <DraggablePlayer
                     key={player.id}
                     id={player.id}
@@ -92,7 +96,7 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
                 !simulationOnState.isSimulationOn && <svg style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 50 }}>
                     <defs>
                         <marker
-                            id="arrow-blue"
+                            id="arrow-home"
                             viewBox="0 0 10 10"
                             refX="5"
                             refY="5"
@@ -100,12 +104,12 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
                             markerHeight="3"
                             opacity={0.7}
                             orient="auto-start-reverse">
-                            <path d="M 0 0 L 10 5 L 0 10 z" fill='blue' />
+                            <path d="M 0 0 L 10 5 L 0 10 z" fill='#3B6FB2' />
                         </marker>
                     </defs>
                     <defs>
                         <marker
-                            id="arrow-red"
+                            id="arrow-away"
                             viewBox="0 0 10 10"
                             refX="5"
                             refY="5"
@@ -113,7 +117,7 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
                             markerHeight="3"
                             opacity={0.7}
                             orient="auto-start-reverse">
-                            <path d="M 0 0 L 10 5 L 0 10 z" fill='red' />
+                            <path d="M 0 0 L 10 5 L 0 10 z" fill='#B23B7F' />
                         </marker>
                     </defs>
 
@@ -130,14 +134,14 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
                                         stroke={location.team}
                                         strokeWidth="5"
                                         strokeOpacity={0.7}
-                                        markerEnd={location.team === 'red' ? 'url(#arrow-red)' : 'url(#arrow-blue)'}
+                                        markerEnd={location.team === 'home' ? 'url(#arrow-home)' : 'url(#arrow-away)'}
                                     />
                                 )
                             ))
                         ))
                     ))}
                 </svg>
-            } */}
+            }
         </Box>
     );
 };

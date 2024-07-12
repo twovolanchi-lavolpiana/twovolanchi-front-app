@@ -3,7 +3,6 @@ import { useDrag } from "react-dnd";
 import { ItemTypes } from "./ItemTypes";
 import CircleIcon from '@mui/icons-material/Circle';
 
-import '../css/Card.css';
 import { PlayerPosition } from './PlayerPosition';
 import { Box, Modal, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
 
