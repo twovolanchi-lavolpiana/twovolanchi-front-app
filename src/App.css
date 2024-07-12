@@ -20,18 +20,11 @@ body, html, #root {
   align-items: center;
 }
 
-.board-container {
-  padding: 2em;
-  justify-content: center;
-  align-items: center;
-}
-
-.ground {
+.board-parent {
+  padding-top: 2em;
+  padding-bottom: 2em;
   width: 100%;
-  justify-content: center;
-  align-items: center;
-  max-width: 30rem; /* 최대 너비 설정 */
-  min-width: 12.5rem; /* 최소 너비 설정 */
+  display: flex;
 }
 
 .operation {
@@ -42,11 +35,27 @@ body, html, #root {
   min-width: 12.5rem; /* 최소 너비 설정 */
 }
 
-.board-image {
-  display: flex;
+.board-container {
+  flex: 1;
   justify-content: center;
   align-items: center;
 }
+
+.ground {
+  padding: 2em;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  min-width: 30rem; /* 최소 너비 설정 */
+}
+
+.simulation-card {
+  padding-top: 2em;
+  justify-content: center;
+  align-items: center;
+  height: 100px;
+}
+
 
 .MuiDrawer-paper {
   position: relative;

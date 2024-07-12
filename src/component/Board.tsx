@@ -47,24 +47,21 @@ export const Board = () => {
 
     return (
         <DndProvider backend={HTML5Backend}>
-            <div className="board-container">
-                <Grid container spacing={2} justifyContent="center" alignItems="center">
-                    <Grid item xs={12} md={8} className="ground" width='30rem'>
-                        <Card sx={{width: '30rem'}}>
-                            <Ground players={players} movePlayer={movePlayer} />
-                        </Card>
-                    </Grid>
-                    <Grid item xs={12} md={4} className="operation" width='30rem'>
-                        <Card sx={{width: '30rem'}}>
-                            <CardContent>
-                                <Stack direction="column" spacing={2}>
-                                    <PlayerPlus onAddPlayer={handleAddPlayer} />
-                                    <Menu />
-                                </Stack>
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                </Grid>
+            <div className='board-parent'>
+                <Card>
+                    <CardContent>
+                        <Stack direction="column" spacing={2}>
+                            <PlayerPlus onAddPlayer={handleAddPlayer} />
+                            <Menu />
+                        </Stack>
+                    </CardContent>
+                </Card>
+                <Card className="board-container">
+                    <Ground players={players} movePlayer={movePlayer} />
+                </Card>
+            </div>
+            <div className='simulation-card' style={{ border: '1px solid black' }}>
+                Sliceder Card!
             </div>
         </DndProvider>
     );

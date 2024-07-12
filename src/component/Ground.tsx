@@ -74,12 +74,6 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
         <Box
             ref={drop}
             onClick={handleClick}
-            sx={{
-                width: '100%',
-                height: '100%',
-                justifyContent: 'center',
-                alignItems: 'center',
-            }}
         >
             <SoccerField/>
             {/* <img ref={imgRef} src={boardImage} alt="board" style={{ width: '100%', height: '100%' }} /> */}

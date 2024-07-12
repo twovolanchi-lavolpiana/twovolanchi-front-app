@@ -83,11 +83,11 @@ export const Menu = () => {
             </Box>
             <Box display="flex" alignItems="center" onClick={handlePlayerViewState} sx={{ cursor: 'pointer' }}>
                 <SettingsIcon color="success" />
-                <Typography variant="body1" color="success" ml={1}>Player View Change</Typography>
+                <Typography variant="body1" color="success" ml={1}>Player Profile</Typography>
             </Box>
             <Box display="flex" alignItems="center" onClick={handlePlayerMoveNotPossible} sx={{ cursor: 'pointer' }}>
                 <StartOutlinedIcon color="success" />
-                <Typography variant="body1" color="success" ml={1}>Next Sequence</Typography>
+                <Typography variant="body1" color="success" ml={1}>Next Slice</Typography>
             </Box>
         </>
     )

@@ -34,11 +34,11 @@ export const PlayerPlus: React.FC<PlayerPlusProps> = ({ onAddPlayer }) => {
         <>
             <Box display="flex" alignItems="center" onClick={() => handleAddPlayer('red', PlayerPositionEnum.CM)} sx={{ cursor: 'pointer' }}>
                 <AddOutlinedIcon color="error" />
-                <Typography variant="body1" color="warning" ml={1}>Red Team Player</Typography>
+                <Typography variant="body1" color="warning" ml={1}>Home Team Player</Typography>
             </Box>
             <Box display="flex" alignItems="center" onClick={() => () => handleAddPlayer('blue', PlayerPositionEnum.CM)} sx={{ cursor: 'pointer' }}>
                 <AddOutlinedIcon color="primary" />
-                <Typography variant="body1" color="warning" ml={1}>Blue Team Player</Typography>
+                <Typography variant="body1" color="warning" ml={1}>Away Team Player</Typography>
             </Box>
         </>
     )

@@ -1,12 +1,11 @@
-/* SoccerField.css */
 .soccer-field {
     position: relative;
-    width: 40vh;
-    height: 60vh;
+    width: 80vh; /* 부모 height를 기준으로 width 설정 */
+    height: 50vh; /* 부모 width를 기준으로 height 설정 */
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: #28a745;
+    background-color: #3BB26F;
     border: 4px solid #ffffff;
     margin: 0 auto; /* 중앙 정렬 */
 }
@@ -18,42 +17,42 @@
 }
 
 .horizontal {
-    height: 2px;
-    width: 100%;
-}
-
-.horizontal.top {
-    top: 0;
-}
-
-.horizontal.middle {
-    top: 50%;
-    transform: translateY(-50%);
-}
-
-.horizontal.bottom {
-    bottom: 0;
-}
-
-.vertical {
     width: 2px;
     height: 100%;
 }
 
-.vertical.left {
+.horizontal.top {
     left: 0;
 }
 
-.vertical.right {
+.horizontal.middle {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.horizontal.bottom {
     right: 0;
+}
+
+.vertical {
+    height: 2px;
+    width: 100%;
+}
+
+.vertical.left {
+    top: 0;
+}
+
+.vertical.right {
+    bottom: 0;
 }
 
 .center-circle {
     position: absolute;
-    top: 50%;
     left: 50%;
-    width: 20%;
-    height: 15%;
+    top: 50%;
+    width: 15%;
+    height: 20%;
     border: 4px solid #ffffff;
     border-radius: 100%;
     transform: translate(-50%, -50%);
@@ -61,42 +60,42 @@
 
 .penalty-box-top {
     position: absolute;
-    top: 0;
-    left: 50%;
-    width: 40%;
-    height: 13%;
+    left: 0;
+    top: 50%;
+    width: 13%;
+    height: 40%;
     border: 4px solid #ffffff;
-    transform: translate(-50%);
+    transform: translateY(-50%);
 }
 
 .penalty-box-bottom {
     position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 40%;
-    height: 13%;
+    right: 0;
+    top: 50%;
+    width: 13%;
+    height: 40%;
     border: 4px solid #ffffff;
-    transform: translate(-50%);
+    transform: translateY(-50%);
 }
 
 .goal-box-top {
     position: absolute;
-    top: 0;
-    left: 50%;
-    width: 15%;
-    height: 5%;
+    left: 0;
+    top: 50%;
+    width: 5%;
+    height: 15%;
     border: 4px solid #ffffff;
-    transform: translate(-50%);
+    transform: translateY(-50%);
 }
 
 .goal-box-bottom {
     position: absolute;
-    bottom: 0;
-    left: 50%;
-    width: 15%;
-    height: 5%;
+    right: 0;
+    top: 50%;
+    width: 5%;
+    height: 15%;
     border: 4px solid #ffffff;
-    transform: translate(-50%);
+    transform: translateY(-50%);
 }
 
 .corner {

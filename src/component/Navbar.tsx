@@ -13,8 +13,8 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Profile', 'Account', 'Dashboard', 'Logout'];
+const pages = ['Share', 'New', 'Language'];
+const settings = ['Profile'];
 
 function Navbar() {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
@@ -36,7 +36,7 @@ function Navbar() {
     };
 
     return (
-        <AppBar position="static" className='App-header'>
+        <AppBar position="static" className='App-header' sx={{backgroundColor: '#3BB26F'}}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Typography
