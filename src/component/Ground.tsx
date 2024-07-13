@@ -1,7 +1,7 @@
 import { Box } from '@mui/material';
 import boardImage from '../image/board5.png'
 import { PlayerPosition } from './PlayerPosition';
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDrop } from 'react-dnd';
 import { ItemTypes } from './ItemTypes';
 import { DraggablePlayer } from './DraggablePlayer';
@@ -39,12 +39,9 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
             const left = Math.round(((realLeft + delta.x) / rect.width) * 100);
             const top = Math.round(((realTop + delta.y) / rect.height) * 100);
 
-            console.log("drop! % = [", left, top, "]")
-
             movePlayer(item.id, left, top);
             dispatch(selectPlayer({ id: item.id, backNumber: item.backNumber, team: item.team, left, top, position: item.position }));
             dispatch(setPlayerMovingSequences({ id: item.id, left, top, team: item.team, isFirst: true }));
-            console.log("drag finish!")
         },
     });
 
@@ -55,15 +52,11 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
     const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
         if (!imgRef.current || !possibleMoveState || !possibleMoveState.isPossible || !selectedPlayer) return;
 
-        console.log("real event = ", event.clientX, event.clientY);
-
         const rect = imgRef.current.getBoundingClientRect();
 
         const clickedLeft = ((event.clientX - rect.left) / rect.width) * 100;
         const clickedTop = ((event.clientY - rect.top) / rect.height) * 100;
         const { id, left, top, team } = selectedPlayer;
-
-        console.log("clicked % = [", clickedLeft, clickedTop, "]")
 
         dispatch(setPlayerMovingSequences({ id, left: clickedLeft, top: clickedTop, team: team, isFirst: false }));
     }
@@ -71,7 +64,6 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
     useEffect(() => {
         if (imgRef.current) {
             const rect = imgRef.current.getBoundingClientRect();
-            console.log("rect = ", rect);
         }
     }, [imgRef]);
 
@@ -101,9 +93,6 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
         const defaultLeft = rect.x;
         const defaultTop = rect.y;
 
-        console.log("move 실제 값: ", defaultLeft + realLeft, defaultTop + realTop)
-        console.log("seqeunces", sequences.sequences)
-
         return {
             x: defaultLeft + realLeft,
             y: defaultTop + realTop,
@@ -120,7 +109,7 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
             >
                 <img ref={imgRef} src={boardImage} alt="board" style={{ maxWidth: '100%', maxHeight: '100%' }} />
                 {
-                    !simulationOnState.isSimulationOn && <svg style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 200 }}>
+                    !simulationOnState.isSimulationOn && <svg style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 30 }}>
                         <defs>
                             <marker
                                 id="arrow-home"
@@ -154,16 +143,18 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
                                     if (index === 0) return null;
                                     const { x: x1, y: y1 } = getLeftLocation(move.sequence[index - 1].left, move.sequence[index - 1].top);
                                     const { x: x2, y: y2 } = getLeftLocation(location.left, location.top);
+                                    
+                                    console.log("좌표 = ", x1, y1, x2, y2);
+                                    console.log("test!");
 
-                                    console.log("x1, x2, y1, y2", x1, x2, y1, y2);
-                                    <line
+                                    return <line
                                         key={`${move.id}-${index}`}
                                         x1={x1}
                                         y1={y1}
                                         x2={x2}
                                         y2={y2}
-                                        stroke={location.team}
-                                        strokeWidth="5"
+                                        stroke={location.team === 'home' ? '#3B6FB2' : '#B23B7F'}
+                                        strokeWidth="3"
                                         strokeOpacity={0.7}
                                         markerEnd={location.team === 'home' ? 'url(#arrow-home)' : 'url(#arrow-away)'}
                                     />
