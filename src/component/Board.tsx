@@ -10,6 +10,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../store/Store';
 import { PlayerPositionEnum } from './PlayerPositionEnum';
 import { Card, CardContent, Grid, Stack } from '@mui/material';
+import { ScreenSizeProvider } from '../provider/ScreenSizeProvider';
 
 export const Board = () => {
     const [players, setPlayers] = useState<PlayerPosition[]>([]);
@@ -45,6 +46,7 @@ export const Board = () => {
         console.log(selectedPlayer)
     }, [selectedPlayer]);
 
+    
     return (
         <DndProvider backend={HTML5Backend}>
             <div className='board-parent'>
@@ -57,7 +59,9 @@ export const Board = () => {
                     </CardContent>
                 </Card>
                 <Card className="board-container">
-                    <Ground players={players} movePlayer={movePlayer} />
+                    <ScreenSizeProvider>
+                        <Ground players={players} movePlayer={movePlayer} />
+                    </ScreenSizeProvider>
                 </Card>
             </div>
             <div className='simulation-card' style={{ border: '1px solid black' }}>

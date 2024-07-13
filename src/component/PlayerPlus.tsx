@@ -22,9 +22,9 @@ export const PlayerPlus: React.FC<PlayerPlusProps> = ({ onAddPlayer }) => {
 
     const handleAddPlayer = (team: 'home' | 'away', position: PlayerPositionEnum) => {
         handlePlayerMoveNotPossible()
-        const x = 205; // 임의의 x 좌표
-        const y = 298; // 임의의 y 좌표
-        onAddPlayer(team, x, y, position);
+        const left = 50; // 50%
+        const top = 50; // 50%
+        onAddPlayer(team, left, top, position);
     };
 
     useEffect(() => {
@@ -36,9 +36,9 @@ export const PlayerPlus: React.FC<PlayerPlusProps> = ({ onAddPlayer }) => {
                 <AddOutlinedIcon sx={{ color: '#3B6FB2'}} />
                 <Typography variant="body1" ml={1}>Home Team Player</Typography>
             </Box>
-            <Box display="flex" alignItems="center" onClick={() => () => handleAddPlayer('away', PlayerPositionEnum.CM)} sx={{ cursor: 'pointer' }}>
+            <Box display="flex" alignItems="center" onClick={() => handleAddPlayer('away', PlayerPositionEnum.CM)} sx={{ cursor: 'pointer' }}>
                 <AddOutlinedIcon sx={{ color: '#B23B7F'}} />
-                <Typography variant="body1" color="warning" ml={1}>Away Team Player</Typography>
+                <Typography variant="body1" ml={1}>Away Team Player</Typography>
             </Box>
         </>
     )

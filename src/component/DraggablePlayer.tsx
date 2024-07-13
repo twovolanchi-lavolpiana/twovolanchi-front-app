@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useDrag } from "react-dnd";
 import { ItemTypes } from "./ItemTypes";
 import CircleIcon from '@mui/icons-material/Circle';
@@ -19,11 +19,12 @@ type PlayerProps = {
     team: 'home' | 'away',
     left: number,
     top: number,
+    imgRef: React.RefObject<HTMLImageElement>,
     position: PlayerPositionEnum,
     onClick: (event: React.MouseEvent<HTMLElement>, player: PlayerPosition) => void;
 }
 
-export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, left, top, position, onClick }) => {
+export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, left, top, imgRef, position, onClick }) => {
     const dispatch = useDispatch();
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
     const possibleMoveState = useSelector((state: RootState) => state.possibleMove);
@@ -41,12 +42,12 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, l
         type: ItemTypes.PLAYER,
         item: () => {
             handlePlayerMoveNotPossible()
-            return { id, left, top, team, position };
+            return { id, backNumber, left, top, team, position };
         },
         collect: (monitor) => ({
             isDragging: !!monitor.isDragging(),
         }),
-    }), [id, left, top, team, position]);
+    }), [id, backNumber, left, top, team, position]);
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         handlePlayerMoveNotPossible()
@@ -101,7 +102,7 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, l
     }
 
     const renderSaveButtonInfo = () => {
-        if (!selectPlayer) return '#3BB24A'        
+        if (!selectPlayer) return '#3BB24A'
         switch (selectedPlayer?.team) {
             case 'home':
                 return '#3B6FB2';
@@ -112,8 +113,31 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, l
         }
     }
 
+    const getPlayerStyle = useCallback((leftPercent: number, topPercent: number) => {
+        if (!imgRef.current) return { left: 0, top: 0 };
+        const rect = imgRef.current.getBoundingClientRect();
+        const left = (leftPercent / 100) * rect.width;
+        const top = (topPercent / 100) * rect.height;
+
+        const defaultLeft = rect.x;
+        const defaultTop = rect.y;
+
+        console.log("실제 퍼센트 left: ", leftPercent)
+        console.log("실제 퍼센트 top: ", topPercent)
+        console.log("실제 위치 left: ", defaultLeft + left)
+        console.log("실제 위치 top: ", defaultTop + top)
+
+        return {
+            left: `${defaultLeft + left}px`,
+            top: `${defaultTop + top}px`
+        };
+    }, [imgRef]);
+
+
     useEffect(() => {
     }, [possibleMoveState]);
+
+    const playerStyle = getPlayerStyle(left, top);
 
     return (
         <div
@@ -122,8 +146,8 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, l
             onDoubleClick={handleDoubleClick}
             style={{
                 position: 'absolute',
-                left: `${left}px`,
-                top: `${top}px`,
+                left: `${playerStyle.left}`,
+                top: `${playerStyle.top}`,
                 transform: 'translate(-50%, -50%)',
                 cursor: 'move',
                 opacity: isDragging ? 0.5 : 1,
@@ -216,16 +240,19 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, l
                     <Button
                         sx={{
                             marginTop: 2, // 버튼과 다른 요소들 간의 간격
-                            color: renderSaveButtonInfo()
+                            color: 'white', // 텍스트 색상
+                            backgroundColor: renderSaveButtonInfo(), // 배경 색상
+                            '&:hover': {
+                                backgroundColor: 'darken(renderSaveButtonInfo(), 0.2)', // 호버 시 배경 색상
+                            },
                         }}
                         variant="contained"
-                    onClick={handlePlayerProfileUpdate}
+                        onClick={handlePlayerProfileUpdate}
                     >
-                    Save
-                </Button>
-            </Box>
-        </Modal>
-
+                        Save
+                    </Button>
+                </Box>
+            </Modal>
         </div >
     );
 }
