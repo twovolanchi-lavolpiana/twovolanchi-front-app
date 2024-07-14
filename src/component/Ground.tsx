@@ -12,17 +12,19 @@ import { useScreenSize } from '../provider/ScreenSizeProvider';
 import SoccerField from './SoccerField';
 import { movePlayer } from '../store/PlayersListSlice';
 
+
 interface GroundProps {
     players: PlayerPosition[];
 }
 
 export const Ground: React.FC<GroundProps> = ({ players }) => {
+    const dispatch = useDispatch()
     const imgRef = useRef<HTMLDivElement>(null);
+    const playersState = useSelector((state: RootState) => state.players.players);
     const possibleMoveState = useSelector((state: RootState) => state.possibleMove)
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
     const sequences = useSelector((state: RootState) => state.sequences)
     const simulationOnState = useSelector((state: RootState) => state.simulationOn)
-    const dispatch = useDispatch()
     const { updateScreenSize } = useScreenSize();
 
     const [, drop] = useDrop({
@@ -86,6 +88,9 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
     useEffect(() => {
         updateScreenSize();
     }, [updateScreenSize]);
+
+    useEffect(() => {
+    }, [playersState])
 
 
     const getLeftLocation = (left: number, top: number) => {
@@ -166,8 +171,9 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
                 }
             </div>
 
-            {players.map((player) => (
-                <DraggablePlayer
+            {players.map((player) => {
+                console.log("player  =>>>> ", player);
+                return <DraggablePlayer
                     key={player.id}
                     id={player.id}
                     backNumber={player.backNumber}
@@ -178,7 +184,7 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
                     imgRef={imgRef}
                     position={player.position}
                     onClick={handlePlayerClick} />
-            ))}
+            })}
         </Box>
     );
 };

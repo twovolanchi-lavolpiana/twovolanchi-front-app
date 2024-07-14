@@ -9,7 +9,7 @@ export enum PlayerPositionEnum {
     CM = 'CM',
     DM = 'DM',
     CB = 'CB',
-    WLB = 'WLB',
-    WRB = 'WRB',
+    LB = 'LB',
+    RB = 'RB',
     GK = 'GK',
 }
