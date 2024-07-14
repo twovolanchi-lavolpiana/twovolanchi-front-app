@@ -19,7 +19,7 @@ type PlayerProps = {
     team: 'home' | 'away',
     left: number,
     top: number,
-    imgRef: React.RefObject<HTMLDivElement>,
+    imgRef: React.RefObject<HTMLImageElement>,
     position: PlayerPositionEnum,
     onClick: (event: React.MouseEvent<HTMLElement>, player: PlayerPosition) => void;
 }

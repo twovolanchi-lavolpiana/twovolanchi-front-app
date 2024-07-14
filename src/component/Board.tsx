@@ -11,6 +11,7 @@ import { RootState } from '../store/Store';
 import { PlayerPositionEnum } from './PlayerPositionEnum';
 import { Card, CardContent, Grid, Stack } from '@mui/material';
 import { ScreenSizeProvider } from '../provider/ScreenSizeProvider';
+import SoccerField from './SoccerField';
 
 export const Board = () => {
     const [players, setPlayers] = useState<PlayerPosition[]>([]);
@@ -64,8 +65,8 @@ export const Board = () => {
                     </ScreenSizeProvider>
                 </Card>
             </div>
-            <div className='simulation-card' style={{ border: '1px solid black' }}>
-                Sliceder Card!
+            <div className='simulation-card' >
+                <SoccerField></SoccerField>
             </div>
         </DndProvider>
     );

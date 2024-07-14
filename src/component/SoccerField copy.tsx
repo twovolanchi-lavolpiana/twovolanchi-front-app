@@ -1,9 +1,8 @@
-import React, { forwardRef } from 'react';
-import '../css/SoccerField.css'; // CSS 파일을 불러옵니다.
+import '../css/SoccerField.css';
 
-const SoccerField = forwardRef<HTMLDivElement>((props, ref) => {
+const SoccerField: React.FC = () => {
     return (
-        <div ref={ref} className="soccer-field">
+        <div className="soccer-field">
             <div className="field-line horizontal top"></div>
             <div className="field-line horizontal middle"></div>
             <div className="field-line horizontal bottom"></div>
@@ -20,6 +19,6 @@ const SoccerField = forwardRef<HTMLDivElement>((props, ref) => {
             <div className="corner corner-bottom-right"></div>
         </div>
     );
-});
+};
 
 export default SoccerField;

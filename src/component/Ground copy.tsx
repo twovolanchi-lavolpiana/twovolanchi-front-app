@@ -1,4 +1,5 @@
 import { Box } from '@mui/material';
+import boardImage from '../image/board5.png'
 import { PlayerPosition } from './PlayerPosition';
 import { useEffect, useRef } from 'react';
 import { useDrop } from 'react-dnd';
@@ -9,7 +10,6 @@ import { selectPlayer } from '../store/PlayerSlice';
 import { RootState } from '../store/Store';
 import { setPlayerMovingSequences } from '../store/SequenceSlice';
 import { useScreenSize } from '../provider/ScreenSizeProvider';
-import SoccerField from './SoccerField';
 
 interface GroundProps {
     players: PlayerPosition[];
@@ -17,7 +17,7 @@ interface GroundProps {
 }
 
 export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
-    const imgRef = useRef<HTMLDivElement>(null);
+    const imgRef = useRef<HTMLImageElement>(null);
     const possibleMoveState = useSelector((state: RootState) => state.possibleMove)
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
     const sequences = useSelector((state: RootState) => state.sequences)
@@ -39,8 +39,6 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
             const left = Math.round(((realLeft + delta.x) / rect.width) * 100);
             const top = Math.round(((realTop + delta.y) / rect.height) * 100);
 
-            if (left < 0 || left > 100 || top < 0 || top > 100) return;
-
             movePlayer(item.id, left, top);
             dispatch(selectPlayer({ id: item.id, backNumber: item.backNumber, team: item.team, left, top, position: item.position }));
             dispatch(setPlayerMovingSequences({ id: item.id, left, top, team: item.team, isFirst: true }));
@@ -54,7 +52,6 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
     const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
         if (!imgRef.current || !possibleMoveState || !possibleMoveState.isPossible || !selectedPlayer) return;
 
-    
         const rect = imgRef.current.getBoundingClientRect();
 
         const clickedLeft = ((event.clientX - rect.left) / rect.width) * 100;
@@ -106,12 +103,11 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
         <Box
             sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 2 }}
         >
-            <div style={{ width: '80%', height: '50%', justifyContent: 'center', alignItems: 'center' }}
+            <div style={{ width: '80%', height: '40%', justifyContent: 'center', alignItems: 'center' }}
                 ref={drop}
                 onClick={handleClick}
             >
-                {/* <img ref={imgRef} src={boardImage} alt="board" style={{ maxWidth: '100%', maxHeight: '100%' }} /> */}
-                <SoccerField ref={imgRef} />
+                <img ref={imgRef} src={boardImage} alt="board" style={{ maxWidth: '100%', maxHeight: '100%' }} />
                 {
                     !simulationOnState.isSimulationOn && <svg style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 30 }}>
                         <defs>
