@@ -11,7 +11,7 @@ export const store = configureStore({
         player: playerReducer,
         sequences: sequencesReducer,
         possibleMove: possibleMoveReducer,
-        payers: playersListReducer,
+        players: playersListReducer,
         playerView: playerViewReducer,
         simulationOn: simulationOnReducer,
     }

@@ -11,11 +11,13 @@ import { RootState } from '../store/Store';
 import { setPossibleMoveState } from '../store/PossibleMoveSlice';
 import { selectPlayer } from '../store/PlayerSlice';
 import { PlayerPositionEnum } from './PlayerPositionEnum';
+import { setPlayer } from '../store/PlayersListSlice';
 
 
 type PlayerProps = {
     id: number,
     backNumber: number,
+    name: string,
     team: 'home' | 'away',
     left: number,
     top: number,
@@ -24,7 +26,7 @@ type PlayerProps = {
     onClick: (event: React.MouseEvent<HTMLElement>, player: PlayerPosition) => void;
 }
 
-export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, left, top, imgRef, position, onClick }) => {
+export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, name, left, top, imgRef, position, onClick }) => {
     const dispatch = useDispatch();
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
     const possibleMoveState = useSelector((state: RootState) => state.possibleMove);
@@ -42,16 +44,16 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, l
         type: ItemTypes.PLAYER,
         item: () => {
             handlePlayerMoveNotPossible()
-            return { id, backNumber, left, top, team, position };
+            return { id, backNumber, name, left, top, team, position };
         },
         collect: (monitor) => ({
             isDragging: !!monitor.isDragging(),
         }),
-    }), [id, backNumber, left, top, team, position]);
+    }), [id, backNumber, name, left, top, team, position]);
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         handlePlayerMoveNotPossible()
-        onClick(event, { id, team, backNumber, left, top, position });
+        onClick(event, { id, team, backNumber, name, left, top, position });
     };
 
     const handleDoubleClick = (event: React.MouseEvent<HTMLElement>) => {
@@ -76,11 +78,23 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, l
         dispatch(selectPlayer({
             id: selectedPlayer.id,
             backNumber: backNumberState,
+            name: selectedPlayer.name,
             team: selectedPlayer.team,
             left: selectedPlayer.left,
             top: selectedPlayer.top,
             position: positionState,
         }));
+        dispatch(setPlayer(
+            {
+                id: selectedPlayer.id,
+                backNumber: backNumberState,
+                name: selectedPlayer.name,
+                team: selectedPlayer.team,
+                left: selectedPlayer.left,
+                top: selectedPlayer.top,
+                position: positionState,
+            }
+        ))
         setIsModalOpen(false); // 모달 닫기
     };
 

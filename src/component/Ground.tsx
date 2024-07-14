@@ -10,13 +10,13 @@ import { RootState } from '../store/Store';
 import { setPlayerMovingSequences } from '../store/SequenceSlice';
 import { useScreenSize } from '../provider/ScreenSizeProvider';
 import SoccerField from './SoccerField';
+import { movePlayer } from '../store/PlayersListSlice';
 
 interface GroundProps {
     players: PlayerPosition[];
-    movePlayer: (id: number, left: number, top: number) => void;
 }
 
-export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
+export const Ground: React.FC<GroundProps> = ({ players }) => {
     const imgRef = useRef<HTMLDivElement>(null);
     const possibleMoveState = useSelector((state: RootState) => state.possibleMove)
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
@@ -41,8 +41,8 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
 
             if (left < 0 || left > 100 || top < 0 || top > 100) return;
 
-            movePlayer(item.id, left, top);
-            dispatch(selectPlayer({ id: item.id, backNumber: item.backNumber, team: item.team, left, top, position: item.position }));
+            dispatch(movePlayer({id: item.id, left: left, top: top}));
+            dispatch(selectPlayer({ id: item.id, backNumber: item.backNumber, team: item.team, name: item.name, left, top, position: item.position }));
             dispatch(setPlayerMovingSequences({ id: item.id, left, top, team: item.team, isFirst: true }));
         },
     });
@@ -106,7 +106,7 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
         <Box
             sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 2 }}
         >
-            <div style={{ width: '80%', height: '50%', justifyContent: 'center', alignItems: 'center' }}
+            <div style={{ width: '70%', height: '40%', justifyContent: 'center', alignItems: 'center' }}
                 ref={drop}
                 onClick={handleClick}
             >
@@ -171,6 +171,7 @@ export const Ground: React.FC<GroundProps> = ({ players, movePlayer }) => {
                     id={player.id}
                     backNumber={player.backNumber}
                     team={player.team}
+                    name={player.name}
                     left={player.left}
                     top={player.top}
                     imgRef={imgRef}

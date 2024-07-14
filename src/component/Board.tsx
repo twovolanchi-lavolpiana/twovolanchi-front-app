@@ -6,37 +6,34 @@ import { useEffect, useState } from 'react'
 import { PlayerPosition } from './PlayerPosition';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/Store';
 import { PlayerPositionEnum } from './PlayerPositionEnum';
 import { Card, CardContent, Grid, Stack } from '@mui/material';
 import { ScreenSizeProvider } from '../provider/ScreenSizeProvider';
 import SoccerField from './SoccerField';
+import { setPlayer } from '../store/PlayersListSlice';
+import { PlayerList } from './PlayerList';
 
 export const Board = () => {
-    const [players, setPlayers] = useState<PlayerPosition[]>([]);
+    const defaultName = "Messi";
+    const dispatch = useDispatch();
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
+    const players = useSelector((state: RootState) => state.players.players);
     const [playerId, setPlayerId] = useState(0);
 
     const handleAddPlayer = (team: 'home' | 'away', left: number, top: number, position: PlayerPositionEnum) => {
         const newPlayer = {
             id: playerId,
             backNumber: playerId,
+            name: defaultName,
             position: position,
             team: team,
             left: left,
             top: top,
         };
-        setPlayers([...players, newPlayer]);
+        dispatch(setPlayer(newPlayer))
         setPlayerId(playerId + 1);
-    };
-
-    const movePlayer = (id: number, left: number, top: number) => {
-        setPlayers((prevPlayers) =>
-            prevPlayers.map((player) =>
-                player.id === id ? { ...player, left: left, top: top } : player
-            )
-        );
     };
 
     useEffect(() => {
@@ -47,27 +44,31 @@ export const Board = () => {
         console.log(selectedPlayer)
     }, [selectedPlayer]);
 
-    
     return (
-        <DndProvider backend={HTML5Backend}>
-            <div className='board-parent'>
-                <Card>
-                    <CardContent>
-                        <Stack direction="column" spacing={2}>
-                            <PlayerPlus onAddPlayer={handleAddPlayer} />
-                            <Menu />
-                        </Stack>
-                    </CardContent>
-                </Card>
-                <Card className="board-container">
-                    <ScreenSizeProvider>
-                        <Ground players={players} movePlayer={movePlayer} />
-                    </ScreenSizeProvider>
-                </Card>
-            </div>
-            <div className='simulation-card' >
-                <SoccerField></SoccerField>
-            </div>
-        </DndProvider>
+        <ScreenSizeProvider>
+            <DndProvider backend={HTML5Backend}>
+                <div className='board-parent'>
+                    <Card>
+                        <CardContent>
+                            <Stack direction="column" spacing={2}>
+                                <PlayerPlus onAddPlayer={handleAddPlayer} />
+                                <Menu />
+                            </Stack>
+                        </CardContent>
+                    </Card>
+                    <Card className="board-container">
+                        <Ground players={players} />
+                    </Card>
+                    <Card>
+                        <CardContent>
+                            <PlayerList></PlayerList>
+                        </CardContent>
+                    </Card>
+                </div>
+                <div className='simulation-card' >
+                    <SoccerField></SoccerField>
+                </div>
+            </DndProvider>
+        </ScreenSizeProvider>
     );
 }
