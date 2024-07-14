@@ -2,11 +2,11 @@ import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { PlayerPosition } from "../component/PlayerPosition";
 
 interface MultiPlayerState {
-    selectedPlayers: PlayerPosition[];
+    multiPlayers: PlayerPosition[];
 }
 
 const initialState: MultiPlayerState = {
-  selectedPlayers: [],
+  multiPlayers: [],
   };
   
   const multiPlayers = createSlice({
@@ -14,14 +14,14 @@ const initialState: MultiPlayerState = {
     initialState,
     reducers: {
       addSelectedPlayers: (state, action: PayloadAction<PlayerPosition>) => {
-        const isExisting = state.selectedPlayers.find((s) => s.id === action.payload.id)
+        const isExisting = state.multiPlayers.find((s) => s.id === action.payload.id)
         
         if (isExisting) return;
 
-        state.selectedPlayers.push(action.payload)
+        state.multiPlayers.push(action.payload)
       },
       clearSelectedPlayers: (state) => {
-        state.selectedPlayers = [];
+        state.multiPlayers = [];
       },
     },
   });

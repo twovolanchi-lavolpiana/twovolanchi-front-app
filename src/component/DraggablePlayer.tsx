@@ -26,6 +26,7 @@ type PlayerProps = {
 export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, name, left, top, imgRef, position, onClick }) => {
     const dispatch = useDispatch();
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
+    const multiPlayers = useSelector((state: RootState) => state.multiPlayers.multiPlayers)
     const playersState = useSelector((state: RootState) => state.players.players);
     const possibleMoveState = useSelector((state: RootState) => state.possibleMove);
     const playerViewState = useSelector((state: RootState) => state.playerView.playerView);
@@ -118,7 +119,7 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, n
                 }}
             >
                 {
-                    selectedPlayer && id === selectedPlayer.id ? <CircleIcon
+                    (selectedPlayer && id === selectedPlayer.id) || (multiPlayers.find((m) => m.id === id))? <CircleIcon
                         className="draggable-icon"
                         sx={{
                             color: team === 'home' ? '#3B6FB2' : '#B23B7F',
