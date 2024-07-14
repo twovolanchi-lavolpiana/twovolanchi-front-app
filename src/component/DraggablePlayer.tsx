@@ -133,11 +133,13 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, n
         const left = (leftPercent / 100) * rect.width;
         const top = (topPercent / 100) * rect.height;
 
-        const defaultLeft = rect.x;
-        const defaultTop = rect.y;
+        const defaultLeft = rect.left;
+        const defaultTop = rect.top;
+
+        console.log("rect == !!!!!", rect)
 
         console.log("실제 퍼센트 left: ", leftPercent)
-        console.log("실제 퍼센트 top: ", defaultTop + top)
+        console.log("실제 퍼센트 top: ", topPercent)
         console.log("실제 위치 left: ", defaultLeft + left)
         console.log("실제 위치 top: ", defaultTop + top)
 

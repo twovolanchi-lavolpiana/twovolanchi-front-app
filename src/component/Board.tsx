@@ -9,11 +9,13 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/Store';
 import { PlayerPositionEnum } from './PlayerPositionEnum';
-import { Card, CardContent, Grid, Stack } from '@mui/material';
+import { Box, Card, CardContent, Grid, IconButton, Stack } from '@mui/material';
 import { ScreenSizeProvider } from '../provider/ScreenSizeProvider';
 import SoccerField from './SoccerField';
 import { setPlayer } from '../store/PlayersListSlice';
 import { PlayerList } from './PlayerList';
+import { ChangeCircleOutlined } from '@mui/icons-material';
+import { selectPlayer } from '../store/PlayerSlice';
 
 export const Board = () => {
     const defaultName = "Messi";
@@ -33,6 +35,7 @@ export const Board = () => {
             top: top,
         };
         dispatch(setPlayer(newPlayer))
+        dispatch(selectPlayer(newPlayer))
         setPlayerId(playerId + 1);
     };
 

@@ -15,6 +15,7 @@ import StopIcon from '@mui/icons-material/Stop';
 import { setSimulationOn } from '../store/SimulationOnSlice';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import { Formation } from "./Formation";
+import { ChangeCircleOutlined } from "@mui/icons-material";
 
 export const Menu = () => {
     const dispatch = useDispatch();
@@ -82,15 +83,19 @@ export const Menu = () => {
 
     return (
         <>
+            <Box display="flex" alignItems="center" onClick={handleSimulation} sx={{ cursor: 'pointer' }}>
+                <ChangeCircleOutlined sx={{ color: 'black'}} />
+                <Typography variant="body1" color="warning" ml={1}>Ground Change</Typography>
+            </Box>
             {selectedPlayer && possibleMoveState.playerId !== selectedPlayer.id && (
                 <Box display="flex" alignItems="center" onClick={handlePlayerMovePossible} sx={{ cursor: 'pointer' }}>
-                    <DirectionsRunIcon color="warning" />
+                    <DirectionsRunIcon sx={{ color: 'black'}} />
                     <Typography variant="body1" color="warning" ml={1}>Move</Typography>
                 </Box>
             )}
             {selectedPlayer && possibleMoveState && (
                 <Box display="flex" alignItems="center" onClick={handlePlayerRemoveBack} sx={{ cursor: 'pointer' }}>
-                    <ArrowBackIcon color="warning" />
+                    <ArrowBackIcon sx={{ color: 'black'}} />
                     <Typography variant="body1" color="warning" ml={1}>Move Back</Typography>
                 </Box>
             )}
@@ -101,24 +106,24 @@ export const Menu = () => {
                 </Box>
             )}
             <Box display="flex" alignItems="center" onClick={handleSimulation} sx={{ cursor: 'pointer' }}>
-                <PlayArrowOutlinedIcon color="warning" />
-                <Typography variant="body1" color="warning" ml={1}>Simulation</Typography>
+                <PlayArrowOutlinedIcon sx={{ color: 'black'}} />
+                <Typography variant="body1" ml={1}>Simulation</Typography>
             </Box>
             <Box display="flex" alignItems="center" onClick={handlePlayerMoveNotPossible} sx={{ cursor: 'pointer' }}>
-                <RestartAltIcon color="warning" />
-                <Typography variant="body1" color="warning" ml={1}>Reset</Typography>
+                <RestartAltIcon sx={{ color: 'black'}} />
+                <Typography variant="body1" ml={1}>Reset</Typography>
             </Box>
             <Box display="flex" alignItems="center" onClick={handleRecommendFormationModalOpen} sx={{ cursor: 'pointer' }}>
-                <ThumbUpOffAltOutlinedIcon color="success" />
-                <Typography variant="body1" color="success" ml={1}>Recommend Formation</Typography>
+                <ThumbUpOffAltOutlinedIcon sx={{ color: 'black'}} />
+                <Typography variant="body1" ml={1}>Recommend Formation</Typography>
             </Box>
             <Box display="flex" alignItems="center" onClick={handlePlayerViewState} sx={{ cursor: 'pointer' }}>
-                <SettingsIcon color="success" />
-                <Typography variant="body1" color="success" ml={1}>Player Profile</Typography>
+                <SettingsIcon sx={{ color: 'black'}} />
+                <Typography variant="body1" ml={1}>Player Profile</Typography>
             </Box>
             <Box display="flex" alignItems="center" onClick={handlePlayerMoveNotPossible} sx={{ cursor: 'pointer' }}>
-                <StartOutlinedIcon color="success" />
-                <Typography variant="body1" color="success" ml={1}>Next Slice</Typography>
+                <StartOutlinedIcon sx={{ color: 'black'}} />
+                <Typography variant="body1" ml={1}>Next Slice</Typography>
             </Box>
 
             <Modal
@@ -154,7 +159,7 @@ export const Menu = () => {
                             <MenuItem value={Formation.FOFOTW}>4-4-2</MenuItem>
                             <MenuItem value={Formation.FOTRTR}>4-3-3</MenuItem>
                             <MenuItem value={Formation.FOTWTRON}>4-2-3-1</MenuItem>
-                            <MenuItem value={Formation.THFITW}>3-5-2</MenuItem>                            
+                            <MenuItem value={Formation.THFITW}>3-5-2</MenuItem>
                         </Select>
                     </FormControl>
                     <FormControl fullWidth>
@@ -169,7 +174,7 @@ export const Menu = () => {
                             <MenuItem value={Formation.FOFOTW}>4-4-2</MenuItem>
                             <MenuItem value={Formation.FOTRTR}>4-3-3</MenuItem>
                             <MenuItem value={Formation.FOTWTRON}>4-2-3-1</MenuItem>
-                            <MenuItem value={Formation.THFITW}>3-5-2</MenuItem>                            
+                            <MenuItem value={Formation.THFITW}>3-5-2</MenuItem>
                         </Select>
                     </FormControl>
                     <Button

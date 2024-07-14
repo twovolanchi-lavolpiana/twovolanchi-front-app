@@ -67,6 +67,7 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
     useEffect(() => {
         if (imgRef.current) {
             const rect = imgRef.current.getBoundingClientRect();
+            console.log("!!!!!!!!!rect = ", rect)
         }
     }, [imgRef]);
 
@@ -106,7 +107,7 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
         <Box
             sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 2 }}
         >
-            <div style={{ width: '70%', height: '40%', justifyContent: 'center', alignItems: 'center' }}
+            <div style={{ width: '80%', height: '80%', justifyContent: 'center', alignItems: 'center' }}
                 ref={drop}
                 onClick={handleClick}
             >
