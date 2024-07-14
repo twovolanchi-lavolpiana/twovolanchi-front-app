@@ -16,6 +16,8 @@ import { setSimulationOn } from '../store/SimulationOnSlice';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import { Formation } from "./Formation";
 import { ChangeCircleOutlined } from "@mui/icons-material";
+import DoneAllOutlinedIcon from '@mui/icons-material/DoneAllOutlined';
+import MultipleStopOutlinedIcon from '@mui/icons-material/MultipleStopOutlined';
 
 export const Menu = () => {
     const dispatch = useDispatch();
@@ -84,25 +86,29 @@ export const Menu = () => {
     return (
         <>
             <Box display="flex" alignItems="center" onClick={handleSimulation} sx={{ cursor: 'pointer' }}>
-                <ChangeCircleOutlined sx={{ color: 'black'}} />
-                <Typography variant="body1" color="warning" ml={1}>Ground Change</Typography>
+                <MultipleStopOutlinedIcon sx={{ color: 'black'}} />
+                <Typography variant="body1" ml={1}>Ground Change</Typography>
+            </Box>
+            <Box display="flex" alignItems="center" onClick={handleSimulation} sx={{ cursor: 'pointer' }}>
+                <DoneAllOutlinedIcon sx={{ color: 'black'}} />
+                <Typography variant="body1" ml={1}>Multi Select</Typography>
             </Box>
             {selectedPlayer && possibleMoveState.playerId !== selectedPlayer.id && (
                 <Box display="flex" alignItems="center" onClick={handlePlayerMovePossible} sx={{ cursor: 'pointer' }}>
                     <DirectionsRunIcon sx={{ color: 'black'}} />
-                    <Typography variant="body1" color="warning" ml={1}>Move</Typography>
+                    <Typography variant="body1" ml={1}>Move</Typography>
                 </Box>
             )}
             {selectedPlayer && possibleMoveState && (
                 <Box display="flex" alignItems="center" onClick={handlePlayerRemoveBack} sx={{ cursor: 'pointer' }}>
                     <ArrowBackIcon sx={{ color: 'black'}} />
-                    <Typography variant="body1" color="warning" ml={1}>Move Back</Typography>
+                    <Typography variant="body1" ml={1}>Move Back</Typography>
                 </Box>
             )}
             {selectedPlayer && possibleMoveState && possibleMoveState.isPossible && (
                 <Box display="flex" alignItems="center" onClick={handlePlayerMoveNotPossible} sx={{ cursor: 'pointer' }}>
                     <StopIcon color="warning" />
-                    <Typography variant="body1" color="warning" ml={1}>Stop</Typography>
+                    <Typography variant="body1" ml={1}>Stop</Typography>
                 </Box>
             )}
             <Box display="flex" alignItems="center" onClick={handleSimulation} sx={{ cursor: 'pointer' }}>

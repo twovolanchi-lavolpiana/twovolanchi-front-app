@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import playerReducer from "./PlayerSlice";
+import multiPlayerReducer from "./MultiPlayerSlice";
 import sequencesReducer from "./SequenceSlice";
 import possibleMoveReducer from './PossibleMoveSlice';
 import playersListReducer from './PlayersListSlice'
@@ -9,6 +10,7 @@ import simulationOnReducer from './SimulationOnSlice';
 export const store = configureStore({
     reducer: {
         player: playerReducer,
+        multiPlayers: multiPlayerReducer,
         sequences: sequencesReducer,
         possibleMove: possibleMoveReducer,
         players: playersListReducer,

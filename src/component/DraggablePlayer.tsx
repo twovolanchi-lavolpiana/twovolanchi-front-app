@@ -9,7 +9,6 @@ import { Box, Modal, TextField, Button, FormControl, InputLabel, Select, MenuIte
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/Store';
 import { setPossibleMoveState } from '../store/PossibleMoveSlice';
-import { selectPlayer } from '../store/PlayerSlice';
 import { PlayerPositionEnum } from './PlayerPositionEnum';
 
 type PlayerProps = {
@@ -68,7 +67,7 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, n
                 return backNumber;
         }
     }
-    
+
     const getPlayerStyle = useCallback((leftPercent: number, topPercent: number) => {
         if (!imgRef.current) return { left: 0, top: 0 };
         const rect = imgRef.current.getBoundingClientRect();
@@ -87,7 +86,7 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, n
 
     useEffect(() => {
     }, [possibleMoveState]);
-    
+
     useEffect(() => {
     }, [playersState])
 
@@ -118,13 +117,23 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, n
                     justifyContent: 'center',
                 }}
             >
-                <CircleIcon
-                    className="draggable-icon"
-                    sx={{
-                        color: team === 'home' ? '#3B6FB2' : '#B23B7F',
-                        fontSize: '2.5rem',
-                    }}
-                />
+                {
+                    selectedPlayer && id === selectedPlayer.id ? <CircleIcon
+                        className="draggable-icon"
+                        sx={{
+                            color: team === 'home' ? '#3B6FB2' : '#B23B7F',
+                            fontSize: '2.5rem',
+                            boxShadow: '0 0 10px 5px rgba(255, 255, 255, 0.8)', // 외곽선 빛나게 하기
+                            borderRadius: '50%', // 원형 외곽선
+                        }}
+                    /> : <CircleIcon
+                        className="draggable-icon"
+                        sx={{
+                            color: team === 'home' ? '#3B6FB2' : '#B23B7F',
+                            fontSize: '2.5rem',
+                        }}
+                    />
+                }
                 <span
                     style={{
                         position: 'absolute',
