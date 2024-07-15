@@ -19,8 +19,11 @@ const initialState: PlayerViewState = {
       setPlayerViewState: (state, action: PayloadAction<PlayerViewStateProps>) => {
         state.playerView = action.payload.playerView;
       },
+      clearPlayerViewState: (state) => {
+          state.playerView = 'position'
+      }
     },
   });
   
-  export const { setPlayerViewState } = playerViewSlice.actions;
+  export const { setPlayerViewState, clearPlayerViewState } = playerViewSlice.actions;
   export default playerViewSlice.reducer;

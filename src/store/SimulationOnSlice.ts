@@ -18,9 +18,12 @@ const playerViewSlice = createSlice({
     reducers: {
         setSimulationOn: (state, action: PayloadAction<SimualtionOnProps>) => {
             state.isSimulationOn = action.payload.isSimulationOn;
+        },
+        clearSimulationOn: (state) => {
+            state.isSimulationOn = false
         }
     },
 });
 
-export const { setSimulationOn } = playerViewSlice.actions;
+export const { setSimulationOn, clearSimulationOn } = playerViewSlice.actions;
 export default playerViewSlice.reducer;

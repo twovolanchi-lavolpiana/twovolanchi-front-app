@@ -18,7 +18,7 @@ const initialState: PlayerState = {
         state.selectedPlayer = action.payload;
         state.multiSelectedPlayers = null;
       },
-      clearSelection: (state) => {
+      clearSelectedPlayer: (state) => {
         state.selectedPlayer = null;
       },
       setInitMultiSelectedPlayers: (state) => {
@@ -43,5 +43,5 @@ const initialState: PlayerState = {
     },
   });
   
-  export const { selectPlayer, clearSelection, setInitMultiSelectedPlayers, addMultiSelectedPlayer, clearMultiSelectedPlayers } = playerSlice.actions;
+  export const { selectPlayer, clearSelectedPlayer, setInitMultiSelectedPlayers, addMultiSelectedPlayer, clearMultiSelectedPlayers } = playerSlice.actions;
   export default playerSlice.reducer;

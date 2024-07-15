@@ -84,8 +84,15 @@ const sequenceSlice = createSlice({
                 }
             }
         },
+        clearPlayerMovingSequence: (state) => {
+            const currentSequence = state.sequences.find((s) => s.sequenceNumber === state.currentSequenceNumber);
+
+            if (currentSequence) {
+                currentSequence.moves = [];
+            }
+        }
     },
 });
 
-export const { selectSequence, setPlayerMovingSequences, removeBackPlayerMovingSequences } = sequenceSlice.actions;
+export const { selectSequence, setPlayerMovingSequences, removeBackPlayerMovingSequences, clearPlayerMovingSequence } = sequenceSlice.actions;
 export default sequenceSlice.reducer;

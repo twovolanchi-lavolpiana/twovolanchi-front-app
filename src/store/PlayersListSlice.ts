@@ -30,9 +30,12 @@ const playersListSlice = createSlice({
         player.left = left;
         player.top = top;
       }
+    },
+    clearPlayers: (state) => {
+      state.players = []
     }
   },
 });
 
-export const { setPlayer, movePlayer } = playersListSlice.actions;
+export const { setPlayer, movePlayer, clearPlayers } = playersListSlice.actions;
 export default playersListSlice.reducer;

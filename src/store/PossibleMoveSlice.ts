@@ -23,11 +23,11 @@ const initialState: PossibleMoveState = {
         state.playerId = action.payload.playerId
         state.isPossible = action.payload.isPossible
       },
-      clearSelection: (state) => {
+      clearPossibleMoveState: (state) => {
         state.isPossible = false
       },
     },
   });
   
-  export const { setPossibleMoveState, clearSelection } = possibleMoveSlice.actions;
+  export const { setPossibleMoveState, clearPossibleMoveState } = possibleMoveSlice.actions;
   export default possibleMoveSlice.reducer;

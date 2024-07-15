@@ -3,7 +3,6 @@ import SettingsIcon from '@mui/icons-material/Settings';
 import StartOutlinedIcon from '@mui/icons-material/StartOutlined';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
-import ThumbUpOffAltOutlinedIcon from '@mui/icons-material/ThumbUpOffAltOutlined';
 import { useDispatch, useSelector } from 'react-redux';
 import PlayArrowOutlinedIcon from '@mui/icons-material/PlayArrowOutlined';
 import { RootState } from '../store/Store';
@@ -17,7 +16,15 @@ import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import { Formation } from "./Formation";
 import DoneAllOutlinedIcon from '@mui/icons-material/DoneAllOutlined';
 import MultipleStopOutlinedIcon from '@mui/icons-material/MultipleStopOutlined';
-import { clearMultiSelectedPlayers, setInitMultiSelectedPlayers } from "../store/PlayerSlice";
+import { clearMultiSelectedPlayers, setInitMultiSelectedPlayers, clearSelectedPlayer } from "../store/PlayerSlice";
+import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
+
+import { clearPlayers } from "../store/PlayersListSlice";
+import { clearPlayerViewState } from "../store/PlayerViewSlice";
+import { clearPossibleMoveState } from "../store/PossibleMoveSlice";
+import { clearPlayerMovingSequence } from "../store/SequenceSlice";
+import { clearSimulationOn } from "../store/SimulationOnSlice";
+
 
 export const Menu = () => {
     const dispatch = useDispatch();
@@ -88,6 +95,16 @@ export const Menu = () => {
         setIsModalOpen(false); // 모달 닫기
     };
 
+    const handleReset = () => {
+        dispatch(clearSelectedPlayer());
+        dispatch(clearMultiSelectedPlayers());
+        dispatch(clearPlayers());
+        dispatch(clearPlayerViewState());
+        dispatch(clearPossibleMoveState());
+        dispatch(clearPlayerMovingSequence());
+        dispatch(clearSimulationOn());
+    }
+
     useEffect(() => {
     }, [possibleMoveState]);
 
@@ -107,14 +124,14 @@ export const Menu = () => {
     return (
         <>
             <Box display="flex" alignItems="center" onClick={handleRecommendFormationModalOpen} sx={{ cursor: 'pointer' }}>
-                <ThumbUpOffAltOutlinedIcon sx={{ color: 'black' }} />
+                <StarBorderOutlinedIcon sx={{ color: '#FFD400' }} />
                 <Typography variant="body1" ml={1}>Recommend Formation</Typography>
             </Box>
             <Box display="flex" alignItems="center" onClick={handleSimulation} sx={{ cursor: 'pointer' }}>
                 <MultipleStopOutlinedIcon sx={{ color: 'purple' }} />
                 <Typography variant="body1" ml={1}>Ground Change</Typography>
             </Box>
-            <Box display="flex" alignItems="center" onClick={handlePlayerMoveNotPossible} sx={{ cursor: 'pointer' }}>
+            <Box display="flex" alignItems="center" onClick={handleReset} sx={{ cursor: 'pointer' }}>
                 <RestartAltIcon sx={{ color: 'black' }} />
                 <Typography variant="body1" ml={1}>Reset</Typography>
             </Box>
