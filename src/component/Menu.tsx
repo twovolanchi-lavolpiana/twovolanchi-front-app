@@ -19,22 +19,28 @@ import MultipleStopOutlinedIcon from '@mui/icons-material/MultipleStopOutlined';
 import { clearMultiSelectedPlayers, setInitMultiSelectedPlayers, clearSelectedPlayer } from "../store/PlayerSlice";
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 
-import { clearPlayers } from "../store/PlayersListSlice";
+import { clearPlayers, setPlayer } from "../store/PlayersListSlice";
 import { clearPlayerViewState } from "../store/PlayerViewSlice";
 import { clearPossibleMoveState } from "../store/PossibleMoveSlice";
 import { clearPlayerMovingSequence } from "../store/SequenceSlice";
 import { clearSimulationOn } from "../store/SimulationOnSlice";
+import { clearPlayerId, plusPlayerId, plusPlayerIdWithNumber } from "../store/PlayerIdSlice";
+import { PlayerPositionEnum } from "./PlayerPositionEnum";
 
 
 export const Menu = () => {
+    const defaultName = "Messi";
     const dispatch = useDispatch();
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
     const multiSelectedPlayer = useSelector((state: RootState) => state.player.multiSelectedPlayers);
     const sequencesState = useSelector((state: RootState) => state.sequences);
     const possibleMoveState = useSelector((state: RootState) => state.possibleMove);
+    const playerId = useSelector((state: RootState) => state.playerId.id);
+    const players = useSelector((state: RootState) => state.players)
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [formationState, setFormation] = useState<Formation>(Formation.THFITW);
+    const [homeFormationState, setHomeFormation] = useState<Formation>(Formation.THFITW);
+    const [awayFormationState, setAwayFormation] = useState<Formation>(Formation.THFITW);
 
     const handlePlayerMovePossible = () => {
         if (!selectedPlayer) return;
@@ -83,17 +89,184 @@ export const Menu = () => {
     };
 
     const handleFormationUpdate = () => {
-        // if (!selectedPlayer) return;
-        // dispatch(selectPlayer({
-        //     id: selectedPlayer.id,
-        //     backNumber: backNumberState,
-        //     team: selectedPlayer.team,
-        //     left: selectedPlayer.left,
-        //     top: selectedPlayer.top,
-        //     position: positionState,
-        // }));
-        setIsModalOpen(false); // 모달 닫기
+        handleReset()
+
+        let addPlayers: { left: number, top: number, backNumber: number, position: PlayerPositionEnum, team: 'home' | 'away' }[] = [];
+
+        switch (homeFormationState) {
+            case Formation.FOFOTW:
+                addPlayers = [
+                    { left: 5, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'home' },
+                    { left: 15, top: 16, backNumber: 3, position: PlayerPositionEnum.LB, team: 'home' },
+                    { left: 15, top: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'home' },
+                    { left: 15, top: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'home' },
+                    { left: 15, top: 84, backNumber: 2, position: PlayerPositionEnum.RB, team: 'home' },
+                    { left: 26, top: 16, backNumber: 7, position: PlayerPositionEnum.LM, team: 'home' },
+                    { left: 26, top: 38, backNumber: 8, position: PlayerPositionEnum.CM, team: 'home' },
+                    { left: 26, top: 62, backNumber: 6, position: PlayerPositionEnum.CM, team: 'home' },
+                    { left: 26, top: 84, backNumber: 7, position: PlayerPositionEnum.RM, team: 'home' },
+                    { left: 37, top: 38, backNumber: 9, position: PlayerPositionEnum.ST, team: 'home' },
+                    { left: 37, top: 62, backNumber: 10, position: PlayerPositionEnum.CF, team: 'home' },
+                ]
+                break;
+            case Formation.FOTWTRON:
+                addPlayers = [
+                    { left: 5, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'home' },
+                    { left: 15, top: 16, backNumber: 3, position: PlayerPositionEnum.LB, team: 'home' },
+                    { left: 15, top: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'home' },
+                    { left: 15, top: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'home' },
+                    { left: 15, top: 84, backNumber: 2, position: PlayerPositionEnum.RB, team: 'home' },
+                    { left: 26, top: 38, backNumber: 6, position: PlayerPositionEnum.DM, team: 'home' },
+                    { left: 26, top: 62, backNumber: 8, position: PlayerPositionEnum.DM, team: 'home' },
+                    { left: 37, top: 16, backNumber: 7, position: PlayerPositionEnum.LM, team: 'home' },
+                    { left: 37, top: 84, backNumber: 11, position: PlayerPositionEnum.RM, team: 'home' },
+                    { left: 37, top: 50, backNumber: 10, position: PlayerPositionEnum.AM, team: 'home' },
+                    { left: 45, top: 50, backNumber: 9, position: PlayerPositionEnum.ST, team: 'home' },
+                ]
+                break;
+
+            case Formation.FOTRTR:
+                addPlayers = [
+                    { left: 5, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'home' },
+                    { left: 15, top: 16, backNumber: 3, position: PlayerPositionEnum.LB, team: 'home' },
+                    { left: 15, top: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'home' },
+                    { left: 15, top: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'home' },
+                    { left: 15, top: 84, backNumber: 2, position: PlayerPositionEnum.RB, team: 'home' },
+                    { left: 30, top: 20, backNumber: 6, position: PlayerPositionEnum.LM, team: 'home' },
+                    { left: 30, top: 50, backNumber: 8, position: PlayerPositionEnum.CM, team: 'home' },
+                    { left: 30, top: 80, backNumber: 10, position: PlayerPositionEnum.RM, team: 'home' },
+                    { left: 45, top: 20, backNumber: 7, position: PlayerPositionEnum.LF, team: 'home' },
+                    { left: 45, top: 50, backNumber: 9, position: PlayerPositionEnum.ST, team: 'home' },
+                    { left: 45, top: 80, backNumber: 11, position: PlayerPositionEnum.RF, team: 'home' },
+                ]
+                break;
+
+            case Formation.THFITW:
+                addPlayers = [
+                    { left: 5, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'home' },
+                    { left: 15, top: 20, backNumber: 3, position: PlayerPositionEnum.CB, team: 'home' },
+                    { left: 15, top: 50, backNumber: 4, position: PlayerPositionEnum.CB, team: 'home' },
+                    { left: 15, top: 80, backNumber: 5, position: PlayerPositionEnum.CB, team: 'home' },
+                    { left: 30, top: 10, backNumber: 11, position: PlayerPositionEnum.LB, team: 'home' },
+                    { left: 30, top: 30, backNumber: 8, position: PlayerPositionEnum.CM, team: 'home' },
+                    { left: 30, top: 50, backNumber: 10, position: PlayerPositionEnum.AM, team: 'home' },
+                    { left: 30, top: 70, backNumber: 6, position: PlayerPositionEnum.CM, team: 'home' },
+                    { left: 30, top: 90, backNumber: 2, position: PlayerPositionEnum.RB, team: 'home' },
+                    { left: 45, top: 30, backNumber: 9, position: PlayerPositionEnum.ST, team: 'home' },
+                    { left: 45, top: 70, backNumber: 7, position: PlayerPositionEnum.ST, team: 'home' },
+                ]
+                break;
+        }
+
+        addPlayers.forEach((a, index) => {
+            handleAddPlayer(
+                playerId + index,
+                a.left,
+                a.top,
+                a.backNumber,
+                a.position,
+                a.team
+            );
+        });
+
+
+        addPlayers = []
+
+        switch (awayFormationState) {
+            case Formation.FOFOTW:
+                addPlayers = [
+                    { left: 93, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'away' },
+                    { left: 83, top: 16, backNumber: 2, position: PlayerPositionEnum.RB, team: 'away' },
+                    { left: 83, top: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'away' },
+                    { left: 83, top: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'away' },
+                    { left: 83, top: 84, backNumber: 3, position: PlayerPositionEnum.LB, team: 'away' },
+                    { left: 72, top: 16, backNumber: 11, position: PlayerPositionEnum.RM, team: 'away' },
+                    { left: 72, top: 38, backNumber: 8, position: PlayerPositionEnum.CM, team: 'away' },
+                    { left: 72, top: 62, backNumber: 6, position: PlayerPositionEnum.CM, team: 'away' },
+                    { left: 72, top: 84, backNumber: 7, position: PlayerPositionEnum.LM, team: 'away' },
+                    { left: 61, top: 38, backNumber: 9, position: PlayerPositionEnum.ST, team: 'away' },
+                    { left: 61, top: 62, backNumber: 10, position: PlayerPositionEnum.CF, team: 'away' },
+                ]
+                break;
+            case Formation.FOTWTRON:
+                addPlayers = [
+                    { left: 93, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'away' },
+                    { left: 83, top: 16, backNumber: 2, position: PlayerPositionEnum.RB, team: 'away' },
+                    { left: 83, top: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'away' },
+                    { left: 83, top: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'away' },
+                    { left: 83, top: 84, backNumber: 3, position: PlayerPositionEnum.LB, team: 'away' },
+                    { left: 72, top: 38, backNumber: 6, position: PlayerPositionEnum.DM, team: 'away' },
+                    { left: 72, top: 62, backNumber: 8, position: PlayerPositionEnum.DM, team: 'away' },
+                    { left: 61, top: 16, backNumber: 11, position: PlayerPositionEnum.RM, team: 'away' },
+                    { left: 61, top: 84, backNumber: 7, position: PlayerPositionEnum.LM, team: 'away' },
+                    { left: 61, top: 50, backNumber: 10, position: PlayerPositionEnum.AM, team: 'away' },
+                    { left: 53, top: 50, backNumber: 9, position: PlayerPositionEnum.ST, team: 'away' },
+                ]
+                break;
+
+            case Formation.FOTRTR:
+                addPlayers = [
+                    { left: 93, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'away' },
+                    { left: 83, top: 16, backNumber: 2, position: PlayerPositionEnum.RB, team: 'away' },
+                    { left: 83, top: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'away' },
+                    { left: 83, top: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'away' },
+                    { left: 83, top: 84, backNumber: 3, position: PlayerPositionEnum.LB, team: 'away' },
+                    { left: 68, top: 20, backNumber: 6, position: PlayerPositionEnum.RM, team: 'away' },
+                    { left: 68, top: 50, backNumber: 8, position: PlayerPositionEnum.CM, team: 'away' },
+                    { left: 68, top: 80, backNumber: 10, position: PlayerPositionEnum.LM, team: 'away' },
+                    { left: 53, top: 20, backNumber: 11, position: PlayerPositionEnum.RF, team: 'away' },
+                    { left: 53, top: 50, backNumber: 9, position: PlayerPositionEnum.ST, team: 'away' },
+                    { left: 53, top: 80, backNumber: 7, position: PlayerPositionEnum.LF, team: 'away' },
+                ]
+                break;
+
+            case Formation.THFITW:
+                addPlayers = [
+                    { left: 93, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'away' },
+                    { left: 83, top: 20, backNumber: 3, position: PlayerPositionEnum.CB, team: 'away' },
+                    { left: 83, top: 50, backNumber: 4, position: PlayerPositionEnum.CB, team: 'away' },
+                    { left: 83, top: 80, backNumber: 5, position: PlayerPositionEnum.CB, team: 'away' },
+                    { left: 68, top: 10, backNumber: 2, position: PlayerPositionEnum.RB, team: 'away' },
+                    { left: 68, top: 30, backNumber: 6, position: PlayerPositionEnum.CM, team: 'away' },
+                    { left: 68, top: 50, backNumber: 10, position: PlayerPositionEnum.AM, team: 'away' },
+                    { left: 68, top: 70, backNumber: 8, position: PlayerPositionEnum.CM, team: 'away' },
+                    { left: 68, top: 90, backNumber: 11, position: PlayerPositionEnum.LB, team: 'away' },
+                    { left: 53, top: 30, backNumber: 9, position: PlayerPositionEnum.ST, team: 'away' },
+                    { left: 53, top: 70, backNumber: 7, position: PlayerPositionEnum.ST, team: 'away' },
+                ]
+                break;
+        }
+
+        addPlayers.forEach((a, index) => {
+            handleAddPlayer(
+                playerId + 11 + index,
+                a.left,
+                a.top,
+                a.backNumber,
+                a.position,
+                a.team
+            );
+        });
+
+
+        dispatch(plusPlayerIdWithNumber(22));
+        handleRecommendFormationModalClose();
+
+        console.log(playerId)
     };
+
+    const handleAddPlayer = (id: number, left: number, top: number, backNumber: number, position: PlayerPositionEnum, team: 'home' | 'away') => {
+        const newPlayer = {
+            id: id,
+            backNumber: backNumber,
+            name: defaultName,
+            position: position,
+            team: team,
+            left: left,
+            top: top,
+        };
+        dispatch(setPlayer(newPlayer));
+    }
 
     const handleReset = () => {
         dispatch(clearSelectedPlayer());
@@ -103,6 +276,7 @@ export const Menu = () => {
         dispatch(clearPossibleMoveState());
         dispatch(clearPlayerMovingSequence());
         dispatch(clearSimulationOn());
+        dispatch(clearPlayerId());
     }
 
     useEffect(() => {
@@ -117,8 +291,20 @@ export const Menu = () => {
     useEffect(() => {
     }, [selectedPlayer]);
 
+    useEffect(() => {
+    }, [homeFormationState]);
+
+    useEffect(() => {
+    }, [awayFormationState]);
+
+    useEffect(() => {
+    }, [playerId])
+
+    useEffect(() => {
+    }, [players])
+
     const isMovable = selectedPlayer && possibleMoveState.playerId !== selectedPlayer.id;
-    const isMoveBackable = selectedPlayer && possibleMoveState;
+    const isMoveBackable = selectedPlayer && possibleMoveState.isPossible;
     const isStopable = selectedPlayer && possibleMoveState && possibleMoveState.isPossible;
 
     return (
@@ -239,9 +425,9 @@ export const Menu = () => {
                         <Select
                             labelId="home-formation-label"
                             id="home-formation-select"
-                            value={formationState}
+                            value={homeFormationState}
                             label="Home Team Formation"
-                            onChange={(e) => setFormation(e.target.value as Formation)}
+                            onChange={(e) => setHomeFormation(e.target.value as Formation)}
                         >
                             <MenuItem value={Formation.FOFOTW}>4-4-2</MenuItem>
                             <MenuItem value={Formation.FOTRTR}>4-3-3</MenuItem>
@@ -254,9 +440,9 @@ export const Menu = () => {
                         <Select
                             labelId="away-formation-label"
                             id="away-formation-select"
-                            value={formationState}
+                            value={awayFormationState}
                             label="Away Team Formation"
-                            onChange={(e) => setFormation(e.target.value as Formation)}
+                            onChange={(e) => setAwayFormation(e.target.value as Formation)}
                         >
                             <MenuItem value={Formation.FOFOTW}>4-4-2</MenuItem>
                             <MenuItem value={Formation.FOTRTR}>4-3-3</MenuItem>

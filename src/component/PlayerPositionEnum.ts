@@ -1,8 +1,8 @@
 export enum PlayerPositionEnum {
     ST = 'ST',
     CF = 'CF',
-    LW = 'LW',
-    RW = 'RW',
+    LF = 'LF',
+    RF = 'RF',
     AM = 'AM',
     LM = 'LM',
     RM = 'RM',

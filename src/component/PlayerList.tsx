@@ -22,8 +22,8 @@ export const PlayerList = () => {
         switch (position) {
             case 'ST':
             case 'CF':
-            case 'LW':
-            case 'RW':
+            case 'LF':
+            case 'RF':
                 return 'red';
             case 'AM':
             case 'LM':
@@ -192,8 +192,8 @@ export const PlayerList = () => {
                         >
                             <MenuItem value={PlayerPositionEnum.ST}>ST</MenuItem>
                             <MenuItem value={PlayerPositionEnum.CF}>CF</MenuItem>
-                            <MenuItem value={PlayerPositionEnum.LW}>LW</MenuItem>
-                            <MenuItem value={PlayerPositionEnum.RW}>RW</MenuItem>
+                            <MenuItem value={PlayerPositionEnum.LF}>LF</MenuItem>
+                            <MenuItem value={PlayerPositionEnum.RF}>RF</MenuItem>
                             <MenuItem value={PlayerPositionEnum.AM}>AM</MenuItem>
                             <MenuItem value={PlayerPositionEnum.LM}>LM</MenuItem>
                             <MenuItem value={PlayerPositionEnum.RM}>RM</MenuItem>

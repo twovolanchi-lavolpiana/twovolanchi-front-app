@@ -5,15 +5,18 @@ import { setPossibleMoveState } from '../store/PossibleMoveSlice';
 import { useEffect } from 'react';
 import { PlayerPositionEnum } from './PlayerPositionEnum';
 import { Box, Typography } from '@mui/material';
+import { setPlayer } from '../store/PlayersListSlice';
+import { selectPlayer } from '../store/PlayerSlice';
+import { plusPlayerId } from '../store/PlayerIdSlice';
 
-interface PlayerPlusProps {
-    onAddPlayer: (team: 'home' | 'away', x: number, y: number, position: PlayerPositionEnum) => void;
-}
+export const PlayerPlus: React.FC = () => {
+    const defaultName = "Messi";
 
-export const PlayerPlus: React.FC<PlayerPlusProps> = ({ onAddPlayer }) => {
     const dispatch = useDispatch();
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
     const possibleMoveState = useSelector((state: RootState) => state.possibleMove);
+    const players = useSelector((state: RootState) => state.players.players);
+    const playerId = useSelector((state: RootState) => state.playerId.id);
 
     const handlePlayerMoveNotPossible = () => {
         if (!selectedPlayer || !possibleMoveState) return;
@@ -24,11 +27,26 @@ export const PlayerPlus: React.FC<PlayerPlusProps> = ({ onAddPlayer }) => {
         handlePlayerMoveNotPossible()
         const left = 50; // 50%
         const top = 50; // 50%
-        onAddPlayer(team, left, top, position);
+
+        const newPlayer = {
+            id: playerId,
+            backNumber: playerId,
+            name: defaultName,
+            position: position,
+            team: team,
+            left: left,
+            top: top,
+        };
+        dispatch(setPlayer(newPlayer));
+        dispatch(selectPlayer(newPlayer));
+        dispatch(plusPlayerId());
     };
 
     useEffect(() => {
     }, [possibleMoveState]);
+
+    useEffect(() => {
+    }, [players])
 
     return (
         <>
