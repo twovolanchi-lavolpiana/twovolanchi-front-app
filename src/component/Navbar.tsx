@@ -10,11 +10,17 @@ import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import { FormControlLabel, Switch } from '@mui/material';
 
 const pages = ['Share', 'Introduce', 'Language'];
 const settings = ['Profile'];
 
-function Navbar() {
+interface NavbarProps {
+    darkMode: boolean;
+    onThemeChange: () => void;
+}
+
+function Navbar({ darkMode, onThemeChange }: NavbarProps) {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
@@ -34,7 +40,7 @@ function Navbar() {
     };
 
     return (
-        <AppBar position="static" className='App-header' sx={{backgroundColor: '#3BB26F'}}>
+        <AppBar position="static" className='App-header' sx={{ backgroundColor: '#3BB26F' }}>
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Typography
@@ -121,6 +127,11 @@ function Navbar() {
                             </Button>
                         ))}
                     </Box>
+                    <FormControlLabel
+                        control={<Switch checked={darkMode} onChange={onThemeChange} />}
+                        label="Dark Mode"
+                        sx={{ ml: 'auto' }} // 오른쪽 정렬을 위해 추가
+                    />
                 </Toolbar>
             </Container>
         </AppBar>
