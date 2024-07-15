@@ -40,7 +40,7 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, n
         type: ItemTypes.PLAYER,
         item: () => {
             handlePlayerMoveNotPossible()
-            return { id, backNumber, name, left, top, team, position };
+            return { id, backNumber, name, left, top, team, position, type: ItemTypes.PLAYER };
         },
         collect: (monitor) => ({
             isDragging: !!monitor.isDragging(),
@@ -127,7 +127,7 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, n
                             className="draggable-icon"
                             sx={{
                                 color: team === 'home' ? '#3B6FB2' : '#B23B7F',
-                                fontSize: '2.5rem',
+                                fontSize: '2.3rem',
                                 boxShadow: '0 0 10px 5px rgba(255, 255, 255, 0.8)', // 외곽선 빛나게 하기
                                 borderRadius: '50%', // 원형 외곽선
                             }}
@@ -137,7 +137,7 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, n
                             className="draggable-icon"
                             sx={{
                                 color: team === 'home' ? '#3B6FB2' : '#B23B7F',
-                                fontSize: '2.5rem',
+                                fontSize: '2.3rem',
                             }}
                         />
                     )}
@@ -145,7 +145,7 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, n
                         style={{
                             position: 'absolute',
                             color: 'white', // 텍스트 색상
-                            fontSize: '1rem',
+                            fontSize: '0.8rem',
                             fontWeight: 'bold',
                         }}
                     >
@@ -181,7 +181,7 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, n
                         className="draggable-icon"
                         sx={{
                             color: element.team === 'home' ? '#3B6FB2' : '#B23B7F',
-                            fontSize: '2.5rem',
+                            fontSize: '2.3rem',
                             boxShadow: '0 0 10px 5px rgba(255, 255, 255, 0.8)', // 외곽선 빛나게 하기
                             borderRadius: '50%', // 원형 외곽선
                         }}
@@ -190,7 +190,7 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, n
                         style={{
                             position: 'absolute',
                             color: 'white', // 텍스트 색상
-                            fontSize: '1rem',
+                            fontSize: '0.8rem',
                             fontWeight: 'bold',
                         }}
                     >

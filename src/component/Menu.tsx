@@ -1,5 +1,4 @@
 import { Box, Button, Chip, FormControl, IconButton, InputLabel, MenuItem, Modal, Select, Stack, Typography } from "@mui/material";
-import SettingsIcon from '@mui/icons-material/Settings';
 import StartOutlinedIcon from '@mui/icons-material/StartOutlined';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -26,6 +25,7 @@ import { clearPlayerMovingSequence } from "../store/SequenceSlice";
 import { clearSimulationOn } from "../store/SimulationOnSlice";
 import { clearPlayerId, plusPlayerId, plusPlayerIdWithNumber } from "../store/PlayerIdSlice";
 import { PlayerPositionEnum } from "./PlayerPositionEnum";
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 
 
 export const Menu = () => {
@@ -309,19 +309,14 @@ export const Menu = () => {
 
     return (
         <>
-            <Box display="flex" alignItems="center" onClick={handleRecommendFormationModalOpen} sx={{ cursor: 'pointer' }}>
-                <StarBorderOutlinedIcon sx={{ color: '#FFD400' }} />
-                <Typography variant="body1" ml={1}>Recommend Formation</Typography>
-            </Box>
-            <Box display="flex" alignItems="center" onClick={handleSimulation} sx={{ cursor: 'pointer' }}>
-                <MultipleStopOutlinedIcon sx={{ color: 'purple' }} />
-                <Typography variant="body1" ml={1}>Ground Change</Typography>
-            </Box>
-            <Box display="flex" alignItems="center" onClick={handleReset} sx={{ cursor: 'pointer' }}>
-                <RestartAltIcon sx={{ color: 'black' }} />
-                <Typography variant="body1" ml={1}>Reset</Typography>
-            </Box>
-
+            <Box
+                width="100%"
+                my={2}
+                borderBottom="1px solid gray"
+                sx={{
+                    opacity: 0.5
+                }}
+            />
             <Box
                 display="flex"
                 alignItems="center"
@@ -386,14 +381,37 @@ export const Menu = () => {
                 >Stop</Typography>
             </Box>
 
+            <Box
+                width="100%"
+                my={2}
+                borderBottom="1px solid gray"
+                sx={{
+                    opacity: 0.5
+                }}
+            />
+
+            <Box display="flex" alignItems="center" onClick={handleRecommendFormationModalOpen} sx={{ cursor: 'pointer' }}>
+                <StarBorderOutlinedIcon sx={{ color: '#FFD400' }} />
+                <Typography variant="body1" ml={1}>Recommend Formation</Typography>
+            </Box>
+            <Box display="flex" alignItems="center" onClick={handleSimulation} sx={{ cursor: 'pointer' }}>
+                <MultipleStopOutlinedIcon sx={{ color: 'purple' }} />
+                <Typography variant="body1" ml={1}>Ground Change</Typography>
+            </Box>
+            <Box display="flex" alignItems="center" onClick={handleReset} sx={{ cursor: 'pointer' }}>
+                <RestartAltIcon sx={{ color: 'black' }} />
+                <Typography variant="body1" ml={1}>Reset</Typography>
+            </Box>
+
+
             <Box display="flex" alignItems="center" onClick={handleSimulation} sx={{ cursor: 'pointer' }}>
                 <PlayArrowOutlinedIcon sx={{ color: 'black' }} />
                 <Typography variant="body1" ml={1}>Simulation</Typography>
             </Box>
-            <Box display="flex" alignItems="center" onClick={handlePlayerViewState} sx={{ cursor: 'pointer' }}>
+            {/* <Box display="flex" alignItems="center" onClick={handlePlayerViewState} sx={{ cursor: 'pointer' }}>
                 <SettingsIcon sx={{ color: 'black' }} />
                 <Typography variant="body1" ml={1}>Icon View</Typography>
-            </Box>
+            </Box> */}
             <Box display="flex" alignItems="center" onClick={handlePlayerMoveNotPossible} sx={{ cursor: 'pointer' }}>
                 <StartOutlinedIcon sx={{ color: 'black' }} />
                 <Typography variant="body1" ml={1}>Next Slice</Typography>

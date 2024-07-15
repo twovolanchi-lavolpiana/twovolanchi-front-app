@@ -1,13 +1,20 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
+import { BallPosition } from "../component/BallPosition";
 
 interface PlayerMove {
     id: number;
     sequence: { left: number; top: number, team: 'home' | 'away' }[];
 }
 
+interface BallMove {
+    left: number,
+    top: number,
+}
+
 interface Sequence {
     sequenceNumber: number;
     moves: PlayerMove[];
+    balls: BallMove[],
 }
 
 interface SequenceState {
@@ -69,6 +76,27 @@ const sequenceSlice = createSlice({
                             sequence: [{ left, top, team }],
                         },
                     ],
+                    balls: []
+                });
+            }
+        },
+        setBallSequences: (state, action: PayloadAction<BallPosition>) => {
+            const { left, top } = action.payload;
+            const currentSequence = state.sequences.find((s) => s.sequenceNumber === state.currentSequenceNumber);
+
+            if (currentSequence) {
+                currentSequence.balls.push({
+                    left: left,
+                    top: top,
+                })
+            } else {
+                state.sequences.push({
+                    sequenceNumber: state.currentSequenceNumber,
+                    moves: [],
+                    balls: [{
+                        left: left,
+                        top: top,
+                    }]
                 });
             }
         },
@@ -94,5 +122,5 @@ const sequenceSlice = createSlice({
     },
 });
 
-export const { selectSequence, setPlayerMovingSequences, removeBackPlayerMovingSequences, clearPlayerMovingSequence } = sequenceSlice.actions;
+export const { selectSequence, setPlayerMovingSequences, setBallSequences, removeBackPlayerMovingSequences, clearPlayerMovingSequence } = sequenceSlice.actions;
 export default sequenceSlice.reducer;

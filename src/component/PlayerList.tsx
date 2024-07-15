@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../store/Store"
 import { useEffect, useState } from "react";
 import { PlayerPosition } from "./PlayerPosition";
-import { Avatar, Box, Button, FormControl, InputLabel, List, ListItem, ListItemAvatar, ListItemText, MenuItem, Modal, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Button, FormControl, InputLabel, MenuItem, Modal, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { PlayerPositionEnum } from "./PlayerPositionEnum";
 import { setPlayer } from "../store/PlayersListSlice";
 import { selectPlayer } from "../store/PlayerSlice";
@@ -110,7 +110,7 @@ export const PlayerList = () => {
 
     return (
         <div>
-            <TableContainer component={Paper}>
+            <TableContainer component={Paper} sx={{ maxHeight: 440, overflowY: 'auto' }}>
                 <Table>
                     <TableHead>
                         <TableRow>

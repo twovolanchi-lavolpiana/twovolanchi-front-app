@@ -11,6 +11,8 @@ import { setPlayerMovingSequences } from '../store/SequenceSlice';
 import { useScreenSize } from '../provider/ScreenSizeProvider';
 import SoccerField from './SoccerField';
 import { movePlayer } from '../store/PlayersListSlice';
+import { setBall } from '../store/BallSlice';
+import { DraggableBall } from './DraggableBall';
 
 
 interface GroundProps {
@@ -26,11 +28,13 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
     const sequences = useSelector((state: RootState) => state.sequences)
     const simulationOnState = useSelector((state: RootState) => state.simulationOn)
     const multiSelectedPlayers = useSelector((state: RootState) => state.player.multiSelectedPlayers);
+    const ball = useSelector((state: RootState) => state.ball.ball);
+
     const { updateScreenSize } = useScreenSize();
 
     const [, drop] = useDrop({
-        accept: ItemTypes.PLAYER,
-        drop: (item: PlayerPosition, monitor) => {
+        accept: [ItemTypes.PLAYER, ItemTypes.BALL],
+        drop: (item: any, monitor) => {
             if (!imgRef.current) return;
 
             const delta = monitor.getDifferenceFromInitialOffset() as { x: number, y: number };
@@ -44,45 +48,47 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
 
             if (left < 0 || left > 100 || top < 0 || top > 100) return;
 
-            if (multiSelectedPlayers) {
-                for (let i = 0; i < multiSelectedPlayers.length; i++) {
-                    const m = multiSelectedPlayers[i];
-                    const realLeft = (m.left / 100) * rect.width;
-                    const realTop = (m.top / 100) * rect.height;
-        
-                    const left = Math.round(((realLeft + delta.x) / rect.width) * 100);
-                    const top = Math.round(((realTop + delta.y) / rect.height) * 100);
-    
-                    if (left < 0 || left > 100 || top < 0 || top > 100) {
-                        return;  // 하나라도 범위를 벗어나면 전체 드롭 무효화
+            if (item.type === ItemTypes.PLAYER) {
+                if (multiSelectedPlayers) {
+                    for (let i = 0; i < multiSelectedPlayers.length; i++) {
+                        const m = multiSelectedPlayers[i];
+                        const realLeft = (m.left / 100) * rect.width;
+                        const realTop = (m.top / 100) * rect.height;
+
+                        const left = Math.round(((realLeft + delta.x) / rect.width) * 100);
+                        const top = Math.round(((realTop + delta.y) / rect.height) * 100);
+
+                        if (left < 0 || left > 100 || top < 0 || top > 100) {
+                            return;  // 하나라도 범위를 벗어나면 전체 드롭 무효화
+                        }
                     }
                 }
-            }
-    
-            // Multi-selected players 이동
-            if (multiSelectedPlayers) {
-                multiSelectedPlayers.map((m) => {
-                    const realLeft = (m.left / 100) * rect.width;
-                    const realTop = (m.top / 100) * rect.height;
-    
-                    const left = Math.round(((realLeft + delta.x) / rect.width) * 100);
-                    const top = Math.round(((realTop + delta.y) / rect.height) * 100);
-    
-                    dispatch(movePlayer({ id: m.id, left: left, top: top }));
-                    dispatch(setPlayerMovingSequences({ id: m.id, left, top, team: m.team, isFirst: true }));
-                })
-            }
 
-            dispatch(movePlayer({id: item.id, left: left, top: top}));
-            dispatch(selectPlayer({ id: item.id, backNumber: item.backNumber, team: item.team, name: item.name, left, top, position: item.position }));
-            dispatch(setPlayerMovingSequences({ id: item.id, left, top, team: item.team, isFirst: true }));
+                if (multiSelectedPlayers) {
+                    multiSelectedPlayers.forEach((m) => {
+                        const realLeft = (m.left / 100) * rect.width;
+                        const realTop = (m.top / 100) * rect.height;
+
+                        const left = Math.round(((realLeft + delta.x) / rect.width) * 100);
+                        const top = Math.round(((realTop + delta.y) / rect.height) * 100);
+
+                        dispatch(movePlayer({ id: m.id, left: left, top: top }));
+                        dispatch(setPlayerMovingSequences({ id: m.id, left, top, team: m.team, isFirst: true }));
+                    });
+                }
+
+                dispatch(movePlayer({ id: item.id, left: left, top: top }));
+                dispatch(selectPlayer({ id: item.id, backNumber: item.backNumber, team: item.team, name: item.name, left, top, position: item.position }));
+                dispatch(setPlayerMovingSequences({ id: item.id, left, top, team: item.team, isFirst: true }));
+            } else if (item.type === ItemTypes.BALL) {
+                dispatch(setBall({ left: left, top: top }));
+            }
         },
     });
-    
-    const handlePlayerClick = (event: React.MouseEvent<HTMLElement>, player: PlayerPosition) => {    
+
+    const handlePlayerClick = (event: React.MouseEvent<HTMLElement>, player: PlayerPosition) => {
         if (multiSelectedPlayers) {
             dispatch(addMultiSelectedPlayer(player))
-            console.log("멀티셀렉티드 클릭!!!")
         } else {
             dispatch(selectPlayer(player));
         }
@@ -90,7 +96,7 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
 
     const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
         if (!imgRef.current || !possibleMoveState || !possibleMoveState.isPossible || !selectedPlayer) return;
-    
+
         const rect = imgRef.current.getBoundingClientRect();
 
         const clickedLeft = ((event.clientX - rect.left) / rect.width) * 100;
@@ -103,7 +109,6 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
     useEffect(() => {
         if (imgRef.current) {
             const rect = imgRef.current.getBoundingClientRect();
-            console.log("!!!!!!!!!rect = ", rect)
         }
     }, [imgRef]);
 
@@ -128,6 +133,9 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
 
     useEffect(() => {
     }, [multiSelectedPlayers])
+
+    useEffect(() => {
+    }, [ball])
 
 
     const getLeftLocation = (left: number, top: number) => {
@@ -209,8 +217,6 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
             </div>
 
             {players.map((player) => {
-                console.log("player  =>>>> ", player);
-
                 const multiSelectedPlayer = multiSelectedPlayers?.find((m) => m.id === player.id)
                 if (multiSelectedPlayer) return;
 
@@ -226,6 +232,14 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
                     position={player.position}
                     onClick={handlePlayerClick} />
             })}
+
+            { ball && <DraggableBall
+                left={ball.left}
+                top={ball.top}
+                imgRef={imgRef}
+            ></DraggableBall>
+
+            }
         </Box>
     );
 };
