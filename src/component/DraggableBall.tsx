@@ -5,9 +5,8 @@ import SportsSoccerIcon from '@mui/icons-material/SportsSoccer';
 
 import { Box } from '@mui/material';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../store/Store';
-import { setPossibleMoveState } from '../store/PossibleMoveSlice';
 
 export type BallProps = {
     left: number,
@@ -16,19 +15,12 @@ export type BallProps = {
 }
 
 export const DraggableBall: React.FC<BallProps> = ({ left, top, imgRef }) => {
-    const dispatch = useDispatch();
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
-    const possibleMoveState = useSelector((state: RootState) => state.possibleMove);
-
-    const handlePlayerMoveNotPossible = () => {
-        if (!selectedPlayer || !possibleMoveState) return;
-        dispatch(setPossibleMoveState({ playerId: null, isPossible: false }))
-    }
+    const isPossiblePlayerMove = useSelector((state: RootState) => state.possiblePlayerMove.isPossible);
 
     const [{ isDragging }, dragRef] = useDrag(() => ({
         type: ItemTypes.BALL,
         item: () => {
-            handlePlayerMoveNotPossible()
             return { left, top, type: ItemTypes.BALL };
         },
         collect: (monitor) => ({
@@ -36,9 +28,7 @@ export const DraggableBall: React.FC<BallProps> = ({ left, top, imgRef }) => {
         }),
     }), [left, top]);
 
-    const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-        handlePlayerMoveNotPossible()
-    };
+    const handleClick = (event: React.MouseEvent<HTMLElement>) => { };
 
     const getBallStyle = useCallback((leftPercent: number, topPercent: number) => {
         if (!imgRef.current) return { left: 0, top: 0 };
@@ -57,7 +47,7 @@ export const DraggableBall: React.FC<BallProps> = ({ left, top, imgRef }) => {
 
 
     useEffect(() => {
-    }, [possibleMoveState]);
+    }, [isPossiblePlayerMove]);
 
     useEffect(() => {
     }, [selectedPlayer])
@@ -92,6 +82,8 @@ export const DraggableBall: React.FC<BallProps> = ({ left, top, imgRef }) => {
                         sx={{
                             color: 'black',
                             fontSize: '1.5rem',
+                            boxShadow: '0 0 10px 5px rgba(255, 255, 255, 0.8)', // 외곽선 빛나게 하기
+                            borderRadius: '50%', // 원형 외곽선
                         }}
                     />
                     <span

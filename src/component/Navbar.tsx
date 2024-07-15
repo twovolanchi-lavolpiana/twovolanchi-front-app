@@ -11,7 +11,7 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
 
-const pages = ['Share', 'New', 'Language'];
+const pages = ['Share', 'Introduce', 'Language'];
 const settings = ['Profile'];
 
 function Navbar() {
@@ -52,7 +52,7 @@ function Navbar() {
                             textDecoration: 'none',
                         }}
                     >
-                        Lavolpaina
+                        Lavolpiana
                     </Typography>
 
                     <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -108,7 +108,7 @@ function Navbar() {
                             textDecoration: 'none',
                         }}
                     >
-                        LOGO
+                        Lavolpiana
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
                         {pages.map((page) => (

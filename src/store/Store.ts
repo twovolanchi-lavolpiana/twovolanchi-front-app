@@ -1,12 +1,13 @@
 import { configureStore } from "@reduxjs/toolkit";
 import playerReducer from "./PlayerSlice";
 import sequencesReducer from "./SequenceSlice";
-import possibleMoveReducer from './PossibleMoveSlice';
+import possiblePlayerMoveReducer from './PossiblePlayerMoveSlice';
 import playersListReducer from './PlayersListSlice'
 import playerViewReducer from './PlayerViewSlice';
 import simulationOnReducer from './SimulationOnSlice';
 import playerIdReducer from './PlayerIdSlice';
 import ballReducer from './BallSlice';
+import possibleBallMoveReducer from './PossibleBallMoveSlice'
 
 export const store = configureStore({
     reducer: {
@@ -14,7 +15,8 @@ export const store = configureStore({
         playerId: playerIdReducer,
         ball: ballReducer,
         sequences: sequencesReducer,
-        possibleMove: possibleMoveReducer,
+        possiblePlayerMove: possiblePlayerMoveReducer,
+        possibleBallMove: possibleBallMoveReducer,
         players: playersListReducer,
         playerView: playerViewReducer,
         simulationOn: simulationOnReducer,

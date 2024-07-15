@@ -100,6 +100,12 @@ const sequenceSlice = createSlice({
                 });
             }
         },
+        clearBallSequences: (state) => {
+            const currentSequence = state.sequences.find((s) => s.sequenceNumber === state.currentSequenceNumber);
+            if (currentSequence) {
+                currentSequence.balls = []
+            }
+        },
         removeBackPlayerMovingSequences: (state, action: PayloadAction<number>) => {
             const playerId = action.payload;
             const currentSequence = state.sequences.find((s) => s.sequenceNumber === state.currentSequenceNumber);
@@ -122,5 +128,5 @@ const sequenceSlice = createSlice({
     },
 });
 
-export const { selectSequence, setPlayerMovingSequences, setBallSequences, removeBackPlayerMovingSequences, clearPlayerMovingSequence } = sequenceSlice.actions;
+export const { selectSequence, setPlayerMovingSequences, setBallSequences, removeBackPlayerMovingSequences, clearPlayerMovingSequence, clearBallSequences } = sequenceSlice.actions;
 export default sequenceSlice.reducer;

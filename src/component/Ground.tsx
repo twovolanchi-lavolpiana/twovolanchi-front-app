@@ -7,12 +7,14 @@ import { DraggablePlayer } from './DraggablePlayer';
 import { useDispatch, useSelector } from 'react-redux';
 import { addMultiSelectedPlayer, selectPlayer } from '../store/PlayerSlice';
 import { RootState } from '../store/Store';
-import { setPlayerMovingSequences } from '../store/SequenceSlice';
+import { clearBallSequences, setBallSequences, setPlayerMovingSequences } from '../store/SequenceSlice';
 import { useScreenSize } from '../provider/ScreenSizeProvider';
 import SoccerField from './SoccerField';
 import { movePlayer } from '../store/PlayersListSlice';
 import { setBall } from '../store/BallSlice';
 import { DraggableBall } from './DraggableBall';
+import { clearPossibleBallMoveState } from '../store/PossibleBallMoveSlice';
+import { clearPossiblePlayerMoveState } from '../store/PossiblePlayerMoveSlice';
 
 
 interface GroundProps {
@@ -23,12 +25,13 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
     const dispatch = useDispatch()
     const imgRef = useRef<HTMLDivElement>(null);
     const playersState = useSelector((state: RootState) => state.players.players);
-    const possibleMoveState = useSelector((state: RootState) => state.possibleMove)
+    const isPossiblePlayerMoveState = useSelector((state: RootState) => state.possiblePlayerMove.isPossible)
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
     const sequences = useSelector((state: RootState) => state.sequences)
     const simulationOnState = useSelector((state: RootState) => state.simulationOn)
     const multiSelectedPlayers = useSelector((state: RootState) => state.player.multiSelectedPlayers);
     const ball = useSelector((state: RootState) => state.ball.ball);
+    const isPossibleBallMove = useSelector((state: RootState) => state.possibleBallMove.isPossible);
 
     const { updateScreenSize } = useScreenSize();
 
@@ -81,6 +84,7 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
                 dispatch(selectPlayer({ id: item.id, backNumber: item.backNumber, team: item.team, name: item.name, left, top, position: item.position }));
                 dispatch(setPlayerMovingSequences({ id: item.id, left, top, team: item.team, isFirst: true }));
             } else if (item.type === ItemTypes.BALL) {
+                dispatch(clearBallSequences())
                 dispatch(setBall({ left: left, top: top }));
             }
         },
@@ -95,15 +99,26 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
     };
 
     const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-        if (!imgRef.current || !possibleMoveState || !possibleMoveState.isPossible || !selectedPlayer) return;
+        if (!imgRef.current) return;
 
         const rect = imgRef.current.getBoundingClientRect();
 
         const clickedLeft = ((event.clientX - rect.left) / rect.width) * 100;
         const clickedTop = ((event.clientY - rect.top) / rect.height) * 100;
-        const { id, left, top, team } = selectedPlayer;
 
-        dispatch(setPlayerMovingSequences({ id, left: clickedLeft, top: clickedTop, team: team, isFirst: false }));
+        if (selectedPlayer && isPossiblePlayerMoveState) {
+            dispatch(clearPossibleBallMoveState())
+            const { id, left, top, team } = selectedPlayer;
+            dispatch(setPlayerMovingSequences({ id, left: clickedLeft, top: clickedTop, team: team, isFirst: false }));
+            return;
+        }
+
+        if (isPossibleBallMove) {
+            dispatch(clearPossiblePlayerMoveState())
+            dispatch(setBallSequences({ left: clickedLeft, top: clickedTop }));
+            console.log("sequences = ", sequences)
+            return;
+        }
     }
 
     useEffect(() => {
@@ -116,7 +131,12 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
     }, [sequences]);
 
     useEffect(() => {
-    }, [possibleMoveState]);
+    }, [isPossiblePlayerMoveState]);
+
+
+    useEffect(() => {
+    }, [isPossibleBallMove]);
+
 
     useEffect(() => {
     }, [selectedPlayer]);
@@ -191,6 +211,19 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
                                 <path d="M 0 0 L 10 5 L 0 10 z" fill='#B23B7F' />
                             </marker>
                         </defs>
+                        <defs>
+                            <marker
+                                id="arrow-ball"
+                                viewBox="0 0 10 10"
+                                refX="5"
+                                refY="5"
+                                markerWidth="3"
+                                markerHeight="3"
+                                opacity={0.7}
+                                orient="auto-start-reverse">
+                                <path d="M 0 0 L 10 5 L 0 10 z" fill='black' />
+                            </marker>
+                        </defs>
 
                         {sequences.sequences.map(sequence => (
                             sequence.moves.map((move) => (
@@ -212,6 +245,26 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
                                 })
                             ))
                         ))}
+
+                        {sequences.sequences.map(sequence => (
+                            sequence.balls.map((ball, index) => {
+                                if (index === 0) return null;
+                                    const { x: x1, y: y1 } = getLeftLocation(sequence.balls[index - 1].left, sequence.balls[index - 1].top);
+                                    const { x: x2, y: y2 } = getLeftLocation(ball.left, ball.top);
+                                    return <line
+                                        key={`${ball.left}-${ball.top}-${index}`}
+                                        x1={x1}
+                                        y1={y1}
+                                        x2={x2}
+                                        y2={y2}
+                                        stroke={'black'}
+                                        strokeWidth="3"
+                                        strokeOpacity={0.7}
+                                        markerEnd={'url(#arrow-ball)'}
+                                    />
+                            })
+                        ))}
+
                     </svg>
                 }
             </div>
@@ -233,7 +286,7 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
                     onClick={handlePlayerClick} />
             })}
 
-            { ball && <DraggableBall
+            {ball && <DraggableBall
                 left={ball.left}
                 top={ball.top}
                 imgRef={imgRef}

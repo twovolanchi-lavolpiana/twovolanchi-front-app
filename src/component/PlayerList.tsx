@@ -35,7 +35,7 @@ export const PlayerList = () => {
             case 'RB':
                 return 'blue';
             case 'GK':
-                return 'yellow';
+                return 'black';
             default:
                 return '#3BB24A';
         }
@@ -110,7 +110,7 @@ export const PlayerList = () => {
 
     return (
         <div>
-            <TableContainer component={Paper} sx={{ maxHeight: 440, overflowY: 'auto' }}>
+            <TableContainer component={Paper} sx={{ maxHeight: 750, overflowY: 'auto' }}>
                 <Table>
                     <TableHead>
                         <TableRow>

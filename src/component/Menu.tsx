@@ -6,12 +6,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import PlayArrowOutlinedIcon from '@mui/icons-material/PlayArrowOutlined';
 import { RootState } from '../store/Store';
 import { useEffect, useState } from 'react';
-import { removeBackPlayerMovingSequences, setPlayerMovingSequences } from '../store/SequenceSlice';
-import { setPossibleMoveState } from '../store/PossibleMoveSlice';
-import { setPlayerViewState } from '../store/PlayerViewSlice';
+import { removeBackPlayerMovingSequences, setBallSequences, setPlayerMovingSequences } from '../store/SequenceSlice';
+import { setPossiblePlayerMoveState } from '../store/PossiblePlayerMoveSlice';
 import StopIcon from '@mui/icons-material/Stop';
 import { setSimulationOn } from '../store/SimulationOnSlice';
-import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import { Formation } from "./Formation";
 import DoneAllOutlinedIcon from '@mui/icons-material/DoneAllOutlined';
 import MultipleStopOutlinedIcon from '@mui/icons-material/MultipleStopOutlined';
@@ -20,12 +18,15 @@ import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 
 import { clearPlayers, setPlayer } from "../store/PlayersListSlice";
 import { clearPlayerViewState } from "../store/PlayerViewSlice";
-import { clearPossibleMoveState } from "../store/PossibleMoveSlice";
+import { clearPossiblePlayerMoveState } from "../store/PossiblePlayerMoveSlice";
 import { clearPlayerMovingSequence } from "../store/SequenceSlice";
 import { clearSimulationOn } from "../store/SimulationOnSlice";
 import { clearPlayerId, plusPlayerId, plusPlayerIdWithNumber } from "../store/PlayerIdSlice";
 import { PlayerPositionEnum } from "./PlayerPositionEnum";
-import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import RemoveIcon from '@mui/icons-material/Remove';
+import MoveUpIcon from '@mui/icons-material/MoveUp';
+import { clearBall } from "../store/BallSlice";
+import { clearPossibleBallMoveState, setPossibleBallMoveState } from "../store/PossibleBallMoveSlice";
 
 
 export const Menu = () => {
@@ -34,9 +35,11 @@ export const Menu = () => {
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
     const multiSelectedPlayer = useSelector((state: RootState) => state.player.multiSelectedPlayers);
     const sequencesState = useSelector((state: RootState) => state.sequences);
-    const possibleMoveState = useSelector((state: RootState) => state.possibleMove);
+    const possibleMoveState = useSelector((state: RootState) => state.possiblePlayerMove);
     const playerId = useSelector((state: RootState) => state.playerId.id);
     const players = useSelector((state: RootState) => state.players)
+    const ball = useSelector((state: RootState) => state.ball.ball);
+    const isPossibleBallMove = useSelector((state: RootState) => state.possibleBallMove.isPossible);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [homeFormationState, setHomeFormation] = useState<Formation>(Formation.THFITW);
@@ -45,23 +48,35 @@ export const Menu = () => {
     const handlePlayerMovePossible = () => {
         if (!selectedPlayer) return;
         const { id, left, top, team } = selectedPlayer;
-        dispatch(setPossibleMoveState({ playerId: id, isPossible: true }))
+        dispatch(clearPossibleBallMoveState())
+        dispatch(setPossiblePlayerMoveState({ playerId: id, isPossible: true }))
         dispatch(setPlayerMovingSequences({ id, left, top, team, isFirst: true }));
     }
 
+    const handleBallMovePossible = () => {
+        if (!ball) return;
+        dispatch(clearPossiblePlayerMoveState())
+        dispatch(setPossibleBallMoveState({
+            isPossible: true
+        }))
+        dispatch(setBallSequences({ left: ball.left, top: ball.top }));
+    }
+
+
+
     const handlePlayerMoveNotPossible = () => {
-        if (!selectedPlayer || !possibleMoveState) return;
-        dispatch(setPossibleMoveState({ playerId: null, isPossible: false }))
+        if (!selectedPlayer || !possibleMoveState.isPossible) return;
+        dispatch(setPossiblePlayerMoveState({ playerId: null, isPossible: false }))
     }
 
     const handlePlayerRemoveBack = () => {
-        if (!selectedPlayer || !possibleMoveState) return;
+        if (!selectedPlayer || !possibleMoveState.isPossible) return;
         dispatch(removeBackPlayerMovingSequences(selectedPlayer.id))
     }
 
     const handleSimulation = () => {
-        if (!selectedPlayer || !possibleMoveState) return;
-        dispatch(setPossibleMoveState({ playerId: null, isPossible: false }))
+        if (!selectedPlayer || !possibleMoveState.isPossible) return;
+        dispatch(setPossiblePlayerMoveState({ playerId: null, isPossible: false }))
         dispatch(setSimulationOn({ isSimulationOn: true }))
     }
 
@@ -72,11 +87,6 @@ export const Menu = () => {
         }
         console.log("초기화함")
         dispatch(setInitMultiSelectedPlayers())
-    }
-
-
-    const handlePlayerViewState = () => {
-        dispatch(setPlayerViewState({ playerView: 'position' }))
     }
 
     const handleRecommendFormationModalOpen = (event: React.MouseEvent<HTMLElement>) => {
@@ -273,10 +283,12 @@ export const Menu = () => {
         dispatch(clearMultiSelectedPlayers());
         dispatch(clearPlayers());
         dispatch(clearPlayerViewState());
-        dispatch(clearPossibleMoveState());
+        dispatch(clearPossiblePlayerMoveState());
         dispatch(clearPlayerMovingSequence());
         dispatch(clearSimulationOn());
         dispatch(clearPlayerId());
+        dispatch(clearBall());
+        dispatch(clearPossibleBallMoveState());
     }
 
     useEffect(() => {
@@ -303,9 +315,13 @@ export const Menu = () => {
     useEffect(() => {
     }, [players])
 
+    useEffect(() => {
+    }, [isPossibleBallMove])
+
     const isMovable = selectedPlayer && possibleMoveState.playerId !== selectedPlayer.id;
+    const isMovalbleBallClick = ball && !isPossibleBallMove
     const isMoveBackable = selectedPlayer && possibleMoveState.isPossible;
-    const isStopable = selectedPlayer && possibleMoveState && possibleMoveState.isPossible;
+    const isStopable = selectedPlayer && possibleMoveState.isPossible;
 
     return (
         <>
@@ -328,7 +344,7 @@ export const Menu = () => {
             >
                 <DoneAllOutlinedIcon sx={{ color: 'green' }} />
                 <Typography variant="body1" ml={1} color={selectedPlayer ? 'black' : 'gray'}>
-                    Multi Select
+                    Player Multi Select
                 </Typography>
             </Box>
 
@@ -340,12 +356,12 @@ export const Menu = () => {
                     cursor: isMovable ? 'pointer' : 'not-allowed',
                     opacity: isMovable ? 1 : 0.5
                 }}>
-                <DirectionsRunIcon sx={{ color: 'orange' }} />
+                <MoveUpIcon sx={{ color: 'orange' }} />
                 <Typography
                     variant="body1"
                     ml={1}
                     color={isMovable ? 'black' : 'gray'}
-                >Move</Typography>
+                >Player Move</Typography>
             </Box>
 
 
@@ -362,7 +378,7 @@ export const Menu = () => {
                     variant="body1"
                     ml={1}
                     color={isMoveBackable ? 'black' : 'gray'}
-                >Move Back</Typography>
+                >Player Move Back</Typography>
             </Box>
 
             <Box
@@ -378,7 +394,113 @@ export const Menu = () => {
                     variant="body1"
                     ml={1}
                     color={isStopable ? 'black' : 'gray'}
-                >Stop</Typography>
+                >Player Stop</Typography>
+            </Box>
+
+            <Box
+                display="flex"
+                alignItems="center"
+                onClick={isStopable ? handlePlayerMoveNotPossible : () => { }}
+                sx={{
+                    cursor: isStopable ? 'pointer' : 'not-allowed',
+                    opacity: isStopable ? 1 : 0.5
+                }}>
+                <RemoveIcon sx={{ color: 'red' }} />
+                <Typography
+                    variant="body1"
+                    ml={1}
+                    color={isStopable ? 'black' : 'gray'}
+                >Player Remove</Typography>
+            </Box>
+
+            <Box
+                width="100%"
+                my={2}
+                borderBottom="1px solid gray"
+                sx={{
+                    opacity: 0.5
+                }}
+            />
+            <Box
+                display="flex"
+                alignItems="center"
+                onClick={isMovalbleBallClick ? handleBallMovePossible : () => { }}
+                sx={{
+                    cursor: isMovalbleBallClick ? 'pointer' : 'not-allowed',
+                    opacity: isMovalbleBallClick ? 1 : 0.5
+                }}>
+                <MoveUpIcon sx={{ color: 'orange' }} />
+                <Typography
+                    variant="body1"
+                    ml={1}
+                    color={isMovalbleBallClick ? 'black' : 'gray'}
+                >Ball Move</Typography>
+            </Box>
+
+            <Box
+                display="flex"
+                alignItems="center"
+                onClick={isMoveBackable ? handlePlayerRemoveBack : () => { }}
+                sx={{
+                    cursor: isMoveBackable ? 'pointer' : 'not-allowed',
+                    opacity: isMoveBackable ? 1 : 0.5
+                }}>
+                <ArrowBackIcon sx={{ color: 'black' }} />
+                <Typography
+                    variant="body1"
+                    ml={1}
+                    color={isMoveBackable ? 'black' : 'gray'}
+                >Ball Move Back</Typography>
+            </Box>
+
+            <Box
+                display="flex"
+                alignItems="center"
+                onClick={isStopable ? handlePlayerMoveNotPossible : () => { }}
+                sx={{
+                    cursor: isStopable ? 'pointer' : 'not-allowed',
+                    opacity: isStopable ? 1 : 0.5
+                }}>
+                <StopIcon sx={{ color: 'red' }} />
+                <Typography
+                    variant="body1"
+                    ml={1}
+                    color={isStopable ? 'black' : 'gray'}
+                >Ball Stop</Typography>
+            </Box>
+
+            <Box
+                display="flex"
+                alignItems="center"
+                onClick={isStopable ? handlePlayerMoveNotPossible : () => { }}
+                sx={{
+                    cursor: isStopable ? 'pointer' : 'not-allowed',
+                    opacity: isStopable ? 1 : 0.5
+                }}>
+                <RemoveIcon sx={{ color: 'red' }} />
+                <Typography
+                    variant="body1"
+                    ml={1}
+                    color={isStopable ? 'black' : 'gray'}
+                >Ball Remove</Typography>
+            </Box>
+
+            <Box
+                width="100%"
+                my={2}
+                borderBottom="1px solid gray"
+                sx={{
+                    opacity: 0.5
+                }}
+            />
+            <Box display="flex" alignItems="center" onClick={handleSimulation} sx={{ cursor: 'pointer' }}>
+                <PlayArrowOutlinedIcon sx={{ color: 'black' }} />
+                <Typography variant="body1" ml={1}>Simulation</Typography>
+            </Box>
+
+            <Box display="flex" alignItems="center" onClick={handleReset} sx={{ cursor: 'pointer' }}>
+                <RestartAltIcon sx={{ color: 'black' }} />
+                <Typography variant="body1" ml={1}>Reset</Typography>
             </Box>
 
             <Box
@@ -397,16 +519,6 @@ export const Menu = () => {
             <Box display="flex" alignItems="center" onClick={handleSimulation} sx={{ cursor: 'pointer' }}>
                 <MultipleStopOutlinedIcon sx={{ color: 'purple' }} />
                 <Typography variant="body1" ml={1}>Ground Change</Typography>
-            </Box>
-            <Box display="flex" alignItems="center" onClick={handleReset} sx={{ cursor: 'pointer' }}>
-                <RestartAltIcon sx={{ color: 'black' }} />
-                <Typography variant="body1" ml={1}>Reset</Typography>
-            </Box>
-
-
-            <Box display="flex" alignItems="center" onClick={handleSimulation} sx={{ cursor: 'pointer' }}>
-                <PlayArrowOutlinedIcon sx={{ color: 'black' }} />
-                <Typography variant="body1" ml={1}>Simulation</Typography>
             </Box>
             {/* <Box display="flex" alignItems="center" onClick={handlePlayerViewState} sx={{ cursor: 'pointer' }}>
                 <SettingsIcon sx={{ color: 'black' }} />

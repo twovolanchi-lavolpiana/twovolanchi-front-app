@@ -8,7 +8,7 @@ import { Box } from '@mui/material';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/Store';
-import { setPossibleMoveState } from '../store/PossibleMoveSlice';
+import { setPossiblePlayerMoveState } from '../store/PossiblePlayerMoveSlice';
 import { PlayerPositionEnum } from './PlayerPositionEnum';
 
 export type PlayerProps = {
@@ -28,12 +28,12 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, n
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
     const multiSelectedPlayers = useSelector((state: RootState) => state.player.multiSelectedPlayers)
     const playersState = useSelector((state: RootState) => state.players.players);
-    const possibleMoveState = useSelector((state: RootState) => state.possibleMove);
+    const isPossibleMoveState = useSelector((state: RootState) => state.possiblePlayerMove.isPossible);
     const playerViewState = useSelector((state: RootState) => state.playerView.playerView);
 
     const handlePlayerMoveNotPossible = () => {
-        if (!selectedPlayer || !possibleMoveState) return;
-        dispatch(setPossibleMoveState({ playerId: null, isPossible: false }))
+        if (!selectedPlayer || !isPossibleMoveState) return;
+        dispatch(setPossiblePlayerMoveState({ playerId: null, isPossible: false }))
     }
 
     const [{ isDragging }, dragRef] = useDrag(() => ({
@@ -86,7 +86,7 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, n
 
 
     useEffect(() => {
-    }, [possibleMoveState]);
+    }, [isPossibleMoveState]);
 
     useEffect(() => {
     }, [playersState])

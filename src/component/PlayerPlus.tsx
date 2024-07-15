@@ -1,7 +1,7 @@
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/Store';
-import { setPossibleMoveState } from '../store/PossibleMoveSlice';
+import { setPossiblePlayerMoveState } from '../store/PossiblePlayerMoveSlice';
 import { useEffect } from 'react';
 import { PlayerPositionEnum } from './PlayerPositionEnum';
 import { Box, Typography } from '@mui/material';
@@ -16,14 +16,14 @@ export const PlayerPlus: React.FC = () => {
 
     const dispatch = useDispatch();
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
-    const possibleMoveState = useSelector((state: RootState) => state.possibleMove);
+    const isPossiblePlayerMove = useSelector((state: RootState) => state.possiblePlayerMove.isPossible);
     const players = useSelector((state: RootState) => state.players.players);
     const playerId = useSelector((state: RootState) => state.playerId.id);
     const ball = useSelector((state: RootState) => state.ball.ball);
 
     const handlePlayerMoveNotPossible = () => {
-        if (!selectedPlayer || !possibleMoveState) return;
-        dispatch(setPossibleMoveState({ playerId: null, isPossible: false }))
+        if (!selectedPlayer || !isPossiblePlayerMove) return;
+        dispatch(setPossiblePlayerMoveState({ playerId: null, isPossible: false }))
     }
 
     const handleAddPlayer = (team: 'home' | 'away', position: PlayerPositionEnum) => {
@@ -60,7 +60,7 @@ export const PlayerPlus: React.FC = () => {
     };
 
     useEffect(() => {
-    }, [possibleMoveState]);
+    }, [isPossiblePlayerMove]);
 
     useEffect(() => {
     }, [players])
