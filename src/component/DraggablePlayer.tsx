@@ -75,8 +75,8 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, n
         const left = (leftPercent / 100) * rect.width;
         const top = (topPercent / 100) * rect.height;
 
-        const defaultLeft = rect.left;
-        const defaultTop = rect.top;
+        const defaultLeft = rect.left + window.scrollX;
+        const defaultTop = rect.top + window.scrollY;
 
         return {
             left: `${defaultLeft + left}px`,

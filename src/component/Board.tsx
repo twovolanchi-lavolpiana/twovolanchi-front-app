@@ -7,10 +7,11 @@ import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/Store';
-import { Card, CardContent, Stack } from '@mui/material';
+import { Button, Card, CardActionArea, CardActions, CardContent, CardMedia, Stack, Typography } from '@mui/material';
 import { ScreenSizeProvider } from '../provider/ScreenSizeProvider';
 import SoccerField from './SoccerField';
 import { PlayerList } from './PlayerList';
+import { Description } from './Description';
 
 export const Board = () => {
     const dispatch = useDispatch();
@@ -38,7 +39,18 @@ export const Board = () => {
                         </CardContent>
                     </Card>
                     <Card className="board-container">
-                        <Ground players={players} />
+                        <Stack
+                            direction="column"
+                            spacing={2}
+                            sx={{
+                                justifyContent: 'center',
+                                alignContent: 'center',
+                                alignItems: 'center',
+                                paddingTop: 2,
+                            }}>
+                            <Description />
+                            <Ground players={players} />
+                        </Stack>
                     </Card>
                     <Card>
                         <CardContent>

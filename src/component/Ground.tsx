@@ -103,8 +103,8 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
 
         const rect = imgRef.current.getBoundingClientRect();
 
-        const clickedLeft = ((event.clientX - rect.left) / rect.width) * 100;
-        const clickedTop = ((event.clientY - rect.top) / rect.height) * 100;
+        const clickedLeft = ((event.clientX - rect.left) / rect.width + window.scrollX) * 100;
+        const clickedTop = ((event.clientY - rect.top) / rect.height + window.scrollY) * 100;
 
         if (selectedPlayer && isPossiblePlayerMoveState) {
             dispatch(clearPossibleBallMoveState())
@@ -164,8 +164,8 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
         const realLeft = (left / 100) * rect.width;
         const realTop = (top / 100) * rect.height;
 
-        const defaultLeft = rect.x;
-        const defaultTop = rect.y;
+        const defaultLeft = rect.x + window.scrollX;
+        const defaultTop = rect.y + window.scrollY;
 
         return {
             x: defaultLeft + realLeft,
