@@ -249,7 +249,7 @@ export const Menu = () => {
         });
 
 
-        dispatch(plusPlayerIdWithNumber(22));
+        dispatch(plusPlayerIdWithNumber(23));
         handleRecommendFormationModalClose();
 
         console.log(playerId)
