@@ -27,6 +27,7 @@ import RemoveIcon from '@mui/icons-material/Remove';
 import MoveUpIcon from '@mui/icons-material/MoveUp';
 import { clearBall } from "../store/BallSlice";
 import { clearPossibleBallMoveState, setPossibleBallMoveState } from "../store/PossibleBallMoveSlice";
+import { TeamCountry, TeamMapper } from "./TeamMapper";
 
 
 export const Menu = () => {
@@ -44,6 +45,8 @@ export const Menu = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [homeFormationState, setHomeFormation] = useState<Formation>(Formation.THFITW);
     const [awayFormationState, setAwayFormation] = useState<Formation>(Formation.THFITW);
+    const [homeCountryState, setHomeCountry] = useState<TeamCountry>(TeamCountry.SPAIN);
+    const [awayCountryState, setAwayCountry] = useState<TeamCountry>(TeamCountry.ENGLAND);
 
     const handlePlayerMovePossible = () => {
         if (!selectedPlayer) return;
@@ -119,7 +122,7 @@ export const Menu = () => {
                     { left: 26, top: 16, backNumber: 7, position: PlayerPositionEnum.LM, team: 'home' },
                     { left: 26, top: 38, backNumber: 8, position: PlayerPositionEnum.CM, team: 'home' },
                     { left: 26, top: 62, backNumber: 6, position: PlayerPositionEnum.CM, team: 'home' },
-                    { left: 26, top: 84, backNumber: 7, position: PlayerPositionEnum.RM, team: 'home' },
+                    { left: 26, top: 84, backNumber: 11, position: PlayerPositionEnum.RM, team: 'home' },
                     { left: 37, top: 38, backNumber: 9, position: PlayerPositionEnum.ST, team: 'home' },
                     { left: 37, top: 62, backNumber: 10, position: PlayerPositionEnum.CF, team: 'home' },
                 ]
@@ -173,11 +176,19 @@ export const Menu = () => {
                 break;
         }
 
-        addPlayers.forEach((a, index) => {
+        const homeTeamResult = TeamMapper(
+            {
+                players: addPlayers,
+                country: homeCountryState
+            }
+        )
+
+        homeTeamResult.forEach((a, index) => {
             handleAddPlayer(
                 playerId + index,
                 a.left,
                 a.top,
+                a.name,
                 a.backNumber,
                 a.position,
                 a.team
@@ -252,17 +263,24 @@ export const Menu = () => {
                 break;
         }
 
-        addPlayers.forEach((a, index) => {
+        const awayTeamResult = TeamMapper(
+            {
+                players: addPlayers,
+                country: awayCountryState
+            }
+        )
+
+        awayTeamResult.forEach((a, index) => {
             handleAddPlayer(
-                playerId + 11 + index,
+                playerId + 12 + index,
                 a.left,
                 a.top,
+                a.name,
                 a.backNumber,
                 a.position,
                 a.team
             );
         });
-
 
         dispatch(plusPlayerIdWithNumber(23));
         handleRecommendFormationModalClose();
@@ -270,11 +288,11 @@ export const Menu = () => {
         console.log(playerId)
     };
 
-    const handleAddPlayer = (id: number, left: number, top: number, backNumber: number, position: PlayerPositionEnum, team: 'home' | 'away') => {
+    const handleAddPlayer = (id: number, left: number, top: number, name: string, backNumber: number, position: PlayerPositionEnum, team: 'home' | 'away') => {
         const newPlayer = {
             id: id,
             backNumber: backNumber,
-            name: defaultName,
+            name: name,
             position: position,
             team: team,
             left: left,
@@ -423,7 +441,7 @@ export const Menu = () => {
                     cursor: selectedPlayer ? 'pointer' : 'not-allowed',
                     opacity: selectedPlayer ? 1 : 0.5
                 }}>
-                <RemoveIcon sx={{ color: 'red' }} />
+                <RemoveIcon sx={{ color: '	#89E9D3' }} />
                 <Typography
                     variant="body1"
                     ml={1}
@@ -495,7 +513,7 @@ export const Menu = () => {
                     cursor: ball ? 'pointer' : 'not-allowed',
                     opacity: ball ? 1 : 0.5
                 }}>
-                <RemoveIcon sx={{ color: 'red' }} />
+                <RemoveIcon sx={{ color: '	#89E9D3' }} />
                 <Typography
                     variant="body1"
                     ml={1}
@@ -512,12 +530,12 @@ export const Menu = () => {
                 }}
             />
             <Box display="flex" alignItems="center" onClick={handleSimulation} sx={{ cursor: 'pointer' }}>
-                <PlayArrowOutlinedIcon sx={{ color: 'black' }} />
+                <PlayArrowOutlinedIcon sx={{ color: '#89B2E9' }} />
                 <Typography variant="body1" ml={1}>Simulation</Typography>
             </Box>
 
             <Box display="flex" alignItems="center" onClick={handleReset} sx={{ cursor: 'pointer' }}>
-                <RestartAltIcon sx={{ color: 'black' }} />
+                <RestartAltIcon sx={{ color: '#D389E9' }} />
                 <Typography variant="body1" ml={1}>Reset</Typography>
             </Box>
 
@@ -584,6 +602,20 @@ export const Menu = () => {
                         </Select>
                     </FormControl>
                     <FormControl fullWidth>
+                        <InputLabel id="home-country-label">Home Team Formation</InputLabel>
+                        <Select
+                            labelId="home-country-label"
+                            id="home-country-select"
+                            value={homeCountryState}
+                            label="Home Team Country"
+                            onChange={(e) => setHomeCountry(e.target.value as TeamCountry)}
+                        >
+                            <MenuItem value={TeamCountry.SPAIN}>Spain</MenuItem>
+                            <MenuItem value={TeamCountry.ENGLAND}>England</MenuItem>
+                            <MenuItem value={TeamCountry.GERMANY}>Germany</MenuItem>
+                        </Select>
+                    </FormControl>
+                    <FormControl fullWidth>
                         <InputLabel id="away-formation-label">Away Team Formation</InputLabel>
                         <Select
                             labelId="away-formation-label"
@@ -596,6 +628,20 @@ export const Menu = () => {
                             <MenuItem value={Formation.FOTRTR}>4-3-3</MenuItem>
                             <MenuItem value={Formation.FOTWTRON}>4-2-3-1</MenuItem>
                             <MenuItem value={Formation.THFITW}>3-5-2</MenuItem>
+                        </Select>
+                    </FormControl>
+                    <FormControl fullWidth>
+                        <InputLabel id="away-country-label">Home Team Formation</InputLabel>
+                        <Select
+                            labelId="away-country-label"
+                            id="away-country-select"
+                            value={awayCountryState}
+                            label="Away Team Country"
+                            onChange={(e) => setAwayCountry(e.target.value as TeamCountry)}
+                        >
+                            <MenuItem value={TeamCountry.SPAIN}>Spain</MenuItem>
+                            <MenuItem value={TeamCountry.ENGLAND}>England</MenuItem>
+                            <MenuItem value={TeamCountry.GERMANY}>Germany</MenuItem>
                         </Select>
                     </FormControl>
                     <Button
