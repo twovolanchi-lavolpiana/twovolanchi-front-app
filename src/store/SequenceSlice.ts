@@ -124,9 +124,17 @@ const sequenceSlice = createSlice({
             if (currentSequence) {
                 currentSequence.moves = [];
             }
+        },
+        removePlayerSequence: (state, action: PayloadAction<number>) => {
+            const playerId = action.payload;
+            const currentSequence = state.sequences.find((s) => s.sequenceNumber === state.currentSequenceNumber);
+
+            if (currentSequence) {
+                currentSequence.moves = currentSequence.moves.filter((m) => m.id !== playerId);
+            }
         }
     },
 });
 
-export const { selectSequence, setPlayerMovingSequences, setBallSequences, removeBackPlayerMovingSequences, clearPlayerMovingSequence, clearBallSequences } = sequenceSlice.actions;
+export const { selectSequence, setPlayerMovingSequences, setBallSequences, removeBackPlayerMovingSequences, clearPlayerMovingSequence, clearBallSequences, removePlayerSequence } = sequenceSlice.actions;
 export default sequenceSlice.reducer;

@@ -31,11 +31,15 @@ const playersListSlice = createSlice({
         player.top = top;
       }
     },
+    removePlayer: (state, action: PayloadAction<{ id: number }>) => {
+      const { id } = action.payload;
+      state.players = state.players.filter((p) => p.id !== id);
+    },
     clearPlayers: (state) => {
       state.players = []
     }
   },
 });
 
-export const { setPlayer, movePlayer, clearPlayers } = playersListSlice.actions;
+export const { setPlayer, movePlayer, clearPlayers, removePlayer } = playersListSlice.actions;
 export default playersListSlice.reducer;
