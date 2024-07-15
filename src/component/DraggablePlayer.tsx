@@ -4,14 +4,14 @@ import { ItemTypes } from "./ItemTypes";
 import CircleIcon from '@mui/icons-material/Circle';
 
 import { PlayerPosition } from './PlayerPosition';
-import { Box, Modal, TextField, Button, FormControl, InputLabel, Select, MenuItem } from '@mui/material';
+import { Box } from '@mui/material';
 
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/Store';
 import { setPossibleMoveState } from '../store/PossibleMoveSlice';
 import { PlayerPositionEnum } from './PlayerPositionEnum';
 
-type PlayerProps = {
+export type PlayerProps = {
     id: number,
     backNumber: number,
     name: string,
@@ -26,7 +26,7 @@ type PlayerProps = {
 export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, name, left, top, imgRef, position, onClick }) => {
     const dispatch = useDispatch();
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
-    const multiPlayers = useSelector((state: RootState) => state.multiPlayers.multiPlayers)
+    const multiSelectedPlayers = useSelector((state: RootState) => state.player.multiSelectedPlayers)
     const playersState = useSelector((state: RootState) => state.players.players);
     const possibleMoveState = useSelector((state: RootState) => state.possibleMove);
     const playerViewState = useSelector((state: RootState) => state.playerView.playerView);
@@ -94,12 +94,16 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, n
     useEffect(() => {
     }, [selectedPlayer])
 
+    useEffect(() => {
+    }, [multiSelectedPlayers])
+
     const playerStyle = getPlayerStyle(left, top);
 
     return (
         <div
             ref={dragRef}
             onClick={handleClick}
+        > <div
             style={{
                 position: 'absolute',
                 left: `${playerStyle.left}`,
@@ -110,42 +114,91 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, n
                 zIndex: 100,
             }}
         >
-            <Box
-                sx={{
-                    position: 'relative',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
+                <Box
+                    sx={{
+                        position: 'relative',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                >
+                    {selectedPlayer && id === selectedPlayer.id ? (
+                        <CircleIcon
+                            className="draggable-icon"
+                            sx={{
+                                color: team === 'home' ? '#3B6FB2' : '#B23B7F',
+                                fontSize: '2.5rem',
+                                boxShadow: '0 0 10px 5px rgba(255, 255, 255, 0.8)', // 외곽선 빛나게 하기
+                                borderRadius: '50%', // 원형 외곽선
+                            }}
+                        />
+                    ) : (
+                        <CircleIcon
+                            className="draggable-icon"
+                            sx={{
+                                color: team === 'home' ? '#3B6FB2' : '#B23B7F',
+                                fontSize: '2.5rem',
+                            }}
+                        />
+                    )}
+                    <span
+                        style={{
+                            position: 'absolute',
+                            color: 'white', // 텍스트 색상
+                            fontSize: '1rem',
+                            fontWeight: 'bold',
+                        }}
+                    >
+                        {renderPlayerInfo()}
+                    </span>
+                </Box>
+            </div>
+
+            {multiSelectedPlayers && multiSelectedPlayers.map((element) => {
+                const {left: elementLeft, top: elementTop} = getPlayerStyle(element.left, element.top)
+                return <div
+                key={element.id}
+                style={{
+                    position: 'absolute',
+                    left: `${elementLeft}`,
+                    top: `${elementTop}`,
+                    transform: 'translate(-50%, -50%)',
+                    cursor: 'move',
+                    opacity: isDragging ? 0.5 : 1,
+                    zIndex: 100,
                 }}
             >
-                {
-                    (selectedPlayer && id === selectedPlayer.id) || (multiPlayers.find((m) => m.id === id))? <CircleIcon
+                <Box
+                    key={element.id}
+                    sx={{
+                        position: 'relative',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                    }}
+                >
+                    <CircleIcon
                         className="draggable-icon"
                         sx={{
-                            color: team === 'home' ? '#3B6FB2' : '#B23B7F',
+                            color: element.team === 'home' ? '#3B6FB2' : '#B23B7F',
                             fontSize: '2.5rem',
                             boxShadow: '0 0 10px 5px rgba(255, 255, 255, 0.8)', // 외곽선 빛나게 하기
                             borderRadius: '50%', // 원형 외곽선
                         }}
-                    /> : <CircleIcon
-                        className="draggable-icon"
-                        sx={{
-                            color: team === 'home' ? '#3B6FB2' : '#B23B7F',
-                            fontSize: '2.5rem',
-                        }}
                     />
-                }
-                <span
-                    style={{
-                        position: 'absolute',
-                        color: 'white', // 텍스트 색상
-                        fontSize: '1rem',
-                        fontWeight: 'bold',
-                    }}
-                >
-                    {renderPlayerInfo()}
-                </span>
-            </Box>
-        </div >
+                    <span
+                        style={{
+                            position: 'absolute',
+                            color: 'white', // 텍스트 색상
+                            fontSize: '1rem',
+                            fontWeight: 'bold',
+                        }}
+                    >
+                        {renderPlayerInfo()}
+                    </span>
+                </Box>
+            </div>
+            })}
+        </div>
     );
 }

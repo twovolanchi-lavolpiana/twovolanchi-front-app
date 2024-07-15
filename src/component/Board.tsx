@@ -3,18 +3,16 @@ import { Menu } from './Menu'
 import { PlayerPlus } from './PlayerPlus';
 import { Ground } from './Ground';
 import { useEffect, useState } from 'react'
-import { PlayerPosition } from './PlayerPosition';
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/Store';
 import { PlayerPositionEnum } from './PlayerPositionEnum';
-import { Box, Card, CardContent, Grid, IconButton, Stack } from '@mui/material';
+import { Card, CardContent, Grid, IconButton, Stack } from '@mui/material';
 import { ScreenSizeProvider } from '../provider/ScreenSizeProvider';
 import SoccerField from './SoccerField';
 import { setPlayer } from '../store/PlayersListSlice';
 import { PlayerList } from './PlayerList';
-import { ChangeCircleOutlined } from '@mui/icons-material';
 import { selectPlayer } from '../store/PlayerSlice';
 
 export const Board = () => {

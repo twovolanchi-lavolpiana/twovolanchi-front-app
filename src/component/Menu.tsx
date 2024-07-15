@@ -15,13 +15,14 @@ import StopIcon from '@mui/icons-material/Stop';
 import { setSimulationOn } from '../store/SimulationOnSlice';
 import DirectionsRunIcon from '@mui/icons-material/DirectionsRun';
 import { Formation } from "./Formation";
-import { ChangeCircleOutlined } from "@mui/icons-material";
 import DoneAllOutlinedIcon from '@mui/icons-material/DoneAllOutlined';
 import MultipleStopOutlinedIcon from '@mui/icons-material/MultipleStopOutlined';
+import { clearMultiSelectedPlayers, setInitMultiSelectedPlayers } from "../store/PlayerSlice";
 
 export const Menu = () => {
     const dispatch = useDispatch();
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
+    const multiSelectedPlayer = useSelector((state: RootState) => state.player.multiSelectedPlayers);
     const sequencesState = useSelector((state: RootState) => state.sequences);
     const possibleMoveState = useSelector((state: RootState) => state.possibleMove);
 
@@ -50,6 +51,16 @@ export const Menu = () => {
         dispatch(setPossibleMoveState({ playerId: null, isPossible: false }))
         dispatch(setSimulationOn({ isSimulationOn: true }))
     }
+
+    const handleMultiSelect = () => {
+        if (!selectedPlayer || multiSelectedPlayer) {
+            dispatch(clearMultiSelectedPlayers())
+            return;
+        }
+        console.log("초기화함")
+        dispatch(setInitMultiSelectedPlayers())
+    }
+
 
     const handlePlayerViewState = () => {
         dispatch(setPlayerViewState({ playerView: 'position' }))
@@ -83,52 +94,105 @@ export const Menu = () => {
     useEffect(() => {
     }, [sequencesState]);
 
+    useEffect(() => {
+    }, [multiSelectedPlayer]);
+
+    useEffect(() => {
+    }, [selectedPlayer]);
+
+    const isMovable = selectedPlayer && possibleMoveState.playerId !== selectedPlayer.id;
+    const isMoveBackable = selectedPlayer && possibleMoveState;
+    const isStopable = selectedPlayer && possibleMoveState && possibleMoveState.isPossible;
+
     return (
         <>
-            <Box display="flex" alignItems="center" onClick={handleSimulation} sx={{ cursor: 'pointer' }}>
-                <MultipleStopOutlinedIcon sx={{ color: 'black'}} />
-                <Typography variant="body1" ml={1}>Ground Change</Typography>
-            </Box>
-            <Box display="flex" alignItems="center" onClick={handleSimulation} sx={{ cursor: 'pointer' }}>
-                <DoneAllOutlinedIcon sx={{ color: 'black'}} />
-                <Typography variant="body1" ml={1}>Multi Select</Typography>
-            </Box>
-            {selectedPlayer && possibleMoveState.playerId !== selectedPlayer.id && (
-                <Box display="flex" alignItems="center" onClick={handlePlayerMovePossible} sx={{ cursor: 'pointer' }}>
-                    <DirectionsRunIcon sx={{ color: 'black'}} />
-                    <Typography variant="body1" ml={1}>Move</Typography>
-                </Box>
-            )}
-            {selectedPlayer && possibleMoveState && (
-                <Box display="flex" alignItems="center" onClick={handlePlayerRemoveBack} sx={{ cursor: 'pointer' }}>
-                    <ArrowBackIcon sx={{ color: 'black'}} />
-                    <Typography variant="body1" ml={1}>Move Back</Typography>
-                </Box>
-            )}
-            {selectedPlayer && possibleMoveState && possibleMoveState.isPossible && (
-                <Box display="flex" alignItems="center" onClick={handlePlayerMoveNotPossible} sx={{ cursor: 'pointer' }}>
-                    <StopIcon color="warning" />
-                    <Typography variant="body1" ml={1}>Stop</Typography>
-                </Box>
-            )}
-            <Box display="flex" alignItems="center" onClick={handleSimulation} sx={{ cursor: 'pointer' }}>
-                <PlayArrowOutlinedIcon sx={{ color: 'black'}} />
-                <Typography variant="body1" ml={1}>Simulation</Typography>
-            </Box>
-            <Box display="flex" alignItems="center" onClick={handlePlayerMoveNotPossible} sx={{ cursor: 'pointer' }}>
-                <RestartAltIcon sx={{ color: 'black'}} />
-                <Typography variant="body1" ml={1}>Reset</Typography>
-            </Box>
             <Box display="flex" alignItems="center" onClick={handleRecommendFormationModalOpen} sx={{ cursor: 'pointer' }}>
-                <ThumbUpOffAltOutlinedIcon sx={{ color: 'black'}} />
+                <ThumbUpOffAltOutlinedIcon sx={{ color: 'black' }} />
                 <Typography variant="body1" ml={1}>Recommend Formation</Typography>
             </Box>
-            <Box display="flex" alignItems="center" onClick={handlePlayerViewState} sx={{ cursor: 'pointer' }}>
-                <SettingsIcon sx={{ color: 'black'}} />
-                <Typography variant="body1" ml={1}>Player Profile</Typography>
+            <Box display="flex" alignItems="center" onClick={handleSimulation} sx={{ cursor: 'pointer' }}>
+                <MultipleStopOutlinedIcon sx={{ color: 'purple' }} />
+                <Typography variant="body1" ml={1}>Ground Change</Typography>
             </Box>
             <Box display="flex" alignItems="center" onClick={handlePlayerMoveNotPossible} sx={{ cursor: 'pointer' }}>
-                <StartOutlinedIcon sx={{ color: 'black'}} />
+                <RestartAltIcon sx={{ color: 'black' }} />
+                <Typography variant="body1" ml={1}>Reset</Typography>
+            </Box>
+
+            <Box
+                display="flex"
+                alignItems="center"
+                onClick={selectedPlayer ? handleMultiSelect : () => { }}
+                sx={{
+                    cursor: selectedPlayer ? 'pointer' : 'not-allowed',
+                    opacity: selectedPlayer ? 1 : 0.5
+                }}
+            >
+                <DoneAllOutlinedIcon sx={{ color: 'green' }} />
+                <Typography variant="body1" ml={1} color={selectedPlayer ? 'black' : 'gray'}>
+                    Multi Select
+                </Typography>
+            </Box>
+
+            <Box
+                display="flex"
+                alignItems="center"
+                onClick={isMovable ? handlePlayerMovePossible : () => { }}
+                sx={{
+                    cursor: isMovable ? 'pointer' : 'not-allowed',
+                    opacity: isMovable ? 1 : 0.5
+                }}>
+                <DirectionsRunIcon sx={{ color: 'orange' }} />
+                <Typography
+                    variant="body1"
+                    ml={1}
+                    color={isMovable ? 'black' : 'gray'}
+                >Move</Typography>
+            </Box>
+
+
+            <Box
+                display="flex"
+                alignItems="center"
+                onClick={isMoveBackable ? handlePlayerRemoveBack : () => { }}
+                sx={{
+                    cursor: isMoveBackable ? 'pointer' : 'not-allowed',
+                    opacity: isMoveBackable ? 1 : 0.5
+                }}>
+                <ArrowBackIcon sx={{ color: 'black' }} />
+                <Typography
+                    variant="body1"
+                    ml={1}
+                    color={isMoveBackable ? 'black' : 'gray'}
+                >Move Back</Typography>
+            </Box>
+
+            <Box
+                display="flex"
+                alignItems="center"
+                onClick={isStopable ? handlePlayerMoveNotPossible : () => { }}
+                sx={{
+                    cursor: isStopable ? 'pointer' : 'not-allowed',
+                    opacity: isStopable ? 1 : 0.5
+                }}>
+                <StopIcon sx={{ color: 'red' }} />
+                <Typography
+                    variant="body1"
+                    ml={1}
+                    color={isStopable ? 'black' : 'gray'}
+                >Stop</Typography>
+            </Box>
+
+            <Box display="flex" alignItems="center" onClick={handleSimulation} sx={{ cursor: 'pointer' }}>
+                <PlayArrowOutlinedIcon sx={{ color: 'black' }} />
+                <Typography variant="body1" ml={1}>Simulation</Typography>
+            </Box>
+            <Box display="flex" alignItems="center" onClick={handlePlayerViewState} sx={{ cursor: 'pointer' }}>
+                <SettingsIcon sx={{ color: 'black' }} />
+                <Typography variant="body1" ml={1}>Icon View</Typography>
+            </Box>
+            <Box display="flex" alignItems="center" onClick={handlePlayerMoveNotPossible} sx={{ cursor: 'pointer' }}>
+                <StartOutlinedIcon sx={{ color: 'black' }} />
                 <Typography variant="body1" ml={1}>Next Slice</Typography>
             </Box>
 

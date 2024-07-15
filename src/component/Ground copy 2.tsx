@@ -44,35 +44,6 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
 
             if (left < 0 || left > 100 || top < 0 || top > 100) return;
 
-            if (multiSelectedPlayers) {
-                for (let i = 0; i < multiSelectedPlayers.length; i++) {
-                    const m = multiSelectedPlayers[i];
-                    const realLeft = (m.left / 100) * rect.width;
-                    const realTop = (m.top / 100) * rect.height;
-        
-                    const left = Math.round(((realLeft + delta.x) / rect.width) * 100);
-                    const top = Math.round(((realTop + delta.y) / rect.height) * 100);
-    
-                    if (left < 0 || left > 100 || top < 0 || top > 100) {
-                        return;  // 하나라도 범위를 벗어나면 전체 드롭 무효화
-                    }
-                }
-            }
-    
-            // Multi-selected players 이동
-            if (multiSelectedPlayers) {
-                multiSelectedPlayers.map((m) => {
-                    const realLeft = (m.left / 100) * rect.width;
-                    const realTop = (m.top / 100) * rect.height;
-    
-                    const left = Math.round(((realLeft + delta.x) / rect.width) * 100);
-                    const top = Math.round(((realTop + delta.y) / rect.height) * 100);
-    
-                    dispatch(movePlayer({ id: m.id, left: left, top: top }));
-                    dispatch(setPlayerMovingSequences({ id: m.id, left, top, team: m.team, isFirst: true }));
-                })
-            }
-
             dispatch(movePlayer({id: item.id, left: left, top: top}));
             dispatch(selectPlayer({ id: item.id, backNumber: item.backNumber, team: item.team, name: item.name, left, top, position: item.position }));
             dispatch(setPlayerMovingSequences({ id: item.id, left, top, team: item.team, isFirst: true }));
@@ -81,8 +52,8 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
     
     const handlePlayerClick = (event: React.MouseEvent<HTMLElement>, player: PlayerPosition) => {    
         if (multiSelectedPlayers) {
+
             dispatch(addMultiSelectedPlayer(player))
-            console.log("멀티셀렉티드 클릭!!!")
         } else {
             dispatch(selectPlayer(player));
         }
@@ -90,6 +61,7 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
 
     const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
         if (!imgRef.current || !possibleMoveState || !possibleMoveState.isPossible || !selectedPlayer) return;
+
     
         const rect = imgRef.current.getBoundingClientRect();
 
@@ -210,10 +182,6 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
 
             {players.map((player) => {
                 console.log("player  =>>>> ", player);
-
-                const multiSelectedPlayer = multiSelectedPlayers?.find((m) => m.id === player.id)
-                if (multiSelectedPlayer) return;
-
                 return <DraggablePlayer
                     key={player.id}
                     id={player.id}
