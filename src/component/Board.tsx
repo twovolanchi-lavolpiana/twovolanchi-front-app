@@ -88,14 +88,19 @@ export const Board = () => {
                         className="player-list"
                         sx={{
                             flexDirection: 'row',
+                            justifyContent: 'center',
+                            alignItems: 'center',
                             width: 800,
                             marginTop: 5,
                         }}>
                         <CardContent
                             sx={{
+                                display: 'flex',
                                 justifyContent: 'center',
                                 alignItems: 'center',
                                 alignContent: 'center',
+                                width: '100%',  // CardContent의 너비를 카드 전체 너비로 설정
+                                marginTop: 3
                             }}
                         >
                             <PlayerList width={700}></PlayerList>

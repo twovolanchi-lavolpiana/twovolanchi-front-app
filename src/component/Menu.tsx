@@ -429,11 +429,11 @@ export const Menu = () => {
     const isSimulationPossible = sequencesState.sequences.find((s) => s.sequenceNumber === sequencesState.currentSequenceNumber)
     return (
         <>
-            <Box display="flex" alignItems="center" onClick={() => handleAddPlusPlayer('home', PlayerPositionEnum.CM)} sx={{ cursor: 'pointer' }}>
+            <Box display="flex" alignItems="center" onClick={() => handleAddPlusPlayer('home', PlayerPositionEnum.CM)} sx={{ cursor: 'pointer', mr: 2 }}>
                 <AddOutlinedIcon sx={{ color: '#3B6FB2' }} />
                 <Typography variant="body1" ml={1}>Home Team Player</Typography>
             </Box>
-            <Box display="flex" alignItems="center" onClick={() => handleAddPlusPlayer('away', PlayerPositionEnum.CM)} sx={{ cursor: 'pointer' }}>
+            <Box display="flex" alignItems="center" onClick={() => handleAddPlusPlayer('away', PlayerPositionEnum.CM)} sx={{ cursor: 'pointer', mr: 2 }}>
                 <AddOutlinedIcon sx={{ color: '#B23B7F' }} />
                 <Typography variant="body1" ml={1}>Away Team Player</Typography>
             </Box>
@@ -443,7 +443,8 @@ export const Menu = () => {
                 onClick={!ball ? handleSetBall : undefined}
                 sx={{
                     cursor: !ball ? 'pointer' : 'not-allowed',
-                    opacity: !ball ? 1 : 0.5
+                    opacity: !ball ? 1 : 0.5,
+                    mr: 2
                 }}>
                 <AddOutlinedIcon sx={{ color: 'black' }} />
                 <Typography variant="body1" ml={1} color={!ball ? 'black' : 'gray'}>Ball</Typography>
@@ -462,7 +463,8 @@ export const Menu = () => {
                 onClick={selectedPlayer ? handleMultiSelect : () => { }}
                 sx={{
                     cursor: selectedPlayer ? 'pointer' : 'not-allowed',
-                    opacity: selectedPlayer ? 1 : 0.5
+                    opacity: selectedPlayer ? 1 : 0.5,
+                    mr: 2
                 }}
             >
                 <DoneAllOutlinedIcon sx={{ color: 'green' }} />
@@ -477,7 +479,8 @@ export const Menu = () => {
                 onClick={isMovable ? handlePlayerMovePossible : () => { }}
                 sx={{
                     cursor: isMovable ? 'pointer' : 'not-allowed',
-                    opacity: isMovable ? 1 : 0.5
+                    opacity: isMovable ? 1 : 0.5,
+                    mr: 2
                 }}>
                 <MoveUpIcon sx={{ color: 'orange' }} />
                 <Typography
@@ -494,14 +497,15 @@ export const Menu = () => {
                 onClick={isMoveBackable ? handlePlayerRemoveBack : () => { }}
                 sx={{
                     cursor: isMoveBackable ? 'pointer' : 'not-allowed',
-                    opacity: isMoveBackable ? 1 : 0.5
+                    opacity: isMoveBackable ? 1 : 0.5,
+                    mr: 2
                 }}>
                 <ArrowBackIcon sx={{ color: 'black' }} />
                 <Typography
                     variant="body1"
                     ml={1}
                     color={isMoveBackable ? 'black' : 'gray'}
-                >Player Move Back</Typography>
+                >Player Back</Typography>
             </Box>
 
             <Box
@@ -510,7 +514,8 @@ export const Menu = () => {
                 onClick={isPlayerMoveStopable ? handlePlayerMoveNotPossible : () => { }}
                 sx={{
                     cursor: isPlayerMoveStopable ? 'pointer' : 'not-allowed',
-                    opacity: isPlayerMoveStopable ? 1 : 0.5
+                    opacity: isPlayerMoveStopable ? 1 : 0.5,
+                    mr: 2
                 }}>
                 <StopIcon sx={{ color: 'red' }} />
                 <Typography
@@ -526,7 +531,8 @@ export const Menu = () => {
                 onClick={selectedPlayer ? handlePlayerRemove : () => { }}
                 sx={{
                     cursor: selectedPlayer ? 'pointer' : 'not-allowed',
-                    opacity: selectedPlayer ? 1 : 0.5
+                    opacity: selectedPlayer ? 1 : 0.5,
+                    mr: 2
                 }}>
                 <RemoveIcon sx={{ color: '	#89E9D3' }} />
                 <Typography
@@ -550,7 +556,8 @@ export const Menu = () => {
                 onClick={isMovalbleBallClick ? handleBallMovePossible : () => { }}
                 sx={{
                     cursor: isMovalbleBallClick ? 'pointer' : 'not-allowed',
-                    opacity: isMovalbleBallClick ? 1 : 0.5
+                    opacity: isMovalbleBallClick ? 1 : 0.5,
+                    mr: 2
                 }}>
                 <MoveUpIcon sx={{ color: 'orange' }} />
                 <Typography
@@ -566,14 +573,15 @@ export const Menu = () => {
                 onClick={isMoveBackable ? handlePlayerRemoveBack : () => { }}
                 sx={{
                     cursor: isMoveBackable ? 'pointer' : 'not-allowed',
-                    opacity: isMoveBackable ? 1 : 0.5
+                    opacity: isMoveBackable ? 1 : 0.5,
+                    mr: 2
                 }}>
                 <ArrowBackIcon sx={{ color: 'black' }} />
                 <Typography
                     variant="body1"
                     ml={1}
                     color={isMoveBackable ? 'black' : 'gray'}
-                >Ball Move Back</Typography>
+                >Ball Back</Typography>
             </Box>
 
             <Box
@@ -582,7 +590,8 @@ export const Menu = () => {
                 onClick={isBallMoveStopable ? handleBallMoveNotPossible : () => { }}
                 sx={{
                     cursor: isBallMoveStopable ? 'pointer' : 'not-allowed',
-                    opacity: isBallMoveStopable ? 1 : 0.5
+                    opacity: isBallMoveStopable ? 1 : 0.5,
+                    mr: 2
                 }}>
                 <StopIcon sx={{ color: 'red' }} />
                 <Typography
@@ -598,7 +607,8 @@ export const Menu = () => {
                 onClick={ball ? handleBallRemove : () => { }}
                 sx={{
                     cursor: ball ? 'pointer' : 'not-allowed',
-                    opacity: ball ? 1 : 0.5
+                    opacity: ball ? 1 : 0.5,
+                    mr: 2
                 }}>
                 <RemoveIcon sx={{ color: '	#89E9D3' }} />
                 <Typography
@@ -622,7 +632,8 @@ export const Menu = () => {
                 onClick={isSimulationPossible ? handleSimulation : () => { }}
                 sx={{
                     cursor: isSimulationPossible ? 'pointer' : 'not-allowed',
-                    opacity: isSimulationPossible ? 1 : 0.5
+                    opacity: isSimulationPossible ? 1 : 0.5,
+                    mr: 2
                 }}>
                 <PlayArrowOutlinedIcon sx={{ color: '#89B2E9' }} />
                 <Typography
@@ -638,7 +649,8 @@ export const Menu = () => {
                 onClick={isSimulationStart ? handleSimulationEnd : () => { }}
                 sx={{
                     cursor: isSimulationStart ? 'pointer' : 'not-allowed',
-                    opacity: isSimulationStart ? 1 : 0.5
+                    opacity: isSimulationStart ? 1 : 0.5,
+                    mr: 2
                 }}>
                 <PlayArrowOutlinedIcon sx={{ color: '#89B2E9' }} />
                 <Typography
@@ -648,7 +660,7 @@ export const Menu = () => {
                 >Simulation Reset</Typography>
             </Box>
 
-            <Box display="flex" alignItems="center" onClick={handleReset} sx={{ cursor: 'pointer' }}>
+            <Box display="flex" alignItems="center" onClick={handleReset} sx={{ cursor: 'pointer', mr: 2 }}>
                 <RestartAltIcon sx={{ color: '#D389E9' }} />
                 <Typography variant="body1" ml={1}>Ground Reset</Typography>
             </Box>
@@ -662,19 +674,27 @@ export const Menu = () => {
                 }}
             />
 
-            <Box display="flex" alignItems="center" onClick={handleRecommendFormationModalOpen} sx={{ cursor: 'pointer' }}>
+            <Box display="flex" alignItems="center" onClick={handleRecommendFormationModalOpen} sx={{ cursor: 'pointer', mr: 2 }}>
                 <StarBorderOutlinedIcon sx={{ color: '#FFD400' }} />
                 <Typography variant="body1" ml={1}>Recommend Formation</Typography>
             </Box>
-            <Box display="flex" alignItems="center" onClick={() => { }} sx={{ cursor: 'pointer' }}>
+            <Box display="flex" alignItems="center" onClick={() => { }} sx={{ cursor: 'pointer', mr: 2 }}>
                 <MultipleStopOutlinedIcon sx={{ color: 'purple' }} />
                 <Typography variant="body1" ml={1}>Ground Change</Typography>
             </Box>
-            <Box display="flex" alignItems="center" onClick={handlePlayerMoveNotPossible} sx={{ cursor: 'pointer' }}>
+            <Box
+                width="100%"
+                my={2}
+                borderBottom="1px solid gray"
+                sx={{
+                    opacity: 0.5
+                }}
+            />
+            <Box display="flex" alignItems="center" onClick={handlePlayerMoveNotPossible} sx={{ cursor: 'pointer', mr: 2 }}>
                 <SaveAltIcon sx={{ color: 'black' }} />
                 <Typography variant="body1" ml={1}>Save</Typography>
             </Box>
-            <Box display="flex" alignItems="center" onClick={() => { }} sx={{ cursor: 'pointer' }}>
+            <Box display="flex" alignItems="center" onClick={() => { }} sx={{ cursor: 'pointer', mr: 2 }}>
                 <IosShareIcon sx={{ color: 'purple' }} />
                 <Typography variant="body1" ml={1}>Share</Typography>
             </Box>

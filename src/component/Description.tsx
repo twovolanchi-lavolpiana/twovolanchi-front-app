@@ -22,18 +22,26 @@ export const Description = () => {
 
     return (
         <Card sx={{
-            maxWidth: 345,
+            maxWidth: 700,
         }}>
             <CardContent>
-                <div style={{ display: 'flex', alignItems: 'center' }}>
-                    <Typography gutterBottom variant="h5" component="div" style={{ flexGrow: 1 }}>
+                <div style={{  width: '100%', maxWidth: '500px', margin: 'auto', overflow: 'hidden'  }}>
+                    <Typography
+                        gutterBottom
+                        variant="h5"
+                        component="div"
+                        style={{ flexGrow: 1, wordWrap: 'break-word', wordBreak: 'break-word' }}>
                         {title}
                     </Typography>
                     <IconButton onClick={handleClickOpen}>
                         <SettingsIcon />
                     </IconButton>
                 </div>
-                <Typography variant="body2" color="text.secondary">
+                <Typography
+                    variant="body2"
+                    color="text.secondary"
+                    style={{ wordWrap: 'break-word', wordBreak: 'break-word', whiteSpace: 'normal' }}
+                >
                     {description}
                 </Typography>
             </CardContent>

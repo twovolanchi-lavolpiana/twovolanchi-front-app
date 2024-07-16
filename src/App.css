@@ -88,7 +88,7 @@ body, html, #root {
   }
 
   .App-header {
-    overflow: hidden;
+    overflow-x: auto;
   }  
 
   .board-parent {
@@ -97,7 +97,7 @@ body, html, #root {
   }
 
   .board-container {
-    width: 100%;
+    width: 800px;
     order: 1;
   }
 
