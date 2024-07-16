@@ -110,7 +110,7 @@ export const PlayerList = () => {
 
     return (
         <div>
-            <TableContainer component={Paper} sx={{ maxHeight: 750, overflowY: 'auto' }}>
+            <TableContainer component={Paper} sx={{ maxHeight: 750, width: 300, overflowY: 'auto' }}>
                 <Table>
                     <TableHead>
                         <TableRow>

@@ -31,7 +31,6 @@ import { TeamCountry, TeamMapper } from "./TeamMapper";
 
 
 export const Menu = () => {
-    const defaultName = "Messi";
     const dispatch = useDispatch();
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
     const multiSelectedPlayer = useSelector((state: RootState) => state.player.multiSelectedPlayers);
@@ -41,6 +40,7 @@ export const Menu = () => {
     const players = useSelector((state: RootState) => state.players)
     const ball = useSelector((state: RootState) => state.ball.ball);
     const isPossibleBallMove = useSelector((state: RootState) => state.possibleBallMove.isPossible);
+    const isSimulationOn = useSelector((state: RootState) => state.simulationOn.isSimulationOn);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [homeFormationState, setHomeFormation] = useState<Formation>(Formation.THFITW);
@@ -65,8 +65,6 @@ export const Menu = () => {
         dispatch(setBallSequences({ left: ball.left, top: ball.top }));
     }
 
-
-
     const handlePlayerMoveNotPossible = () => {
         if (!selectedPlayer || !possibleMoveState.isPossible) return;
         dispatch(setPossiblePlayerMoveState({ playerId: null, isPossible: false }))
@@ -83,7 +81,6 @@ export const Menu = () => {
     }
 
     const handleSimulation = () => {
-        if (!selectedPlayer || !possibleMoveState.isPossible) return;
         dispatch(setPossiblePlayerMoveState({ playerId: null, isPossible: false }))
         dispatch(setSimulationOn({ isSimulationOn: true }))
     }
@@ -165,13 +162,13 @@ export const Menu = () => {
                     { left: 15, top: 20, backNumber: 3, position: PlayerPositionEnum.CB, team: 'home' },
                     { left: 15, top: 50, backNumber: 4, position: PlayerPositionEnum.CB, team: 'home' },
                     { left: 15, top: 80, backNumber: 5, position: PlayerPositionEnum.CB, team: 'home' },
-                    { left: 30, top: 10, backNumber: 11, position: PlayerPositionEnum.LB, team: 'home' },
+                    { left: 30, top: 10, backNumber: 7, position: PlayerPositionEnum.LB, team: 'home' },
                     { left: 30, top: 30, backNumber: 8, position: PlayerPositionEnum.CM, team: 'home' },
                     { left: 30, top: 50, backNumber: 10, position: PlayerPositionEnum.AM, team: 'home' },
                     { left: 30, top: 70, backNumber: 6, position: PlayerPositionEnum.CM, team: 'home' },
                     { left: 30, top: 90, backNumber: 2, position: PlayerPositionEnum.RB, team: 'home' },
                     { left: 45, top: 30, backNumber: 9, position: PlayerPositionEnum.ST, team: 'home' },
-                    { left: 45, top: 70, backNumber: 7, position: PlayerPositionEnum.ST, team: 'home' },
+                    { left: 45, top: 70, backNumber: 11, position: PlayerPositionEnum.ST, team: 'home' },
                 ]
                 break;
         }
@@ -323,7 +320,7 @@ export const Menu = () => {
     const handlePlayerRemove = () => {
         if (!selectedPlayer) return;
         dispatch(removePlayerSequence(selectedPlayer.id))
-        dispatch(removePlayer({id: selectedPlayer.id}))
+        dispatch(removePlayer({ id: selectedPlayer.id }))
         dispatch(clearSelectedPlayer())
     }
 
@@ -354,11 +351,15 @@ export const Menu = () => {
     useEffect(() => {
     }, [isPossibleBallMove])
 
+    useEffect(() => {
+    }, [isSimulationOn])
+
     const isMovable = selectedPlayer && possibleMoveState.playerId !== selectedPlayer.id;
     const isMovalbleBallClick = ball && !isPossibleBallMove
     const isMoveBackable = selectedPlayer && possibleMoveState.isPossible;
     const isPlayerMoveStopable = selectedPlayer && possibleMoveState.isPossible;
     const isBallMoveStopable = ball && isPossibleBallMove
+    const isSimulationPossible = sequencesState.sequences.find((s) => s.sequenceNumber === sequencesState.currentSequenceNumber)
     return (
         <>
             <Box
@@ -529,9 +530,20 @@ export const Menu = () => {
                     opacity: 0.5
                 }}
             />
-            <Box display="flex" alignItems="center" onClick={handleSimulation} sx={{ cursor: 'pointer' }}>
+            <Box
+                display="flex"
+                alignItems="center"
+                onClick={isSimulationPossible ? handleSimulation : () => { }}
+                sx={{
+                    cursor: isSimulationPossible ? 'pointer' : 'not-allowed',
+                    opacity: isSimulationPossible ? 1 : 0.5
+                }}>
                 <PlayArrowOutlinedIcon sx={{ color: '#89B2E9' }} />
-                <Typography variant="body1" ml={1}>Simulation</Typography>
+                <Typography
+                    variant="body1"
+                    ml={1}
+                    color={isSimulationPossible ? 'black' : 'gray'}
+                >Simulation</Typography>
             </Box>
 
             <Box display="flex" alignItems="center" onClick={handleReset} sx={{ cursor: 'pointer' }}>
@@ -552,7 +564,7 @@ export const Menu = () => {
                 <StarBorderOutlinedIcon sx={{ color: '#FFD400' }} />
                 <Typography variant="body1" ml={1}>Recommend Formation</Typography>
             </Box>
-            <Box display="flex" alignItems="center" onClick={handleSimulation} sx={{ cursor: 'pointer' }}>
+            <Box display="flex" alignItems="center" onClick={() => { }} sx={{ cursor: 'pointer' }}>
                 <MultipleStopOutlinedIcon sx={{ color: 'purple' }} />
                 <Typography variant="body1" ml={1}>Ground Change</Typography>
             </Box>

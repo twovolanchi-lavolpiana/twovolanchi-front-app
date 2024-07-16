@@ -23,7 +23,7 @@ interface SequenceState {
 }
 
 const initialState: SequenceState = {
-    currentSequenceNumber: 1,
+    currentSequenceNumber: 0,
     sequences: [],
 };
 

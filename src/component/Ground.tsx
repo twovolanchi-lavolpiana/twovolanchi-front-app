@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { PlayerPosition } from './PlayerPosition';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDrop } from 'react-dnd';
 import { ItemTypes } from './ItemTypes';
 import { DraggablePlayer } from './DraggablePlayer';
@@ -15,11 +15,12 @@ import { setBall } from '../store/BallSlice';
 import { DraggableBall } from './DraggableBall';
 import { clearPossibleBallMoveState } from '../store/PossibleBallMoveSlice';
 import { clearPossiblePlayerMoveState } from '../store/PossiblePlayerMoveSlice';
-
+import { clearSimulationOn, setSimulationOn } from '../store/SimulationOnSlice';
 
 interface GroundProps {
     players: PlayerPosition[];
 }
+
 
 export const Ground: React.FC<GroundProps> = ({ players }) => {
     const dispatch = useDispatch()
@@ -28,12 +29,88 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
     const isPossiblePlayerMoveState = useSelector((state: RootState) => state.possiblePlayerMove.isPossible)
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
     const sequences = useSelector((state: RootState) => state.sequences)
-    const simulationOnState = useSelector((state: RootState) => state.simulationOn)
+    const isSimulationOnState = useSelector((state: RootState) => state.simulationOn.isSimulationOn)
     const multiSelectedPlayers = useSelector((state: RootState) => state.player.multiSelectedPlayers);
     const ball = useSelector((state: RootState) => state.ball.ball);
     const isPossibleBallMove = useSelector((state: RootState) => state.possibleBallMove.isPossible);
-
+    const [initialLoad, setInitialLoad] = useState(true);
     const { updateScreenSize } = useScreenSize();
+
+    const [animatedPositions, setAnimatedPositions] = useState<{ [key: number]: { left: number, top: number, frame: number } }>({});
+    const [animatedBallPosition, setAnimatedBallPosition] = useState<{ left: number, top: number, frame: number } | null>(null);
+
+
+    useEffect(() => {
+        if (isSimulationOnState) {
+            startSimulation();
+            dispatch(clearSimulationOn());
+        }
+    }, [isSimulationOnState]);
+
+    const startSimulation = () => {
+        animatePlayers();
+    };
+
+    const animatePlayers = (callback?: () => void) => {
+        const startTime = performance.now();
+        const currentSequence = sequences.sequences[sequences.currentSequenceNumber];
+        const animationDuration = 3000; // Total animation duration in ms
+    
+        const animate = (time: number) => {
+            const elapsed = time - startTime;
+            const progress = Math.min(elapsed / animationDuration, 1);
+    
+            setAnimatedPositions(prevPositions => {
+                const newPositions = { ...prevPositions };
+                currentSequence.moves.forEach(move => {
+                    const { id, sequence } = move;
+                    const totalFrames = sequence.length;
+                    const frameDuration = animationDuration / totalFrames;
+                    const currentFrame = Math.min(Math.floor(elapsed / frameDuration), totalFrames - 1);
+    
+                    if (currentFrame < sequence.length) {
+                        const nextIndex = Math.min(currentFrame + 1, sequence.length - 1);
+                        const pointProgress = (elapsed % frameDuration) / frameDuration;
+    
+                        const currentPoint = sequence[currentFrame] || { left: 0, top: 0 };
+                        const nextPoint = sequence[nextIndex] || { left: 0, top: 0 };
+    
+                        const left = currentPoint.left + (nextPoint.left - currentPoint.left) * pointProgress;
+                        const top = currentPoint.top + (nextPoint.top - currentPoint.top) * pointProgress;
+    
+                        newPositions[id] = { left, top, frame: currentFrame };
+                    }
+                });
+                return newPositions;
+            });
+    
+            if (animatedBallPosition) {
+                const totalFrames = currentSequence.balls.length;
+                const frameDuration = animationDuration / totalFrames;
+                const currentFrame = Math.min(Math.floor(elapsed / frameDuration), totalFrames - 1);
+    
+                const nextIndex = Math.min(currentFrame + 1, currentSequence.balls.length - 1);
+                const pointProgress = (elapsed % frameDuration) / frameDuration;
+    
+                const currentPoint = currentSequence.balls[currentFrame] || { left: 0, top: 0 };
+                const nextPoint = currentSequence.balls[nextIndex] || { left: 0, top: 0 };
+    
+                const left = currentPoint.left + (nextPoint.left - currentPoint.left) * pointProgress;
+                const top = currentPoint.top + (nextPoint.top - currentPoint.top) * pointProgress;
+    
+                setAnimatedBallPosition({ left, top, frame: currentFrame });
+            }
+    
+            if (elapsed < animationDuration) {
+                requestAnimationFrame(animate);
+            } else if (callback) {
+                callback();
+            }
+        };
+    
+        requestAnimationFrame(animate);
+    };
+
 
     const [, drop] = useDrop({
         accept: [ItemTypes.PLAYER, ItemTypes.BALL],
@@ -103,8 +180,18 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
 
         const rect = imgRef.current.getBoundingClientRect();
 
-        const clickedLeft = ((event.clientX - rect.left) / rect.width + window.scrollX) * 100;
-        const clickedTop = ((event.clientY - rect.top) / rect.height + window.scrollY) * 100;
+        console.log("clientX = ", event.clientX);
+        console.log("clientY = ", event.clientY);
+
+        const clickedLeft = ((event.clientX - rect.x) / rect.width) * 100;
+        const clickedTop = ((event.clientY - rect.y) / rect.height) * 100;
+
+        console.log("test!!!!!!!!! = ", clickedLeft, clickedTop)
+
+        if(clickedLeft < 0 || clickedLeft > 100 || clickedTop < 0 || clickedTop > 100) {
+            updateScreenSize();
+            return;
+        }
 
         if (selectedPlayer && isPossiblePlayerMoveState) {
             dispatch(clearPossibleBallMoveState())
@@ -120,6 +207,30 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
             return;
         }
     }
+
+    useEffect(() => {
+        if (initialLoad && imgRef.current) {
+            setInitialLoad(false);
+            const rect = imgRef.current.getBoundingClientRect();
+            setAnimatedPositions(players.reduce((acc, player) => {
+                acc[player.id] = {
+                    left: player.left * rect.width / 100,
+                    top: player.top * rect.height / 100,
+                    frame: 0,
+                };
+                return acc;
+            }, {} as { [key: number]: { left: number, top: number, frame: number } }));
+
+            if (ball) {
+                setAnimatedBallPosition({
+                    left: ball.left * rect.width / 100,
+                    top: ball.top * rect.height / 100,
+                    frame: 0,
+                });
+            }
+        }
+    }, [initialLoad, imgRef.current]);
+
 
     useEffect(() => {
         if (imgRef.current) {
@@ -142,7 +253,7 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
     }, [selectedPlayer]);
 
     useEffect(() => {
-    }, [simulationOnState])
+    }, [isSimulationOnState])
 
     useEffect(() => {
         updateScreenSize();
@@ -183,8 +294,9 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
             >
                 {/* <img ref={imgRef} src={boardImage} alt="board" style={{ maxWidth: '100%', maxHeight: '100%' }} /> */}
                 <SoccerField ref={imgRef} />
+
                 {
-                    !simulationOnState.isSimulationOn && <svg style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 30 }}>
+                    !isSimulationOnState && <svg style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 30 }}>
                         <defs>
                             <marker
                                 id="arrow-home"
@@ -249,22 +361,21 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
                         {sequences.sequences.map(sequence => (
                             sequence.balls.map((ball, index) => {
                                 if (index === 0) return null;
-                                    const { x: x1, y: y1 } = getLeftLocation(sequence.balls[index - 1].left, sequence.balls[index - 1].top);
-                                    const { x: x2, y: y2 } = getLeftLocation(ball.left, ball.top);
-                                    return <line
-                                        key={`${ball.left}-${ball.top}-${index}`}
-                                        x1={x1}
-                                        y1={y1}
-                                        x2={x2}
-                                        y2={y2}
-                                        stroke={'black'}
-                                        strokeWidth="3"
-                                        strokeOpacity={0.7}
-                                        markerEnd={'url(#arrow-ball)'}
-                                    />
+                                const { x: x1, y: y1 } = getLeftLocation(sequence.balls[index - 1].left, sequence.balls[index - 1].top);
+                                const { x: x2, y: y2 } = getLeftLocation(ball.left, ball.top);
+                                return <line
+                                    key={`${ball.left}-${ball.top}-${index}`}
+                                    x1={x1}
+                                    y1={y1}
+                                    x2={x2}
+                                    y2={y2}
+                                    stroke={'black'}
+                                    strokeWidth="3"
+                                    strokeOpacity={0.7}
+                                    markerEnd={'url(#arrow-ball)'}
+                                />
                             })
                         ))}
-
                     </svg>
                 }
             </div>
@@ -293,6 +404,27 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
             ></DraggableBall>
 
             }
+            
+            {players.map(player => {
+                const multiSelectedPlayer = multiSelectedPlayers?.find(m => m.id === player.id);
+                if (multiSelectedPlayer) return null;
+
+                return (
+                    <DraggablePlayer
+                        key={player.id}
+                        id={player.id}
+                        backNumber={player.backNumber}
+                        team={player.team}
+                        name={player.name}
+                        left={animatedPositions[player.id]?.left ?? player.left}
+                        top={animatedPositions[player.id]?.top ?? player.top}
+                        imgRef={imgRef}
+                        position={player.position}
+                        onClick={handlePlayerClick}
+                    />
+                );
+            })}
+
         </Box>
     );
 };

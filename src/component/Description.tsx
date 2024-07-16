@@ -1,4 +1,4 @@
-import { Button, Card, CardActionArea, CardContent, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField, Typography } from "@mui/material"
+import { Button, Card, CardActionArea, CardActions, CardContent, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField, Typography } from "@mui/material"
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useState } from "react";
 
@@ -24,22 +24,19 @@ export const Description = () => {
         <Card sx={{
             maxWidth: 345,
         }}>
-            <CardActionArea>
-                <CardContent>
-                    <div style={{ display: 'flex', alignItems: 'center' }}>
-                        <Typography gutterBottom variant="h5" component="div" style={{ flexGrow: 1 }}>
-                            {title}
-                        </Typography>
-                        <IconButton onClick={handleClickOpen}>
-                            <SettingsIcon />
-                        </IconButton>
-                    </div>
-                    <Typography variant="body2" color="text.secondary">
-                        {description}
+            <CardContent>
+                <div style={{ display: 'flex', alignItems: 'center' }}>
+                    <Typography gutterBottom variant="h5" component="div" style={{ flexGrow: 1 }}>
+                        {title}
                     </Typography>
-                </CardContent>
-            </CardActionArea>
-
+                    <IconButton onClick={handleClickOpen}>
+                        <SettingsIcon />
+                    </IconButton>
+                </div>
+                <Typography variant="body2" color="text.secondary">
+                    {description}
+                </Typography>
+            </CardContent>
             <Dialog open={open} onClose={handleClose}>
                 <DialogTitle>Edit Details</DialogTitle>
                 <DialogContent>

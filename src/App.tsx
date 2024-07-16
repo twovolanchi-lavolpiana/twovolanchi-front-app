@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import './App.css';
 import { Board } from './component/Board';
 import Navbar from './component/Navbar';
-import { Box, createTheme, CssBaseline, FormControlLabel, Grid, Switch, ThemeProvider } from '@mui/material';
+import { Box, createTheme, CssBaseline, Grid, ThemeProvider } from '@mui/material';
 
 
 function App() {
