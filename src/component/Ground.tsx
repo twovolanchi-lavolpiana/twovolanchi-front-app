@@ -54,7 +54,7 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
     const animatePlayers = (callback?: () => void) => {
         const startTime = performance.now();
         const currentSequence = sequences.sequences[sequences.currentSequenceNumber];
-        const animationDuration = 3000; // Total animation duration in ms
+        const animationDuration = 5000; // Total animation duration in ms
 
         const animate = (time: number) => {
             const elapsed = time - startTime;
@@ -84,21 +84,23 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
                 return newPositions;
             });
 
-            if (animatedBallPosition) {
-                const totalFrames = currentSequence.balls.length;
-                const frameDuration = animationDuration / totalFrames;
-                const currentFrame = Math.min(Math.floor(elapsed / frameDuration), totalFrames - 1);
+            if (ball && currentSequence.balls.length > 0) {
+                setAnimatedBallPosition(prevBallPosition => {
+                    const totalFrames = currentSequence.balls.length;
+                    const frameDuration = animationDuration / totalFrames;
+                    const currentFrame = Math.min(Math.floor(elapsed / frameDuration), totalFrames - 1);
 
-                const nextIndex = Math.min(currentFrame + 1, currentSequence.balls.length - 1);
-                const pointProgress = (elapsed % frameDuration) / frameDuration;
+                    const nextIndex = Math.min(currentFrame + 1, currentSequence.balls.length - 1);
+                    const pointProgress = (elapsed % frameDuration) / frameDuration;
 
-                const currentPoint = currentSequence.balls[currentFrame] || { left: 0, top: 0 };
-                const nextPoint = currentSequence.balls[nextIndex] || { left: 0, top: 0 };
+                    const currentPoint = currentSequence.balls[currentFrame] || { left: 0, top: 0 };
+                    const nextPoint = currentSequence.balls[nextIndex] || { left: 0, top: 0 };
 
-                const left = currentPoint.left + (nextPoint.left - currentPoint.left) * pointProgress;
-                const top = currentPoint.top + (nextPoint.top - currentPoint.top) * pointProgress;
+                    const left = currentPoint.left + (nextPoint.left - currentPoint.left) * pointProgress;
+                    const top = currentPoint.top + (nextPoint.top - currentPoint.top) * pointProgress;
 
-                setAnimatedBallPosition({ left, top, frame: currentFrame });
+                    return { left, top, frame: currentFrame };
+                });
             }
 
             if (elapsed < animationDuration) {
@@ -201,7 +203,6 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
         }
 
         if (isPossibleBallMove) {
-            dispatch(clearPossiblePlayerMoveState())
             dispatch(setBallSequences({ left: clickedLeft, top: clickedTop }));
             console.log("sequences = ", sequences)
             return;
@@ -400,12 +401,18 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
                     onClick={handlePlayerClick} />
             })}
 
-            {ball && <DraggableBall
+            {ball && !isSimulationStartState && <DraggableBall
                 left={ball.left}
                 top={ball.top}
                 imgRef={imgRef}
             ></DraggableBall>
+            }
 
+            {ball && isSimulationStartState && animatedBallPosition && <DraggableBall
+                left={animatedBallPosition.left}
+                top={animatedBallPosition.top}
+                imgRef={imgRef}
+            ></DraggableBall>
             }
 
             {isSimulationStartState && players.map(player => {

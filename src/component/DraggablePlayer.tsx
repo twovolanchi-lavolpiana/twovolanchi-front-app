@@ -112,6 +112,7 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, n
                 cursor: 'move',
                 opacity: isDragging ? 0.5 : 1,
                 zIndex: 100,
+                pointerEvents: 'none'
             }}
         >
                 <Box
@@ -138,6 +139,7 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, n
                                     fontSize: '2.3rem',
                                     boxShadow: '0 0 10px 5px rgba(255, 255, 255, 0.8)', // 외곽선 빛나게 하기
                                     borderRadius: '50%', // 원형 외곽선
+                                    pointerEvents: 'auto'
                                 }}
                             />
                         ) : (
@@ -146,6 +148,7 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, n
                                 sx={{
                                     color: team === 'home' ? '#3B6FB2' : '#B23B7F',
                                     fontSize: '2.3rem',
+                                    pointerEvents: 'auto'
                                 }}
                             />
                         )}
@@ -155,6 +158,7 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, n
                                 color: 'white', // 텍스트 색상
                                 fontSize: '0.8rem',
                                 fontWeight: 'bold',
+                                pointerEvents: 'none'
                             }}
                         >
                             {renderPlayerInfo()}
