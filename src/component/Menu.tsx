@@ -97,7 +97,7 @@ export const Menu = () => {
     }
 
     const handleRecommendFormationModalOpen = (event: React.MouseEvent<HTMLElement>) => {
-        handlePlayerMoveNotPossible();
+        handleReset()
         setIsModalOpen(true); // 모달 열기
     };
 
@@ -311,6 +311,7 @@ export const Menu = () => {
         dispatch(clearPlayerId());
         dispatch(clearBall());
         dispatch(clearPossibleBallMoveState());
+        dispatch(endSimulation())
     }
 
     const handleBallRemove = () => {
