@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 import { clearBallSequences, removeBackPlayerMovingSequences, removePlayerSequence, setBallSequences, setPlayerMovingSequences } from '../store/SequenceSlice';
 import { setPossiblePlayerMoveState } from '../store/PossiblePlayerMoveSlice';
 import StopIcon from '@mui/icons-material/Stop';
-import { setSimulationOn } from '../store/SimulationOnSlice';
+import { endSimulation, setSimulationOn, startSimulation } from '../store/SimulationOnSlice';
 import { Formation } from "./Formation";
 import DoneAllOutlinedIcon from '@mui/icons-material/DoneAllOutlined';
 import MultipleStopOutlinedIcon from '@mui/icons-material/MultipleStopOutlined';
@@ -41,6 +41,7 @@ export const Menu = () => {
     const ball = useSelector((state: RootState) => state.ball.ball);
     const isPossibleBallMove = useSelector((state: RootState) => state.possibleBallMove.isPossible);
     const isSimulationOn = useSelector((state: RootState) => state.simulationOn.isSimulationOn);
+    const isSimulationStart = useSelector((state: RootState) => state.simulationOn.isSimulationStart);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [homeFormationState, setHomeFormation] = useState<Formation>(Formation.THFITW);
@@ -82,7 +83,8 @@ export const Menu = () => {
 
     const handleSimulation = () => {
         dispatch(setPossiblePlayerMoveState({ playerId: null, isPossible: false }))
-        dispatch(setSimulationOn({ isSimulationOn: true }))
+        dispatch(setSimulationOn())
+        dispatch(startSimulation())
     }
 
     const handleMultiSelect = () => {
@@ -324,6 +326,10 @@ export const Menu = () => {
         dispatch(clearSelectedPlayer())
     }
 
+    const handleSimulationEnd = () => {
+        dispatch(endSimulation())
+    }
+
     useEffect(() => {
     }, [possibleMoveState]);
 
@@ -353,6 +359,9 @@ export const Menu = () => {
 
     useEffect(() => {
     }, [isSimulationOn])
+
+    useEffect(() => {
+    }, [isSimulationStart])
 
     const isMovable = selectedPlayer && possibleMoveState.playerId !== selectedPlayer.id;
     const isMovalbleBallClick = ball && !isPossibleBallMove
@@ -546,9 +555,25 @@ export const Menu = () => {
                 >Simulation</Typography>
             </Box>
 
+            <Box
+                display="flex"
+                alignItems="center"
+                onClick={isSimulationStart ? handleSimulationEnd : () => { }}
+                sx={{
+                    cursor: isSimulationStart ? 'pointer' : 'not-allowed',
+                    opacity: isSimulationStart ? 1 : 0.5
+                }}>
+                <PlayArrowOutlinedIcon sx={{ color: '#89B2E9' }} />
+                <Typography
+                    variant="body1"
+                    ml={1}
+                    color={isSimulationStart ? 'black' : 'gray'}
+                >Simulation Reset</Typography>
+            </Box>
+
             <Box display="flex" alignItems="center" onClick={handleReset} sx={{ cursor: 'pointer' }}>
                 <RestartAltIcon sx={{ color: '#D389E9' }} />
-                <Typography variant="body1" ml={1}>Reset</Typography>
+                <Typography variant="body1" ml={1}>Ground Reset</Typography>
             </Box>
 
             <Box
