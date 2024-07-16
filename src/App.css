@@ -5,12 +5,14 @@ body, html, #root {
   padding-left: 30px; /* 기본 패딩 */
   padding-right: 30px;
   height: 100%;
+  min-width: 870px;
 }
 
 .App {
   margin: 0;
-  padding: 0;
   text-align: center;
+  overflow: auto;
+  white-space: nowrap;
 }
 
 .App-container {
@@ -24,7 +26,10 @@ body, html, #root {
   padding-top: 2em;
   padding-bottom: 2em;
   width: 100%;
+  min-width: 800px;
   display: flex;
+  overflow-x: auto; 
+  flex-direction: row;
 }
 
 .operation {
@@ -61,7 +66,7 @@ body, html, #root {
   position: relative;
 }
 
-@media (max-width: 1200px) {
+/* @media (max-width: 1200px) {
   .board-image {
     width: 100%;
   }
@@ -70,20 +75,44 @@ body, html, #root {
   .operation {
     width: 100%;
   }
-}
+} */
 
 /* 반응형 설정: 화면 크기가 768px 이하일 때 패딩을 줄입니다. */
-@media (max-width: 768px) {
+@media (max-width: 1496px) {
   body, html, #root {
-    padding: 0; /* 패딩을 없앱니다. */
+    padding: 0;
   }
+
+  .App {
+    overflow-x: auto;
+  }
+
   .App-header {
     overflow: hidden;
   }  
-}
 
-/* @media (max-width: 847px) {
-  .board-image {
-    width: 100%;
+  .board-parent {
+    flex-direction: column;
+    align-items: center;
   }
-} */
+
+  .board-container {
+    width: 100%;
+    order: 1;
+  }
+
+  .react-flex {
+    display: flex;
+    flex-direction: column;
+    order: 2;
+  }
+
+  .menu-bar {
+    order: 2;
+  }
+
+  .player-list {
+    order: 3;
+  }
+
+}

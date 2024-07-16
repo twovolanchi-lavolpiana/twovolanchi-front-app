@@ -127,11 +127,13 @@ function Navbar({ darkMode, onThemeChange }: NavbarProps) {
                             </Button>
                         ))}
                     </Box>
-                    <FormControlLabel
-                        control={<Switch checked={darkMode} onChange={onThemeChange} />}
-                        label="Dark Mode"
-                        sx={{ ml: 'auto' }} // 오른쪽 정렬을 위해 추가
-                    />
+                    <Box sx={{ flexGrow: 0 }}>
+                        <FormControlLabel
+                            control={<Switch checked={darkMode} onChange={onThemeChange} />}
+                            label="Dark Mode"
+                            sx={{ ml: 'auto' }} // 오른쪽 정렬을 위해 추가
+                        />
+                    </Box>
                 </Toolbar>
             </Container>
         </AppBar>

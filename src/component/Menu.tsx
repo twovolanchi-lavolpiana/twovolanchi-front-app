@@ -29,9 +29,14 @@ import MoveUpIcon from '@mui/icons-material/MoveUp';
 import { clearBall } from "../store/BallSlice";
 import { clearPossibleBallMoveState, setPossibleBallMoveState } from "../store/PossibleBallMoveSlice";
 import { TeamCountry, TeamMapper } from "./TeamMapper";
+import { useScreenSize } from "../provider/ScreenSizeProvider";
+
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
+import { setBall } from '../store/BallSlice';
 
 
 export const Menu = () => {
+    const defaultName = "Messi";
     const dispatch = useDispatch();
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
     const multiSelectedPlayer = useSelector((state: RootState) => state.player.multiSelectedPlayers);
@@ -43,12 +48,60 @@ export const Menu = () => {
     const isPossibleBallMove = useSelector((state: RootState) => state.possibleBallMove.isPossible);
     const isSimulationOn = useSelector((state: RootState) => state.simulationOn.isSimulationOn);
     const isSimulationStart = useSelector((state: RootState) => state.simulationOn.isSimulationStart);
+    const isPossiblePlayerMove = useSelector((state: RootState) => state.possiblePlayerMove.isPossible);
+
+
+    const handleAddPlusPlayer = (team: 'home' | 'away', position: PlayerPositionEnum) => {
+        handlePlayerMoveNotPossible()
+        const left = 50; // 50%
+        const top = 50; // 50%
+
+        const newPlayer = {
+            id: playerId,
+            backNumber: playerId,
+            name: defaultName,
+            position: position,
+            team: team,
+            left: left,
+            top: top,
+        };
+        dispatch(setPlayer(newPlayer));
+        dispatch(selectPlayer(newPlayer));
+        dispatch(plusPlayerId());
+    };
+
+
+    const handleSetBall = () => {
+        handlePlayerMoveNotPossible()
+        const left = 50; // 50%
+        const top = 50; // 50%
+
+        const ball = {
+            left: left,
+            top: top,
+        };
+        dispatch(setBall(ball));
+        dispatch(setBallSequences({ left, top }));
+    };
+
+    useEffect(() => {
+    }, [isPossiblePlayerMove]);
+
+    useEffect(() => {
+    }, [players])
+
+    useEffect(() => {
+        console.log("ball  = ", ball)
+    }, [ball])
+
 
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [homeFormationState, setHomeFormation] = useState<Formation>(Formation.FOTRTR);
     const [awayFormationState, setAwayFormation] = useState<Formation>(Formation.FOTRTR);
     const [homeCountryState, setHomeCountry] = useState<TeamCountry>(TeamCountry.SPAIN);
     const [awayCountryState, setAwayCountry] = useState<TeamCountry>(TeamCountry.ENGLAND);
+    const { vw } = useScreenSize(); // width 값 사용
+
 
     const handlePlayerMovePossible = () => {
         if (!selectedPlayer) return;
@@ -365,6 +418,9 @@ export const Menu = () => {
     useEffect(() => {
     }, [isSimulationStart])
 
+    useEffect(() => {
+    }, [vw])
+
     const isMovable = selectedPlayer && possibleMoveState.playerId !== selectedPlayer.id;
     const isMovalbleBallClick = ball && !isPossibleBallMove
     const isMoveBackable = selectedPlayer && possibleMoveState.isPossible;
@@ -373,6 +429,25 @@ export const Menu = () => {
     const isSimulationPossible = sequencesState.sequences.find((s) => s.sequenceNumber === sequencesState.currentSequenceNumber)
     return (
         <>
+            <Box display="flex" alignItems="center" onClick={() => handleAddPlusPlayer('home', PlayerPositionEnum.CM)} sx={{ cursor: 'pointer' }}>
+                <AddOutlinedIcon sx={{ color: '#3B6FB2' }} />
+                <Typography variant="body1" ml={1}>Home Team Player</Typography>
+            </Box>
+            <Box display="flex" alignItems="center" onClick={() => handleAddPlusPlayer('away', PlayerPositionEnum.CM)} sx={{ cursor: 'pointer' }}>
+                <AddOutlinedIcon sx={{ color: '#B23B7F' }} />
+                <Typography variant="body1" ml={1}>Away Team Player</Typography>
+            </Box>
+            <Box
+                display="flex"
+                alignItems="center"
+                onClick={!ball ? handleSetBall : undefined}
+                sx={{
+                    cursor: !ball ? 'pointer' : 'not-allowed',
+                    opacity: !ball ? 1 : 0.5
+                }}>
+                <AddOutlinedIcon sx={{ color: 'black' }} />
+                <Typography variant="body1" ml={1} color={!ball ? 'black' : 'gray'}>Ball</Typography>
+            </Box>
             <Box
                 width="100%"
                 my={2}

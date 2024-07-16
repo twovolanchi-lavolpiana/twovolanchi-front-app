@@ -7,7 +7,11 @@ import { PlayerPositionEnum } from "./PlayerPositionEnum";
 import { setPlayer } from "../store/PlayersListSlice";
 import { selectPlayer } from "../store/PlayerSlice";
 
-export const PlayerList = () => {
+export interface PlayerListProps {
+    width: number;
+}
+
+export const PlayerList: React.FC<PlayerListProps> = ({ width }) => {
     const dispatch = useDispatch();
     const players = useSelector((state: RootState) => state.players.players);
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
@@ -110,7 +114,11 @@ export const PlayerList = () => {
 
     return (
         <div>
-            <TableContainer component={Paper} sx={{ maxHeight: 750, width: 300, overflowY: 'auto' }}>
+            <TableContainer component={Paper} sx={{
+                maxHeight: 750,
+                width: width,
+                overflowY: 'auto',
+            }}>
                 <Table>
                     <TableHead>
                         <TableRow>
