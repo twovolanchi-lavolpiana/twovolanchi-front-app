@@ -1,5 +1,6 @@
 import { Box, Button, Chip, FormControl, IconButton, InputLabel, MenuItem, Modal, Select, Stack, Typography } from "@mui/material";
-import StartOutlinedIcon from '@mui/icons-material/StartOutlined';
+import SaveAltIcon from '@mui/icons-material/SaveAlt';
+import IosShareIcon from '@mui/icons-material/IosShare';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useDispatch, useSelector } from 'react-redux';
@@ -44,8 +45,8 @@ export const Menu = () => {
     const isSimulationStart = useSelector((state: RootState) => state.simulationOn.isSimulationStart);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [homeFormationState, setHomeFormation] = useState<Formation>(Formation.THFITW);
-    const [awayFormationState, setAwayFormation] = useState<Formation>(Formation.THFITW);
+    const [homeFormationState, setHomeFormation] = useState<Formation>(Formation.FOTRTR);
+    const [awayFormationState, setAwayFormation] = useState<Formation>(Formation.FOTRTR);
     const [homeCountryState, setHomeCountry] = useState<TeamCountry>(TeamCountry.SPAIN);
     const [awayCountryState, setAwayCountry] = useState<TeamCountry>(TeamCountry.ENGLAND);
 
@@ -200,64 +201,64 @@ export const Menu = () => {
         switch (awayFormationState) {
             case Formation.FOFOTW:
                 addPlayers = [
-                    { left: 93, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'away' },
-                    { left: 83, top: 16, backNumber: 2, position: PlayerPositionEnum.RB, team: 'away' },
-                    { left: 83, top: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'away' },
-                    { left: 83, top: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'away' },
-                    { left: 83, top: 84, backNumber: 3, position: PlayerPositionEnum.LB, team: 'away' },
-                    { left: 72, top: 16, backNumber: 11, position: PlayerPositionEnum.RM, team: 'away' },
-                    { left: 72, top: 38, backNumber: 8, position: PlayerPositionEnum.CM, team: 'away' },
-                    { left: 72, top: 62, backNumber: 6, position: PlayerPositionEnum.CM, team: 'away' },
-                    { left: 72, top: 84, backNumber: 7, position: PlayerPositionEnum.LM, team: 'away' },
-                    { left: 61, top: 38, backNumber: 9, position: PlayerPositionEnum.ST, team: 'away' },
-                    { left: 61, top: 62, backNumber: 10, position: PlayerPositionEnum.CF, team: 'away' },
+                    { left: 95, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'away' },
+                    { left: 85, top: 16, backNumber: 2, position: PlayerPositionEnum.RB, team: 'away' },
+                    { left: 85, top: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'away' },
+                    { left: 85, top: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'away' },
+                    { left: 85, top: 84, backNumber: 3, position: PlayerPositionEnum.LB, team: 'away' },
+                    { left: 75, top: 16, backNumber: 11, position: PlayerPositionEnum.RM, team: 'away' },
+                    { left: 75, top: 38, backNumber: 8, position: PlayerPositionEnum.CM, team: 'away' },
+                    { left: 75, top: 62, backNumber: 6, position: PlayerPositionEnum.CM, team: 'away' },
+                    { left: 75, top: 84, backNumber: 7, position: PlayerPositionEnum.LM, team: 'away' },
+                    { left: 63, top: 38, backNumber: 9, position: PlayerPositionEnum.ST, team: 'away' },
+                    { left: 63, top: 62, backNumber: 10, position: PlayerPositionEnum.CF, team: 'away' },
                 ]
                 break;
             case Formation.FOTWTRON:
                 addPlayers = [
-                    { left: 93, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'away' },
-                    { left: 83, top: 16, backNumber: 2, position: PlayerPositionEnum.RB, team: 'away' },
-                    { left: 83, top: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'away' },
-                    { left: 83, top: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'away' },
-                    { left: 83, top: 84, backNumber: 3, position: PlayerPositionEnum.LB, team: 'away' },
-                    { left: 72, top: 38, backNumber: 6, position: PlayerPositionEnum.DM, team: 'away' },
-                    { left: 72, top: 62, backNumber: 8, position: PlayerPositionEnum.DM, team: 'away' },
-                    { left: 61, top: 16, backNumber: 11, position: PlayerPositionEnum.RM, team: 'away' },
-                    { left: 61, top: 84, backNumber: 7, position: PlayerPositionEnum.LM, team: 'away' },
-                    { left: 61, top: 50, backNumber: 10, position: PlayerPositionEnum.AM, team: 'away' },
-                    { left: 53, top: 50, backNumber: 9, position: PlayerPositionEnum.ST, team: 'away' },
+                    { left: 95, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'away' },
+                    { left: 85, top: 16, backNumber: 2, position: PlayerPositionEnum.RB, team: 'away' },
+                    { left: 85, top: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'away' },
+                    { left: 85, top: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'away' },
+                    { left: 85, top: 84, backNumber: 3, position: PlayerPositionEnum.LB, team: 'away' },
+                    { left: 75, top: 38, backNumber: 6, position: PlayerPositionEnum.DM, team: 'away' },
+                    { left: 75, top: 62, backNumber: 8, position: PlayerPositionEnum.DM, team: 'away' },
+                    { left: 65, top: 16, backNumber: 11, position: PlayerPositionEnum.RM, team: 'away' },
+                    { left: 65, top: 84, backNumber: 7, position: PlayerPositionEnum.LM, team: 'away' },
+                    { left: 65, top: 50, backNumber: 10, position: PlayerPositionEnum.AM, team: 'away' },
+                    { left: 55, top: 50, backNumber: 9, position: PlayerPositionEnum.ST, team: 'away' },
                 ]
                 break;
 
             case Formation.FOTRTR:
                 addPlayers = [
-                    { left: 93, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'away' },
-                    { left: 83, top: 16, backNumber: 2, position: PlayerPositionEnum.RB, team: 'away' },
-                    { left: 83, top: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'away' },
-                    { left: 83, top: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'away' },
-                    { left: 83, top: 84, backNumber: 3, position: PlayerPositionEnum.LB, team: 'away' },
-                    { left: 68, top: 20, backNumber: 6, position: PlayerPositionEnum.RM, team: 'away' },
-                    { left: 68, top: 50, backNumber: 8, position: PlayerPositionEnum.CM, team: 'away' },
-                    { left: 68, top: 80, backNumber: 10, position: PlayerPositionEnum.LM, team: 'away' },
-                    { left: 53, top: 20, backNumber: 11, position: PlayerPositionEnum.RF, team: 'away' },
-                    { left: 53, top: 50, backNumber: 9, position: PlayerPositionEnum.ST, team: 'away' },
-                    { left: 53, top: 80, backNumber: 7, position: PlayerPositionEnum.LF, team: 'away' },
+                    { left: 95, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'away' },
+                    { left: 85, top: 16, backNumber: 2, position: PlayerPositionEnum.RB, team: 'away' },
+                    { left: 85, top: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'away' },
+                    { left: 85, top: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'away' },
+                    { left: 85, top: 84, backNumber: 3, position: PlayerPositionEnum.LB, team: 'away' },
+                    { left: 70, top: 20, backNumber: 6, position: PlayerPositionEnum.RM, team: 'away' },
+                    { left: 70, top: 50, backNumber: 8, position: PlayerPositionEnum.CM, team: 'away' },
+                    { left: 70, top: 80, backNumber: 10, position: PlayerPositionEnum.LM, team: 'away' },
+                    { left: 55, top: 20, backNumber: 11, position: PlayerPositionEnum.RF, team: 'away' },
+                    { left: 55, top: 50, backNumber: 9, position: PlayerPositionEnum.ST, team: 'away' },
+                    { left: 55, top: 80, backNumber: 7, position: PlayerPositionEnum.LF, team: 'away' },
                 ]
                 break;
 
             case Formation.THFITW:
                 addPlayers = [
-                    { left: 93, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'away' },
-                    { left: 83, top: 20, backNumber: 3, position: PlayerPositionEnum.CB, team: 'away' },
-                    { left: 83, top: 50, backNumber: 4, position: PlayerPositionEnum.CB, team: 'away' },
-                    { left: 83, top: 80, backNumber: 5, position: PlayerPositionEnum.CB, team: 'away' },
-                    { left: 68, top: 10, backNumber: 2, position: PlayerPositionEnum.RB, team: 'away' },
-                    { left: 68, top: 30, backNumber: 6, position: PlayerPositionEnum.CM, team: 'away' },
-                    { left: 68, top: 50, backNumber: 10, position: PlayerPositionEnum.AM, team: 'away' },
-                    { left: 68, top: 70, backNumber: 8, position: PlayerPositionEnum.CM, team: 'away' },
-                    { left: 68, top: 90, backNumber: 11, position: PlayerPositionEnum.LB, team: 'away' },
-                    { left: 53, top: 30, backNumber: 9, position: PlayerPositionEnum.ST, team: 'away' },
-                    { left: 53, top: 70, backNumber: 7, position: PlayerPositionEnum.ST, team: 'away' },
+                    { left: 95, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'away' },
+                    { left: 85, top: 20, backNumber: 3, position: PlayerPositionEnum.CB, team: 'away' },
+                    { left: 85, top: 50, backNumber: 4, position: PlayerPositionEnum.CB, team: 'away' },
+                    { left: 85, top: 80, backNumber: 5, position: PlayerPositionEnum.CB, team: 'away' },
+                    { left: 70, top: 10, backNumber: 2, position: PlayerPositionEnum.RB, team: 'away' },
+                    { left: 70, top: 30, backNumber: 6, position: PlayerPositionEnum.CM, team: 'away' },
+                    { left: 70, top: 50, backNumber: 10, position: PlayerPositionEnum.AM, team: 'away' },
+                    { left: 70, top: 70, backNumber: 8, position: PlayerPositionEnum.CM, team: 'away' },
+                    { left: 70, top: 90, backNumber: 11, position: PlayerPositionEnum.LB, team: 'away' },
+                    { left: 55, top: 30, backNumber: 9, position: PlayerPositionEnum.ST, team: 'away' },
+                    { left: 55, top: 70, backNumber: 7, position: PlayerPositionEnum.ST, team: 'away' },
                 ]
                 break;
         }
@@ -594,13 +595,13 @@ export const Menu = () => {
                 <MultipleStopOutlinedIcon sx={{ color: 'purple' }} />
                 <Typography variant="body1" ml={1}>Ground Change</Typography>
             </Box>
-            {/* <Box display="flex" alignItems="center" onClick={handlePlayerViewState} sx={{ cursor: 'pointer' }}>
-                <SettingsIcon sx={{ color: 'black' }} />
-                <Typography variant="body1" ml={1}>Icon View</Typography>
-            </Box> */}
             <Box display="flex" alignItems="center" onClick={handlePlayerMoveNotPossible} sx={{ cursor: 'pointer' }}>
-                <StartOutlinedIcon sx={{ color: 'black' }} />
-                <Typography variant="body1" ml={1}>Next Slice</Typography>
+                <SaveAltIcon sx={{ color: 'black' }} />
+                <Typography variant="body1" ml={1}>Save</Typography>
+            </Box>
+            <Box display="flex" alignItems="center" onClick={() => { }} sx={{ cursor: 'pointer' }}>
+                <IosShareIcon sx={{ color: 'purple' }} />
+                <Typography variant="body1" ml={1}>Share</Typography>
             </Box>
 
             <Modal
@@ -615,7 +616,7 @@ export const Menu = () => {
                         top: '50%',
                         left: '50%',
                         transform: 'translate(-50%, -50%)',
-                        width: 200,
+                        width: 400,
                         bgcolor: 'background.paper',
                         p: 4,
                         display: 'flex',

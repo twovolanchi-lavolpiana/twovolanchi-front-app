@@ -9,12 +9,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/Store';
 import { Card, CardContent, Stack } from '@mui/material';
 import { ScreenSizeProvider } from '../provider/ScreenSizeProvider';
-import SoccerField from './SoccerField';
 import { PlayerList } from './PlayerList';
 import { Description } from './Description';
 
 export const Board = () => {
-    const dispatch = useDispatch();
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
     const players = useSelector((state: RootState) => state.players.players)
 
@@ -57,9 +55,6 @@ export const Board = () => {
                             <PlayerList></PlayerList>
                         </CardContent>
                     </Card>
-                </div>
-                <div className='simulation-card' >
-                    <SoccerField></SoccerField>
                 </div>
             </DndProvider>
         </ScreenSizeProvider>
