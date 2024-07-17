@@ -12,7 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { FormControlLabel, Switch } from '@mui/material';
 import { useScreenSize } from '../provider/ScreenSizeProvider';
 
-const pages = ['Share', 'Introduce', 'Language'];
+const pages = ['Introduce', 'Language'];
 const settings = ['Profile'];
 
 interface NavbarProps {
