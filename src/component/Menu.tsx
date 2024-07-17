@@ -30,6 +30,7 @@ import { useScreenSize } from "../provider/ScreenSizeProvider";
 
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { setBall } from '../store/BallSlice';
+import { Share } from "./Share";
 
 
 export const Menu = () => {
@@ -380,10 +381,6 @@ export const Menu = () => {
         dispatch(endSimulation())
     }
 
-    const handleShare = () => {
-
-    }
-
     useEffect(() => {
     }, [possibleMoveState]);
 
@@ -693,11 +690,7 @@ export const Menu = () => {
                 <StarBorderOutlinedIcon sx={{ color: '#FFD400' }} />
                 <Typography variant="body1" ml={1}>Recommend Formation</Typography>
             </Box>
-            <Box display="flex" alignItems="center" onClick={handleShare} sx={{ cursor: 'pointer', mr: 2 }}>
-                <IosShareIcon sx={{ color: 'purple' }} />
-                <Typography variant="body1" ml={1}>Share</Typography>
-            </Box>
-
+            <Share />
             <Modal
                 open={isModalOpen}
                 onClose={handleRecommendFormationModalClose}
