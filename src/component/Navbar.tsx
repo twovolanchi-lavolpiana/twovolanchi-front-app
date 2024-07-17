@@ -12,8 +12,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { FormControlLabel, Switch } from '@mui/material';
 import { useScreenSize } from '../provider/ScreenSizeProvider';
 
-const pages = ['Introduce', 'Language'];
-const settings = ['Profile'];
+const pages = ['Introduce', 'Guide', 'Language'];
 
 interface NavbarProps {
     darkMode: boolean;
@@ -43,13 +42,13 @@ function Navbar({ darkMode, onThemeChange }: NavbarProps) {
 
     return (
         <AppBar position="static" className='App-header' sx={{ backgroundColor: '#3BB26F' }}>
-            {vw >= 14.96 ?  <Container maxWidth="xl">
+            {vw >= 14.96 ? <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Typography
                         variant="h6"
                         noWrap
                         component="a"
-                        href="#app-bar-with-responsive-menu"
+                        href="/"
                         sx={{
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },
@@ -81,73 +80,75 @@ function Navbar({ darkMode, onThemeChange }: NavbarProps) {
                         />
                     </Box>
                 </Toolbar>
-            </Container> : 
-            
-            <Container maxWidth="xl">
-                <Toolbar disableGutters>
-                    <Box sx={{ flexGrow: 1, display: 'flex' }}>
-                        <IconButton
-                            size="large"
-                            aria-label="account of current user"
-                            aria-controls="menu-appbar"
-                            aria-haspopup="true"
-                            onClick={handleOpenNavMenu}
-                            color="inherit"
-                        >
-                            <MenuIcon />
-                        </IconButton>
-                        <Menu
-                            id="menu-appbar"
-                            anchorEl={anchorElNav}
-                            anchorOrigin={{
-                                vertical: 'bottom',
-                                horizontal: 'left',
-                            }}
-                            keepMounted
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
-                            open={Boolean(anchorElNav)}
-                            onClose={handleCloseNavMenu}
+            </Container> :
+
+                <Container maxWidth="xl">
+                    <Toolbar disableGutters>
+                        <Box sx={{ flexGrow: 1, display: 'flex' }}>
+                            <IconButton
+                                size="large"
+                                aria-label="account of current user"
+                                aria-controls="menu-appbar"
+                                aria-haspopup="true"
+                                onClick={handleOpenNavMenu}
+                                color="inherit"
+                            >
+                                <MenuIcon />
+                            </IconButton>
+                            {anchorElNav &&
+                                <Menu
+                                    id="menu-appbar"
+                                    anchorEl={anchorElNav}
+                                    anchorOrigin={{
+                                        vertical: 'bottom',
+                                        horizontal: 'left',
+                                    }}
+                                    keepMounted
+                                    transformOrigin={{
+                                        vertical: 'top',
+                                        horizontal: 'left',
+                                    }}
+                                    open={Boolean(anchorElNav)}
+                                    onClose={handleCloseNavMenu}
+                                >
+                                    {pages.map((page) => (
+                                        <MenuItem
+                                            key={page}
+                                            onClick={handleCloseNavMenu}>
+                                            <Typography textAlign="center">{page}</Typography>
+                                        </MenuItem>
+                                    ))}
+                                </Menu>
+
+                            }
+                        </Box>
+                        <Typography
+                            variant="h5"
+                            noWrap
+                            component="a"
+                            href="/"
                             sx={{
-                                display: { xs: 'block', md: 'none' },
+                                mr: 2,
+                                display: 'flex',
+                                flexGrow: 1,
+                                fontFamily: 'monospace',
+                                fontWeight: 700,
+                                letterSpacing: '.3rem',
+                                color: 'inherit',
+                                textDecoration: 'none',
                             }}
                         >
-                            {pages.map((page) => (
-                                <MenuItem key={page} onClick={handleCloseNavMenu}>
-                                    <Typography textAlign="center">{page}</Typography>
-                                </MenuItem>
-                            ))}
-                        </Menu>
-                    </Box>
-                    <Typography
-                        variant="h5"
-                        noWrap
-                        component="a"
-                        href="#app-bar-with-responsive-menu"
-                        sx={{
-                            mr: 2,
-                            display: 'flex',
-                            flexGrow: 1,
-                            fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.3rem',
-                            color: 'inherit',
-                            textDecoration: 'none',
-                        }}
-                    >
-                        Lavolpiana
-                    </Typography>
-                    <Box sx={{ flexGrow: 0 }}>
-                        <FormControlLabel
-                            control={<Switch checked={darkMode} onChange={onThemeChange} />}
-                            label="Dark Mode"
-                            sx={{ ml: 'auto' }} // 오른쪽 정렬을 위해 추가
-                        />
-                    </Box>
-                </Toolbar>
-            </Container>
+                            Lavolpiana
+                        </Typography>
+                        <Box sx={{ flexGrow: 0 }}>
+                            <FormControlLabel
+                                control={<Switch checked={darkMode} onChange={onThemeChange} />}
+                                label="Dark Mode"
+                                sx={{ ml: 'auto' }} // 오른쪽 정렬을 위해 추가
+                            />
+                        </Box>
+                    </Toolbar>
+                </Container>
             }
         </AppBar>
     );

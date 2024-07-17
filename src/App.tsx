@@ -3,7 +3,7 @@ import './App.css';
 import { Box, createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 import { ScreenSizeProvider } from './provider/ScreenSizeProvider';
 import { Route, Routes } from 'react-router-dom';
-import ShareComponent from './component/ShareComponent';
+import ShareComponent from './component/share/ShareComponent';
 import MainComponent from './component/MainComponent';
 import EditComponent from './component/EditComponent';
 

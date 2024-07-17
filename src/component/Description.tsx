@@ -1,8 +1,11 @@
 import { Button, Card, CardActionArea, CardActions, CardContent, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField, Typography } from "@mui/material"
 import SettingsIcon from '@mui/icons-material/Settings';
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { setTacticsDescription } from "../store/TacticsDescriptionSlice";
 
 export const Description = () => {
+    const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
     const [title, setTitle] = useState('2-3 BuildUp');
     const [description, setDescription] = useState('Robin Le Normand and Laporte form a pair, while Cucurella, Rodrigo, and Carvajal form a trio.');
@@ -16,7 +19,7 @@ export const Description = () => {
     };
 
     const handleSave = () => {
-        // Title and description will be saved when the dialog is closed
+        dispatch(setTacticsDescription({title, description}))
         handleClose();
     };
 

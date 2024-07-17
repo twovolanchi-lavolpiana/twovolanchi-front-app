@@ -93,8 +93,8 @@ export const Menu = () => {
 
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [homeFormationState, setHomeFormation] = useState<Formation>(Formation.FOTRTR);
-    const [awayFormationState, setAwayFormation] = useState<Formation>(Formation.FOTRTR);
+    const [homeFormationState, setHomeFormation] = useState<Formation>(Formation.FOTWTRON);
+    const [awayFormationState, setAwayFormation] = useState<Formation>(Formation.FOTWTRON);
     const [homeCountryState, setHomeCountry] = useState<TeamCountry>(TeamCountry.SPAIN);
     const [awayCountryState, setAwayCountry] = useState<TeamCountry>(TeamCountry.ENGLAND);
     const { vw } = useScreenSize(); // width 값 사용
@@ -360,6 +360,7 @@ export const Menu = () => {
         dispatch(clearSimulationOn());
         dispatch(clearPlayerId());
         dispatch(clearBall());
+        dispatch(clearBallSequences());
         dispatch(clearPossibleBallMoveState());
         dispatch(endSimulation())
     }

@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 export const Share = () => {
     const players = useSelector((state: RootState) => state.players)
     const ball = useSelector((state: RootState) => state.ball.ball);
+    const tacticsDescription = useSelector((state: RootState) => state.tacticsDescription)
     const sequencesState = useSelector((state: RootState) => state.sequences);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,14 +29,16 @@ export const Share = () => {
         const baseUrl = process.env.REACT_APP_SERVER_BASE_URL;
 
         const requestBody = {
+            title: tacticsDescription.title,
+            description: tacticsDescription.description,
             players: players.players.map(player => ({
                 id: player.id,
                 backNumber: player.backNumber,
                 name: player.name,
                 position: player.position,
                 team: player.team,
-                leftPercent: player.left.toString(),
-                topPercent: player.top.toString()
+                leftPercent: player.left,
+                topPercent: player.top
             })),
             tactics: {
                 currentSequenceNumber: sequencesState.currentSequenceNumber,
@@ -44,14 +47,14 @@ export const Share = () => {
                     players: sequence.moves.map(move => ({
                         id: move.id,
                         positions: move.sequence.map(position => ({
-                            leftPercent: position.left.toString(),
-                            topPercent: position.top.toString(),
+                            leftPercent: position.left,
+                            topPercent: position.top,
                             team: position.team
                         }))
                     })),
                     ball: sequence.balls.map(ball => ({
-                        leftPercent: ball.left.toString(),
-                        topPercent: ball.top.toString()
+                        leftPercent: ball.left,
+                        topPercent: ball.top
                     }))
                 }))
             }
