@@ -385,6 +385,10 @@ export const Menu = () => {
         dispatch(endSimulation())
     }
 
+    const handleShare = () => {
+
+    }
+
     useEffect(() => {
     }, [possibleMoveState]);
 
@@ -429,13 +433,29 @@ export const Menu = () => {
     const isSimulationPossible = sequencesState.sequences.find((s) => s.sequenceNumber === sequencesState.currentSequenceNumber)
     return (
         <>
-            <Box display="flex" alignItems="center" onClick={() => handleAddPlusPlayer('home', PlayerPositionEnum.CM)} sx={{ cursor: 'pointer', mr: 2 }}>
+            <Box
+                display="flex"
+                alignItems="center"
+                onClick={() => handleAddPlusPlayer('home', PlayerPositionEnum.CM)}
+                sx={{ cursor: 'pointer', mr: 2 }}
+            >
                 <AddOutlinedIcon sx={{ color: '#3B6FB2' }} />
-                <Typography variant="body1" ml={1}>Home Team Player</Typography>
+                <Typography
+                    variant="body1"
+                    ml={1}
+                >Home Team Player</Typography>
             </Box>
-            <Box display="flex" alignItems="center" onClick={() => handleAddPlusPlayer('away', PlayerPositionEnum.CM)} sx={{ cursor: 'pointer', mr: 2 }}>
+            <Box
+                display="flex"
+                alignItems="center"
+                onClick={() => handleAddPlusPlayer('away', PlayerPositionEnum.CM)}
+                sx={{ cursor: 'pointer', mr: 2 }}
+            >
                 <AddOutlinedIcon sx={{ color: '#B23B7F' }} />
-                <Typography variant="body1" ml={1}>Away Team Player</Typography>
+                <Typography
+                    variant="body1"
+                    ml={1}
+                >Away Team Player</Typography>
             </Box>
             <Box
                 display="flex"
@@ -446,8 +466,8 @@ export const Menu = () => {
                     opacity: !ball ? 1 : 0.5,
                     mr: 2
                 }}>
-                <AddOutlinedIcon sx={{ color: 'black' }} />
-                <Typography variant="body1" ml={1} color={!ball ? 'black' : 'gray'}>Ball</Typography>
+                <AddOutlinedIcon sx={{ color: '#ff93ac' }} />
+                <Typography variant="body1" ml={1} color={!ball ? 'auto' : 'gray'}>Ball</Typography>
             </Box>
             <Box
                 width="100%"
@@ -457,7 +477,7 @@ export const Menu = () => {
                     opacity: 0.5
                 }}
             />
-            <Box
+            {/* <Box
                 display="flex"
                 alignItems="center"
                 onClick={selectedPlayer ? handleMultiSelect : () => { }}
@@ -471,7 +491,7 @@ export const Menu = () => {
                 <Typography variant="body1" ml={1} color={selectedPlayer ? 'black' : 'gray'}>
                     Player Multi Select
                 </Typography>
-            </Box>
+            </Box> */}
 
             <Box
                 display="flex"
@@ -486,7 +506,7 @@ export const Menu = () => {
                 <Typography
                     variant="body1"
                     ml={1}
-                    color={isMovable ? 'black' : 'gray'}
+                    color={isMovable ? 'auto' : 'gray'}
                 >Player Move</Typography>
             </Box>
 
@@ -500,11 +520,11 @@ export const Menu = () => {
                     opacity: isMoveBackable ? 1 : 0.5,
                     mr: 2
                 }}>
-                <ArrowBackIcon sx={{ color: 'black' }} />
+                <ArrowBackIcon sx={{ color: '#78492a' }} />
                 <Typography
                     variant="body1"
                     ml={1}
-                    color={isMoveBackable ? 'black' : 'gray'}
+                    color={isMoveBackable ? 'auto' : 'gray'}
                 >Player Back</Typography>
             </Box>
 
@@ -521,7 +541,7 @@ export const Menu = () => {
                 <Typography
                     variant="body1"
                     ml={1}
-                    color={isPlayerMoveStopable ? 'black' : 'gray'}
+                    color={isPlayerMoveStopable ? 'auto' : 'gray'}
                 >Player Stop</Typography>
             </Box>
 
@@ -538,7 +558,7 @@ export const Menu = () => {
                 <Typography
                     variant="body1"
                     ml={1}
-                    color={selectedPlayer ? 'black' : 'gray'}
+                    color={selectedPlayer ? 'auto' : 'gray'}
                 >Player Remove</Typography>
             </Box>
 
@@ -563,7 +583,7 @@ export const Menu = () => {
                 <Typography
                     variant="body1"
                     ml={1}
-                    color={isMovalbleBallClick ? 'black' : 'gray'}
+                    color={isMovalbleBallClick ? 'auto' : 'gray'}
                 >Ball Move</Typography>
             </Box>
 
@@ -576,11 +596,11 @@ export const Menu = () => {
                     opacity: isMoveBackable ? 1 : 0.5,
                     mr: 2
                 }}>
-                <ArrowBackIcon sx={{ color: 'black' }} />
+                <ArrowBackIcon sx={{ color: '#78492a' }} />
                 <Typography
                     variant="body1"
                     ml={1}
-                    color={isMoveBackable ? 'black' : 'gray'}
+                    color={isMoveBackable ? 'auto' : 'gray'}
                 >Ball Back</Typography>
             </Box>
 
@@ -597,7 +617,7 @@ export const Menu = () => {
                 <Typography
                     variant="body1"
                     ml={1}
-                    color={isBallMoveStopable ? 'black' : 'gray'}
+                    color={isBallMoveStopable ? 'auto' : 'gray'}
                 >Ball Stop</Typography>
             </Box>
 
@@ -614,7 +634,7 @@ export const Menu = () => {
                 <Typography
                     variant="body1"
                     ml={1}
-                    color={ball ? 'black' : 'gray'}
+                    color={ball ? 'auto' : 'gray'}
                 >Ball Remove</Typography>
             </Box>
 
@@ -639,7 +659,7 @@ export const Menu = () => {
                 <Typography
                     variant="body1"
                     ml={1}
-                    color={isSimulationPossible ? 'black' : 'gray'}
+                    color={isSimulationPossible ? 'auto' : 'gray'}
                 >Simulation</Typography>
             </Box>
 
@@ -656,7 +676,7 @@ export const Menu = () => {
                 <Typography
                     variant="body1"
                     ml={1}
-                    color={isSimulationStart ? 'black' : 'gray'}
+                    color={isSimulationStart ? 'auto' : 'gray'}
                 >Simulation Reset</Typography>
             </Box>
 
@@ -678,7 +698,7 @@ export const Menu = () => {
                 <StarBorderOutlinedIcon sx={{ color: '#FFD400' }} />
                 <Typography variant="body1" ml={1}>Recommend Formation</Typography>
             </Box>
-            <Box display="flex" alignItems="center" onClick={() => { }} sx={{ cursor: 'pointer', mr: 2 }}>
+            {/* <Box display="flex" alignItems="center" onClick={() => { }} sx={{ cursor: 'pointer', mr: 2 }}>
                 <MultipleStopOutlinedIcon sx={{ color: 'purple' }} />
                 <Typography variant="body1" ml={1}>Ground Change</Typography>
             </Box>
@@ -689,12 +709,12 @@ export const Menu = () => {
                 sx={{
                     opacity: 0.5
                 }}
-            />
-            <Box display="flex" alignItems="center" onClick={handlePlayerMoveNotPossible} sx={{ cursor: 'pointer', mr: 2 }}>
-                <SaveAltIcon sx={{ color: 'black' }} />
+            /> */}
+            {/* <Box display="flex" alignItems="center" onClick={handlePlayerMoveNotPossible} sx={{ cursor: 'pointer', mr: 2 }}>
+                <SaveAltIcon sx={{ color: '#94d893' }} />
                 <Typography variant="body1" ml={1}>Save</Typography>
-            </Box>
-            <Box display="flex" alignItems="center" onClick={() => { }} sx={{ cursor: 'pointer', mr: 2 }}>
+            </Box> */}
+            <Box display="flex" alignItems="center" onClick={handleShare} sx={{ cursor: 'pointer', mr: 2 }}>
                 <IosShareIcon sx={{ color: 'purple' }} />
                 <Typography variant="body1" ml={1}>Share</Typography>
             </Box>

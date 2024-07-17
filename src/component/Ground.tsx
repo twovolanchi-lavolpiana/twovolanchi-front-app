@@ -292,11 +292,10 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
         <Box
             sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 2 }}
         >
-            <div style={{ width: '80%', height: '80%', justifyContent: 'center', alignItems: 'center' }}
+            <div style={{ width: '70%', height: '60%', justifyContent: 'center', alignItems: 'center' }}
                 ref={drop}
                 onClick={handleClick}
             >
-                {/* <img ref={imgRef} src={boardImage} alt="board" style={{ maxWidth: '100%', maxHeight: '100%' }} /> */}
                 <SoccerField ref={imgRef} />
 
                 {

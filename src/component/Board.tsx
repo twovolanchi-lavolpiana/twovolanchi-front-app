@@ -1,6 +1,5 @@
 import '../App.css';
 import { Menu } from './Menu'
-import { PlayerPlus } from './PlayerPlus';
 import { Ground } from './Ground';
 import { useEffect } from 'react'
 import { DndProvider } from 'react-dnd';
@@ -16,8 +15,6 @@ export const Board = () => {
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
     const players = useSelector((state: RootState) => state.players.players)
     const { vw } = useScreenSize(); // width 값 사용
-
-    console.log("vw ==== ", vw);
 
     useEffect(() => {
         console.log(players)

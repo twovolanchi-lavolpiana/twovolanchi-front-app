@@ -39,7 +39,7 @@ export const PlayerList: React.FC<PlayerListProps> = ({ width }) => {
             case 'RB':
                 return 'blue';
             case 'GK':
-                return 'black';
+                return '#f192bd';
             default:
                 return '#3BB24A';
         }
@@ -115,7 +115,7 @@ export const PlayerList: React.FC<PlayerListProps> = ({ width }) => {
     return (
         <div>
             <TableContainer component={Paper} sx={{
-                maxHeight: 750,
+                maxHeight: 700,
                 width: width,
                 overflowY: 'auto',
             }}>
@@ -125,22 +125,30 @@ export const PlayerList: React.FC<PlayerListProps> = ({ width }) => {
                             <TableCell align="center"><Typography variant="subtitle1" fontWeight="bold">Position</Typography></TableCell>
                             <TableCell align="center"><Typography variant="subtitle1" fontWeight="bold">Name</Typography></TableCell>
                             <TableCell align="center"><Typography variant="subtitle1" fontWeight="bold">No</Typography></TableCell>
-                            <TableCell align="center"><Typography variant="subtitle1" fontWeight="bold">Team</Typography></TableCell>
+                            {/* <TableCell align="center"><Typography variant="subtitle1" fontWeight="bold">Team</Typography></TableCell> */}
                         </TableRow>
                     </TableHead>
                     <TableBody>
                         {sortedPlayers.map((player: PlayerPosition) => (
                             <TableRow key={player.id} onDoubleClick={() => handleEditClick(player.id, player)} >
                                 <TableCell align="center">
-                                    <Avatar sx={{ bgcolor: setColorByPosition(player.position), width: 24, height: 24, margin: 'auto' }}>
-                                        <Typography variant="caption" sx={{ fontSize: '0.6rem', fontWeight: 'bold' }}>
+                                    <Avatar
+                                        sx={{
+                                            bgcolor: setColorByPosition(player.position),
+                                            width: 26,
+                                            height: 26,
+                                            margin: 'auto',
+                                            boxShadow: player.team === 'home' ? '0 0 10px 5px #3B6FB2' : '0 0 10px 5px #B23B7F',
+                                            borderRadius: '50%', // 원형 외곽선
+                                        }}>
+                                        <Typography variant="caption" sx={{ fontSize: '0.8rem', fontWeight: 'bold', color: 'auto' }}>
                                             {player.position}
                                         </Typography>
                                     </Avatar>
                                 </TableCell>
                                 <TableCell align="center"><Typography variant="body2" fontWeight="bold">{player.name} </Typography></TableCell>
                                 <TableCell align="center"><Typography variant="body2" fontWeight="bold">{player.backNumber}</Typography></TableCell>
-                                <TableCell align="center"><Typography variant="body2" fontWeight="bold">{player.team}</Typography></TableCell>
+                                {/* <TableCell align="center"><Typography variant="body2" fontWeight="bold">{player.team}</Typography></TableCell> */}
                             </TableRow>
                         ))}
                     </TableBody>
