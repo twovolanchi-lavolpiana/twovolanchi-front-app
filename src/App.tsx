@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import './App.css';
-import { Board } from './component/Board';
-import Navbar from './component/Navbar';
-import { Box, createTheme, CssBaseline, Grid, ThemeProvider } from '@mui/material';
+import { Box, createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 import { ScreenSizeProvider } from './provider/ScreenSizeProvider';
-
+import { Route, Routes } from 'react-router-dom';
+import ShareComponent from './component/ShareComponent';
+import MainComponent from './component/MainComponent';
+import EditComponent from './component/EditComponent';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -29,20 +30,28 @@ function App() {
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <CssBaseline />
       <ScreenSizeProvider>
-        <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh" flexDirection="column">
-          <div className="App">
-            <div className="App-container">
-              <Grid container spacing={2} justifyContent="center" alignItems="center">
-                <Grid item xs={12}>
-                  <Navbar darkMode={darkMode} onThemeChange={handleThemeChange} />
-                </Grid>
-                <Grid item xs={12}>
-                  <Board />
-                </Grid>
-              </Grid>
-            </div>
-          </div>
-        </Box>
+        <Routes>
+          <Route
+            key={'default'}
+            path={''}
+            element={<MainComponent darkMode={darkMode} onThemeChange={handleThemeChange} />}
+          />
+          <Route
+            key={'home'}
+            path={'/'}
+            element={<MainComponent darkMode={darkMode} onThemeChange={handleThemeChange} />}
+          />
+          <Route
+            key={'edit'}
+            path={'/edit/:editKey'}
+            element={<EditComponent darkMode={darkMode} onThemeChange={handleThemeChange} />}
+          />
+          <Route
+            key={'share'}
+            path={'/:shareKey'}
+            element={<ShareComponent darkMode={darkMode} onThemeChange={handleThemeChange} />}
+          />
+        </Routes>
       </ScreenSizeProvider>
     </ThemeProvider>
   );
