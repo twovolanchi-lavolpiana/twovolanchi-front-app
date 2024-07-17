@@ -26,7 +26,7 @@ export const PlayerPlus: React.FC = () => {
         dispatch(setPossiblePlayerMoveState({ playerId: null, isPossible: false }))
     }
 
-    const handleAddPlayer = (team: 'home' | 'away', position: PlayerPositionEnum) => {
+    const handleAddPlayer = (team: 'HOME' | 'AWAY', position: PlayerPositionEnum) => {
         handlePlayerMoveNotPossible()
         const left = 50; // 50%
         const top = 50; // 50%
@@ -71,11 +71,11 @@ export const PlayerPlus: React.FC = () => {
 
     return (
         <>
-            <Box display="flex" alignItems="center" onClick={() => handleAddPlayer('home', PlayerPositionEnum.CM)} sx={{ cursor: 'pointer' }}>
+            <Box display="flex" alignItems="center" onClick={() => handleAddPlayer('HOME', PlayerPositionEnum.CM)} sx={{ cursor: 'pointer' }}>
                 <AddOutlinedIcon sx={{ color: '#3B6FB2' }} />
                 <Typography variant="body1" ml={1}>Home Team Player</Typography>
             </Box>
-            <Box display="flex" alignItems="center" onClick={() => handleAddPlayer('away', PlayerPositionEnum.CM)} sx={{ cursor: 'pointer' }}>
+            <Box display="flex" alignItems="center" onClick={() => handleAddPlayer('AWAY', PlayerPositionEnum.CM)} sx={{ cursor: 'pointer' }}>
                 <AddOutlinedIcon sx={{ color: '#B23B7F' }} />
                 <Typography variant="body1" ml={1}>Away Team Player</Typography>
             </Box>

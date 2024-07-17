@@ -181,14 +181,8 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
         if (!imgRef.current) return;
 
         const rect = imgRef.current.getBoundingClientRect();
-
-        console.log("clientX = ", event.clientX);
-        console.log("clientY = ", event.clientY);
-
         const clickedLeft = ((event.clientX - rect.x) / rect.width) * 100;
         const clickedTop = ((event.clientY - rect.y) / rect.height) * 100;
-
-        console.log("test!!!!!!!!! = ", clickedLeft, clickedTop)
 
         if (clickedLeft < 0 || clickedLeft > 100 || clickedTop < 0 || clickedTop > 100) {
             updateScreenSize();
@@ -204,7 +198,6 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
 
         if (isPossibleBallMove) {
             dispatch(setBallSequences({ left: clickedLeft, top: clickedTop }));
-            console.log("sequences = ", sequences)
             return;
         }
     }
@@ -352,10 +345,10 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
                                         y1={y1}
                                         x2={x2}
                                         y2={y2}
-                                        stroke={location.team === 'home' ? '#3B6FB2' : '#B23B7F'}
+                                        stroke={location.team === 'HOME' ? '#3B6FB2' : '#B23B7F'}
                                         strokeWidth="3"
                                         strokeOpacity={0.7}
-                                        markerEnd={location.team === 'home' ? 'url(#arrow-home)' : 'url(#arrow-away)'}
+                                        markerEnd={location.team === 'HOME' ? 'url(#arrow-home)' : 'url(#arrow-away)'}
                                     />
                                 })
                             ))

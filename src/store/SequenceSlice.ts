@@ -3,7 +3,7 @@ import { BallPosition } from "../component/BallPosition";
 
 interface PlayerMove {
     id: number;
-    sequence: { left: number; top: number, team: 'home' | 'away' }[];
+    sequence: { left: number; top: number, team: 'HOME' | 'AWAY' }[];
 }
 
 interface BallMove {
@@ -35,7 +35,7 @@ type PlayerMovingProps = {
     id: number,
     left: number,
     top: number,
-    team: 'home' | 'away',
+    team: 'HOME' | 'AWAY',
     isFirst: boolean,
 }
 

@@ -160,7 +160,7 @@ export function TeamMapper(teaminfo: TeamInfo) {
 }
 
 export type TeamInfo = {
-    players: { left: number, top: number, backNumber: number, position: PlayerPositionEnum, team: 'home' | 'away' }[]
+    players: { left: number, top: number, backNumber: number, position: PlayerPositionEnum, team: 'HOME' | 'AWAY' }[]
     country: TeamCountry
 }
 

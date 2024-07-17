@@ -1,5 +1,4 @@
 import { Box, Button, Chip, FormControl, IconButton, InputLabel, MenuItem, Modal, Select, Stack, Typography } from "@mui/material";
-import SaveAltIcon from '@mui/icons-material/SaveAlt';
 import IosShareIcon from '@mui/icons-material/IosShare';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
@@ -12,8 +11,6 @@ import { setPossiblePlayerMoveState } from '../store/PossiblePlayerMoveSlice';
 import StopIcon from '@mui/icons-material/Stop';
 import { endSimulation, setSimulationOn, startSimulation } from '../store/SimulationOnSlice';
 import { Formation } from "./Formation";
-import DoneAllOutlinedIcon from '@mui/icons-material/DoneAllOutlined';
-import MultipleStopOutlinedIcon from '@mui/icons-material/MultipleStopOutlined';
 import { clearMultiSelectedPlayers, setInitMultiSelectedPlayers, clearSelectedPlayer, selectPlayer } from "../store/PlayerSlice";
 import StarBorderOutlinedIcon from '@mui/icons-material/StarBorderOutlined';
 
@@ -51,7 +48,7 @@ export const Menu = () => {
     const isPossiblePlayerMove = useSelector((state: RootState) => state.possiblePlayerMove.isPossible);
 
 
-    const handleAddPlusPlayer = (team: 'home' | 'away', position: PlayerPositionEnum) => {
+    const handleAddPlusPlayer = (team: 'HOME' | 'AWAY', position: PlayerPositionEnum) => {
         handlePlayerMoveNotPossible()
         const left = 50; // 50%
         const top = 50; // 50%
@@ -91,7 +88,6 @@ export const Menu = () => {
     }, [players])
 
     useEffect(() => {
-        console.log("ball  = ", ball)
     }, [ball])
 
 
@@ -146,7 +142,6 @@ export const Menu = () => {
             dispatch(clearMultiSelectedPlayers())
             return;
         }
-        console.log("초기화함")
         dispatch(setInitMultiSelectedPlayers())
     }
 
@@ -162,69 +157,69 @@ export const Menu = () => {
     const handleFormationUpdate = () => {
         handleReset()
 
-        let addPlayers: { left: number, top: number, backNumber: number, position: PlayerPositionEnum, team: 'home' | 'away' }[] = [];
+        let addPlayers: { left: number, top: number, backNumber: number, position: PlayerPositionEnum, team: 'HOME' | 'AWAY' }[] = [];
 
         switch (homeFormationState) {
             case Formation.FOFOTW:
                 addPlayers = [
-                    { left: 5, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'home' },
-                    { left: 15, top: 16, backNumber: 3, position: PlayerPositionEnum.LB, team: 'home' },
-                    { left: 15, top: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'home' },
-                    { left: 15, top: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'home' },
-                    { left: 15, top: 84, backNumber: 2, position: PlayerPositionEnum.RB, team: 'home' },
-                    { left: 26, top: 16, backNumber: 7, position: PlayerPositionEnum.LM, team: 'home' },
-                    { left: 26, top: 38, backNumber: 8, position: PlayerPositionEnum.CM, team: 'home' },
-                    { left: 26, top: 62, backNumber: 6, position: PlayerPositionEnum.CM, team: 'home' },
-                    { left: 26, top: 84, backNumber: 11, position: PlayerPositionEnum.RM, team: 'home' },
-                    { left: 37, top: 38, backNumber: 9, position: PlayerPositionEnum.ST, team: 'home' },
-                    { left: 37, top: 62, backNumber: 10, position: PlayerPositionEnum.CF, team: 'home' },
+                    { left: 5, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'HOME' },
+                    { left: 15, top: 16, backNumber: 3, position: PlayerPositionEnum.LB, team: 'HOME' },
+                    { left: 15, top: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'HOME' },
+                    { left: 15, top: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'HOME' },
+                    { left: 15, top: 84, backNumber: 2, position: PlayerPositionEnum.RB, team: 'HOME' },
+                    { left: 26, top: 16, backNumber: 7, position: PlayerPositionEnum.LM, team: 'HOME' },
+                    { left: 26, top: 38, backNumber: 8, position: PlayerPositionEnum.CM, team: 'HOME' },
+                    { left: 26, top: 62, backNumber: 6, position: PlayerPositionEnum.CM, team: 'HOME' },
+                    { left: 26, top: 84, backNumber: 11, position: PlayerPositionEnum.RM, team: 'HOME' },
+                    { left: 37, top: 38, backNumber: 9, position: PlayerPositionEnum.ST, team: 'HOME' },
+                    { left: 37, top: 62, backNumber: 10, position: PlayerPositionEnum.CF, team: 'HOME' },
                 ]
                 break;
             case Formation.FOTWTRON:
                 addPlayers = [
-                    { left: 5, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'home' },
-                    { left: 15, top: 16, backNumber: 3, position: PlayerPositionEnum.LB, team: 'home' },
-                    { left: 15, top: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'home' },
-                    { left: 15, top: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'home' },
-                    { left: 15, top: 84, backNumber: 2, position: PlayerPositionEnum.RB, team: 'home' },
-                    { left: 26, top: 38, backNumber: 6, position: PlayerPositionEnum.DM, team: 'home' },
-                    { left: 26, top: 62, backNumber: 8, position: PlayerPositionEnum.DM, team: 'home' },
-                    { left: 37, top: 16, backNumber: 7, position: PlayerPositionEnum.LM, team: 'home' },
-                    { left: 37, top: 84, backNumber: 11, position: PlayerPositionEnum.RM, team: 'home' },
-                    { left: 37, top: 50, backNumber: 10, position: PlayerPositionEnum.AM, team: 'home' },
-                    { left: 45, top: 50, backNumber: 9, position: PlayerPositionEnum.ST, team: 'home' },
+                    { left: 5, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'HOME' },
+                    { left: 15, top: 16, backNumber: 3, position: PlayerPositionEnum.LB, team: 'HOME' },
+                    { left: 15, top: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'HOME' },
+                    { left: 15, top: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'HOME' },
+                    { left: 15, top: 84, backNumber: 2, position: PlayerPositionEnum.RB, team: 'HOME' },
+                    { left: 26, top: 38, backNumber: 6, position: PlayerPositionEnum.DM, team: 'HOME' },
+                    { left: 26, top: 62, backNumber: 8, position: PlayerPositionEnum.DM, team: 'HOME' },
+                    { left: 37, top: 16, backNumber: 7, position: PlayerPositionEnum.LM, team: 'HOME' },
+                    { left: 37, top: 84, backNumber: 11, position: PlayerPositionEnum.RM, team: 'HOME' },
+                    { left: 37, top: 50, backNumber: 10, position: PlayerPositionEnum.AM, team: 'HOME' },
+                    { left: 45, top: 50, backNumber: 9, position: PlayerPositionEnum.ST, team: 'HOME' },
                 ]
                 break;
 
             case Formation.FOTRTR:
                 addPlayers = [
-                    { left: 5, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'home' },
-                    { left: 15, top: 16, backNumber: 3, position: PlayerPositionEnum.LB, team: 'home' },
-                    { left: 15, top: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'home' },
-                    { left: 15, top: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'home' },
-                    { left: 15, top: 84, backNumber: 2, position: PlayerPositionEnum.RB, team: 'home' },
-                    { left: 30, top: 20, backNumber: 6, position: PlayerPositionEnum.LM, team: 'home' },
-                    { left: 30, top: 50, backNumber: 8, position: PlayerPositionEnum.CM, team: 'home' },
-                    { left: 30, top: 80, backNumber: 10, position: PlayerPositionEnum.RM, team: 'home' },
-                    { left: 45, top: 20, backNumber: 7, position: PlayerPositionEnum.LF, team: 'home' },
-                    { left: 45, top: 50, backNumber: 9, position: PlayerPositionEnum.ST, team: 'home' },
-                    { left: 45, top: 80, backNumber: 11, position: PlayerPositionEnum.RF, team: 'home' },
+                    { left: 5, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'HOME' },
+                    { left: 15, top: 16, backNumber: 3, position: PlayerPositionEnum.LB, team: 'HOME' },
+                    { left: 15, top: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'HOME' },
+                    { left: 15, top: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'HOME' },
+                    { left: 15, top: 84, backNumber: 2, position: PlayerPositionEnum.RB, team: 'HOME' },
+                    { left: 30, top: 20, backNumber: 6, position: PlayerPositionEnum.LM, team: 'HOME' },
+                    { left: 30, top: 50, backNumber: 8, position: PlayerPositionEnum.CM, team: 'HOME' },
+                    { left: 30, top: 80, backNumber: 10, position: PlayerPositionEnum.RM, team: 'HOME' },
+                    { left: 45, top: 20, backNumber: 7, position: PlayerPositionEnum.LF, team: 'HOME' },
+                    { left: 45, top: 50, backNumber: 9, position: PlayerPositionEnum.ST, team: 'HOME' },
+                    { left: 45, top: 80, backNumber: 11, position: PlayerPositionEnum.RF, team: 'HOME' },
                 ]
                 break;
 
             case Formation.THFITW:
                 addPlayers = [
-                    { left: 5, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'home' },
-                    { left: 15, top: 20, backNumber: 3, position: PlayerPositionEnum.CB, team: 'home' },
-                    { left: 15, top: 50, backNumber: 4, position: PlayerPositionEnum.CB, team: 'home' },
-                    { left: 15, top: 80, backNumber: 5, position: PlayerPositionEnum.CB, team: 'home' },
-                    { left: 30, top: 10, backNumber: 7, position: PlayerPositionEnum.LB, team: 'home' },
-                    { left: 30, top: 30, backNumber: 8, position: PlayerPositionEnum.CM, team: 'home' },
-                    { left: 30, top: 50, backNumber: 10, position: PlayerPositionEnum.AM, team: 'home' },
-                    { left: 30, top: 70, backNumber: 6, position: PlayerPositionEnum.CM, team: 'home' },
-                    { left: 30, top: 90, backNumber: 2, position: PlayerPositionEnum.RB, team: 'home' },
-                    { left: 45, top: 30, backNumber: 9, position: PlayerPositionEnum.ST, team: 'home' },
-                    { left: 45, top: 70, backNumber: 11, position: PlayerPositionEnum.ST, team: 'home' },
+                    { left: 5, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'HOME' },
+                    { left: 15, top: 20, backNumber: 3, position: PlayerPositionEnum.CB, team: 'HOME' },
+                    { left: 15, top: 50, backNumber: 4, position: PlayerPositionEnum.CB, team: 'HOME' },
+                    { left: 15, top: 80, backNumber: 5, position: PlayerPositionEnum.CB, team: 'HOME' },
+                    { left: 30, top: 10, backNumber: 7, position: PlayerPositionEnum.LB, team: 'HOME' },
+                    { left: 30, top: 30, backNumber: 8, position: PlayerPositionEnum.CM, team: 'HOME' },
+                    { left: 30, top: 50, backNumber: 10, position: PlayerPositionEnum.AM, team: 'HOME' },
+                    { left: 30, top: 70, backNumber: 6, position: PlayerPositionEnum.CM, team: 'HOME' },
+                    { left: 30, top: 90, backNumber: 2, position: PlayerPositionEnum.RB, team: 'HOME' },
+                    { left: 45, top: 30, backNumber: 9, position: PlayerPositionEnum.ST, team: 'HOME' },
+                    { left: 45, top: 70, backNumber: 11, position: PlayerPositionEnum.ST, team: 'HOME' },
                 ]
                 break;
         }
@@ -254,64 +249,64 @@ export const Menu = () => {
         switch (awayFormationState) {
             case Formation.FOFOTW:
                 addPlayers = [
-                    { left: 95, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'away' },
-                    { left: 85, top: 16, backNumber: 2, position: PlayerPositionEnum.RB, team: 'away' },
-                    { left: 85, top: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'away' },
-                    { left: 85, top: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'away' },
-                    { left: 85, top: 84, backNumber: 3, position: PlayerPositionEnum.LB, team: 'away' },
-                    { left: 75, top: 16, backNumber: 11, position: PlayerPositionEnum.RM, team: 'away' },
-                    { left: 75, top: 38, backNumber: 8, position: PlayerPositionEnum.CM, team: 'away' },
-                    { left: 75, top: 62, backNumber: 6, position: PlayerPositionEnum.CM, team: 'away' },
-                    { left: 75, top: 84, backNumber: 7, position: PlayerPositionEnum.LM, team: 'away' },
-                    { left: 63, top: 38, backNumber: 9, position: PlayerPositionEnum.ST, team: 'away' },
-                    { left: 63, top: 62, backNumber: 10, position: PlayerPositionEnum.CF, team: 'away' },
+                    { left: 95, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'AWAY' },
+                    { left: 85, top: 16, backNumber: 2, position: PlayerPositionEnum.RB, team: 'AWAY' },
+                    { left: 85, top: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'AWAY' },
+                    { left: 85, top: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'AWAY' },
+                    { left: 85, top: 84, backNumber: 3, position: PlayerPositionEnum.LB, team: 'AWAY' },
+                    { left: 75, top: 16, backNumber: 11, position: PlayerPositionEnum.RM, team: 'AWAY' },
+                    { left: 75, top: 38, backNumber: 8, position: PlayerPositionEnum.CM, team: 'AWAY' },
+                    { left: 75, top: 62, backNumber: 6, position: PlayerPositionEnum.CM, team: 'AWAY' },
+                    { left: 75, top: 84, backNumber: 7, position: PlayerPositionEnum.LM, team: 'AWAY' },
+                    { left: 63, top: 38, backNumber: 9, position: PlayerPositionEnum.ST, team: 'AWAY' },
+                    { left: 63, top: 62, backNumber: 10, position: PlayerPositionEnum.CF, team: 'AWAY' },
                 ]
                 break;
             case Formation.FOTWTRON:
                 addPlayers = [
-                    { left: 95, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'away' },
-                    { left: 85, top: 16, backNumber: 2, position: PlayerPositionEnum.RB, team: 'away' },
-                    { left: 85, top: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'away' },
-                    { left: 85, top: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'away' },
-                    { left: 85, top: 84, backNumber: 3, position: PlayerPositionEnum.LB, team: 'away' },
-                    { left: 75, top: 38, backNumber: 6, position: PlayerPositionEnum.DM, team: 'away' },
-                    { left: 75, top: 62, backNumber: 8, position: PlayerPositionEnum.DM, team: 'away' },
-                    { left: 65, top: 16, backNumber: 11, position: PlayerPositionEnum.RM, team: 'away' },
-                    { left: 65, top: 84, backNumber: 7, position: PlayerPositionEnum.LM, team: 'away' },
-                    { left: 65, top: 50, backNumber: 10, position: PlayerPositionEnum.AM, team: 'away' },
-                    { left: 55, top: 50, backNumber: 9, position: PlayerPositionEnum.ST, team: 'away' },
+                    { left: 95, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'AWAY' },
+                    { left: 85, top: 16, backNumber: 2, position: PlayerPositionEnum.RB, team: 'AWAY' },
+                    { left: 85, top: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'AWAY' },
+                    { left: 85, top: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'AWAY' },
+                    { left: 85, top: 84, backNumber: 3, position: PlayerPositionEnum.LB, team: 'AWAY' },
+                    { left: 75, top: 38, backNumber: 6, position: PlayerPositionEnum.DM, team: 'AWAY' },
+                    { left: 75, top: 62, backNumber: 8, position: PlayerPositionEnum.DM, team: 'AWAY' },
+                    { left: 65, top: 16, backNumber: 11, position: PlayerPositionEnum.RM, team: 'AWAY' },
+                    { left: 65, top: 84, backNumber: 7, position: PlayerPositionEnum.LM, team: 'AWAY' },
+                    { left: 65, top: 50, backNumber: 10, position: PlayerPositionEnum.AM, team: 'AWAY' },
+                    { left: 55, top: 50, backNumber: 9, position: PlayerPositionEnum.ST, team: 'AWAY' },
                 ]
                 break;
 
             case Formation.FOTRTR:
                 addPlayers = [
-                    { left: 95, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'away' },
-                    { left: 85, top: 16, backNumber: 2, position: PlayerPositionEnum.RB, team: 'away' },
-                    { left: 85, top: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'away' },
-                    { left: 85, top: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'away' },
-                    { left: 85, top: 84, backNumber: 3, position: PlayerPositionEnum.LB, team: 'away' },
-                    { left: 70, top: 20, backNumber: 6, position: PlayerPositionEnum.RM, team: 'away' },
-                    { left: 70, top: 50, backNumber: 8, position: PlayerPositionEnum.CM, team: 'away' },
-                    { left: 70, top: 80, backNumber: 10, position: PlayerPositionEnum.LM, team: 'away' },
-                    { left: 55, top: 20, backNumber: 11, position: PlayerPositionEnum.RF, team: 'away' },
-                    { left: 55, top: 50, backNumber: 9, position: PlayerPositionEnum.ST, team: 'away' },
-                    { left: 55, top: 80, backNumber: 7, position: PlayerPositionEnum.LF, team: 'away' },
+                    { left: 95, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'AWAY' },
+                    { left: 85, top: 16, backNumber: 2, position: PlayerPositionEnum.RB, team: 'AWAY' },
+                    { left: 85, top: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'AWAY' },
+                    { left: 85, top: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'AWAY' },
+                    { left: 85, top: 84, backNumber: 3, position: PlayerPositionEnum.LB, team: 'AWAY' },
+                    { left: 70, top: 20, backNumber: 6, position: PlayerPositionEnum.RM, team: 'AWAY' },
+                    { left: 70, top: 50, backNumber: 8, position: PlayerPositionEnum.CM, team: 'AWAY' },
+                    { left: 70, top: 80, backNumber: 10, position: PlayerPositionEnum.LM, team: 'AWAY' },
+                    { left: 55, top: 20, backNumber: 11, position: PlayerPositionEnum.RF, team: 'AWAY' },
+                    { left: 55, top: 50, backNumber: 9, position: PlayerPositionEnum.ST, team: 'AWAY' },
+                    { left: 55, top: 80, backNumber: 7, position: PlayerPositionEnum.LF, team: 'AWAY' },
                 ]
                 break;
 
             case Formation.THFITW:
                 addPlayers = [
-                    { left: 95, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'away' },
-                    { left: 85, top: 20, backNumber: 3, position: PlayerPositionEnum.CB, team: 'away' },
-                    { left: 85, top: 50, backNumber: 4, position: PlayerPositionEnum.CB, team: 'away' },
-                    { left: 85, top: 80, backNumber: 5, position: PlayerPositionEnum.CB, team: 'away' },
-                    { left: 70, top: 10, backNumber: 2, position: PlayerPositionEnum.RB, team: 'away' },
-                    { left: 70, top: 30, backNumber: 6, position: PlayerPositionEnum.CM, team: 'away' },
-                    { left: 70, top: 50, backNumber: 10, position: PlayerPositionEnum.AM, team: 'away' },
-                    { left: 70, top: 70, backNumber: 8, position: PlayerPositionEnum.CM, team: 'away' },
-                    { left: 70, top: 90, backNumber: 11, position: PlayerPositionEnum.LB, team: 'away' },
-                    { left: 55, top: 30, backNumber: 9, position: PlayerPositionEnum.ST, team: 'away' },
-                    { left: 55, top: 70, backNumber: 7, position: PlayerPositionEnum.ST, team: 'away' },
+                    { left: 95, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'AWAY' },
+                    { left: 85, top: 20, backNumber: 3, position: PlayerPositionEnum.CB, team: 'AWAY' },
+                    { left: 85, top: 50, backNumber: 4, position: PlayerPositionEnum.CB, team: 'AWAY' },
+                    { left: 85, top: 80, backNumber: 5, position: PlayerPositionEnum.CB, team: 'AWAY' },
+                    { left: 70, top: 10, backNumber: 2, position: PlayerPositionEnum.RB, team: 'AWAY' },
+                    { left: 70, top: 30, backNumber: 6, position: PlayerPositionEnum.CM, team: 'AWAY' },
+                    { left: 70, top: 50, backNumber: 10, position: PlayerPositionEnum.AM, team: 'AWAY' },
+                    { left: 70, top: 70, backNumber: 8, position: PlayerPositionEnum.CM, team: 'AWAY' },
+                    { left: 70, top: 90, backNumber: 11, position: PlayerPositionEnum.LB, team: 'AWAY' },
+                    { left: 55, top: 30, backNumber: 9, position: PlayerPositionEnum.ST, team: 'AWAY' },
+                    { left: 55, top: 70, backNumber: 7, position: PlayerPositionEnum.ST, team: 'AWAY' },
                 ]
                 break;
         }
@@ -341,7 +336,7 @@ export const Menu = () => {
         console.log(playerId)
     };
 
-    const handleAddPlayer = (id: number, left: number, top: number, name: string, backNumber: number, position: PlayerPositionEnum, team: 'home' | 'away') => {
+    const handleAddPlayer = (id: number, left: number, top: number, name: string, backNumber: number, position: PlayerPositionEnum, team: 'HOME' | 'AWAY') => {
         const newPlayer = {
             id: id,
             backNumber: backNumber,
@@ -436,7 +431,7 @@ export const Menu = () => {
             <Box
                 display="flex"
                 alignItems="center"
-                onClick={() => handleAddPlusPlayer('home', PlayerPositionEnum.CM)}
+                onClick={() => handleAddPlusPlayer('HOME', PlayerPositionEnum.CM)}
                 sx={{ cursor: 'pointer', mr: 2 }}
             >
                 <AddOutlinedIcon sx={{ color: '#3B6FB2' }} />
@@ -448,7 +443,7 @@ export const Menu = () => {
             <Box
                 display="flex"
                 alignItems="center"
-                onClick={() => handleAddPlusPlayer('away', PlayerPositionEnum.CM)}
+                onClick={() => handleAddPlusPlayer('AWAY', PlayerPositionEnum.CM)}
                 sx={{ cursor: 'pointer', mr: 2 }}
             >
                 <AddOutlinedIcon sx={{ color: '#B23B7F' }} />
@@ -698,22 +693,6 @@ export const Menu = () => {
                 <StarBorderOutlinedIcon sx={{ color: '#FFD400' }} />
                 <Typography variant="body1" ml={1}>Recommend Formation</Typography>
             </Box>
-            {/* <Box display="flex" alignItems="center" onClick={() => { }} sx={{ cursor: 'pointer', mr: 2 }}>
-                <MultipleStopOutlinedIcon sx={{ color: 'purple' }} />
-                <Typography variant="body1" ml={1}>Ground Change</Typography>
-            </Box>
-            <Box
-                width="100%"
-                my={2}
-                borderBottom="1px solid gray"
-                sx={{
-                    opacity: 0.5
-                }}
-            /> */}
-            {/* <Box display="flex" alignItems="center" onClick={handlePlayerMoveNotPossible} sx={{ cursor: 'pointer', mr: 2 }}>
-                <SaveAltIcon sx={{ color: '#94d893' }} />
-                <Typography variant="body1" ml={1}>Save</Typography>
-            </Box> */}
             <Box display="flex" alignItems="center" onClick={handleShare} sx={{ cursor: 'pointer', mr: 2 }}>
                 <IosShareIcon sx={{ color: 'purple' }} />
                 <Typography variant="body1" ml={1}>Share</Typography>

@@ -15,7 +15,7 @@ export type PlayerProps = {
     id: number,
     backNumber: number,
     name: string,
-    team: 'home' | 'away',
+    team: 'HOME' | 'AWAY',
     left: number,
     top: number,
     imgRef: React.RefObject<HTMLDivElement>,
@@ -135,7 +135,7 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, n
                             <CircleIcon
                                 className="draggable-icon"
                                 sx={{
-                                    color: team === 'home' ? '#3B6FB2' : '#B23B7F',
+                                    color: team === 'HOME' ? '#3B6FB2' : '#B23B7F',
                                     fontSize: '2.3rem',
                                     boxShadow: '0 0 10px 5px rgba(255, 255, 255, 0.8)', // 외곽선 빛나게 하기
                                     borderRadius: '50%', // 원형 외곽선
@@ -146,7 +146,7 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, n
                             <CircleIcon
                                 className="draggable-icon"
                                 sx={{
-                                    color: team === 'home' ? '#3B6FB2' : '#B23B7F',
+                                    color: team === 'HOME' ? '#3B6FB2' : '#B23B7F',
                                     fontSize: '2.3rem',
                                     pointerEvents: 'auto'
                                 }}
@@ -204,7 +204,7 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, n
                         <CircleIcon
                             className="draggable-icon"
                             sx={{
-                                color: element.team === 'home' ? '#3B6FB2' : '#B23B7F',
+                                color: element.team === 'HOME' ? '#3B6FB2' : '#B23B7F',
                                 fontSize: '2.3rem',
                                 boxShadow: '0 0 10px 5px rgba(255, 255, 255, 0.8)', // 외곽선 빛나게 하기
                                 borderRadius: '50%', // 원형 외곽선

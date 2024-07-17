@@ -83,9 +83,9 @@ export const PlayerList: React.FC<PlayerListProps> = ({ width }) => {
     const renderSaveButtonInfo = () => {
         if (!selectedPlayer) return '#3BB24A'
         switch (selectedPlayer.team) {
-            case 'home':
+            case 'HOME':
                 return '#3B6FB2';
-            case 'away':
+            case 'AWAY':
                 return '#B23B7F';
             default:
                 return '#3BB24A';
@@ -105,7 +105,7 @@ export const PlayerList: React.FC<PlayerListProps> = ({ width }) => {
         if (a.team === b.team) {
             return a.backNumber - b.backNumber; // 같은 팀일 경우 backNumber로 정렬
         }
-        return a.team === 'home' ? -1 : 1; // 'home' 팀이 먼저 오도록 정렬
+        return a.team === 'HOME' ? -1 : 1; // 'home' 팀이 먼저 오도록 정렬
     });
 
     const handleModalClose = () => {
@@ -138,7 +138,7 @@ export const PlayerList: React.FC<PlayerListProps> = ({ width }) => {
                                             width: 26,
                                             height: 26,
                                             margin: 'auto',
-                                            boxShadow: player.team === 'home' ? '0 0 10px 5px #3B6FB2' : '0 0 10px 5px #B23B7F',
+                                            boxShadow: player.team === 'HOME' ? '0 0 10px 5px #3B6FB2' : '0 0 10px 5px #B23B7F',
                                             borderRadius: '50%', // 원형 외곽선
                                         }}>
                                         <Typography variant="caption" sx={{ fontSize: '0.8rem', fontWeight: 'bold', color: 'auto' }}>
