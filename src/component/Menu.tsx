@@ -133,6 +133,9 @@ export const Menu = () => {
 
     const handleSimulation = () => {
         dispatch(setPossiblePlayerMoveState({ playerId: null, isPossible: false }))
+        dispatch(setPossibleBallMoveState({
+            isPossible: true
+        }))
         dispatch(setSimulationOn())
         dispatch(startSimulation())
     }
@@ -418,7 +421,6 @@ export const Menu = () => {
     }, [vw])
 
     const isMovable = selectedPlayer && possibleMoveState.playerId !== selectedPlayer.id;
-    const isMovalbleBallClick = ball && !isPossibleBallMove
     const isMoveBackable = selectedPlayer && possibleMoveState.isPossible;
     const isPlayerMoveStopable = selectedPlayer && possibleMoveState.isPossible;
     const isBallMoveStopable = ball && isPossibleBallMove
@@ -567,17 +569,17 @@ export const Menu = () => {
             <Box
                 display="flex"
                 alignItems="center"
-                onClick={isMovalbleBallClick ? handleBallMovePossible : () => { }}
+                onClick={ball && !isPossibleBallMove ? handleBallMovePossible : () => { }}
                 sx={{
-                    cursor: isMovalbleBallClick ? 'pointer' : 'not-allowed',
-                    opacity: isMovalbleBallClick ? 1 : 0.5,
+                    cursor: ball && !isPossibleBallMove ? 'pointer' : 'not-allowed',
+                    opacity: ball && !isPossibleBallMove ? 1 : 0.5,
                     mr: 2
                 }}>
                 <MoveUpIcon sx={{ color: 'orange' }} />
                 <Typography
                     variant="body1"
                     ml={1}
-                    color={isMovalbleBallClick ? 'auto' : 'gray'}
+                    color={ball && !isPossibleBallMove ? 'auto' : 'gray'}
                 >Ball Move</Typography>
             </Box>
 

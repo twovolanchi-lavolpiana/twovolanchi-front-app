@@ -7,13 +7,14 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Card, CardContent, Stack } from '@mui/material';
 import { useScreenSize } from '../../provider/ScreenSizeProvider';
 import { ShareDescription } from './ShareDescription';
-import { Player, Tactics } from '../../store/Tactics';
+import { Tactics } from '../../store/Tactics';
 import { SharePlayerList } from './SharePlayerList';
+import { PlayerPosition } from '../PlayerPosition';
 
 type BoardProps = {
     title: string;
     description: string;
-    players: Player[];
+    players: PlayerPosition[];
     tactics: Tactics;
 }
 

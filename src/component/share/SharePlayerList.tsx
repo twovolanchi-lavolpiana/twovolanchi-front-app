@@ -1,10 +1,10 @@
 import { Avatar, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { PlayerPositionEnum } from "../PlayerPositionEnum";
-import { Player } from '../../store/Tactics';
+import { PlayerPosition } from "../PlayerPosition";
 
 export interface SharePlayerListProps {
     width: number;
-    players: Player[],
+    players: PlayerPosition[],
 }
 
 export const SharePlayerList: React.FC<SharePlayerListProps> = ({ width, players }) => {    
@@ -55,7 +55,7 @@ export const SharePlayerList: React.FC<SharePlayerListProps> = ({ width, players
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {sortedPlayers.map((player: Player) => (
+                        {sortedPlayers.map((player: PlayerPosition) => (
                             <TableRow key={player.id} >
                                 <TableCell align="center">
                                     <Avatar

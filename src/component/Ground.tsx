@@ -5,7 +5,7 @@ import { useDrop } from 'react-dnd';
 import { ItemTypes } from './ItemTypes';
 import { DraggablePlayer } from './DraggablePlayer';
 import { useDispatch, useSelector } from 'react-redux';
-import { addMultiSelectedPlayer, selectPlayer } from '../store/PlayerSlice';
+import { addMultiSelectedPlayer, clearSelectedPlayer, selectPlayer } from '../store/PlayerSlice';
 import { RootState } from '../store/Store';
 import { clearBallSequences, setBallSequences, setPlayerMovingSequences } from '../store/SequenceSlice';
 import { useScreenSize } from '../provider/ScreenSizeProvider';
@@ -13,9 +13,10 @@ import SoccerField from './SoccerField';
 import { movePlayer } from '../store/PlayersListSlice';
 import { setBall } from '../store/BallSlice';
 import { DraggableBall } from './DraggableBall';
-import { clearPossibleBallMoveState } from '../store/PossibleBallMoveSlice';
+import { clearPossibleBallMoveState, setPossibleBallMoveState } from '../store/PossibleBallMoveSlice';
 import { clearPossiblePlayerMoveState } from '../store/PossiblePlayerMoveSlice';
 import { clearSimulationOn } from '../store/SimulationOnSlice';
+import { animatePlayers } from './animate/AnimateTactics';
 
 interface GroundProps {
     players: PlayerPosition[];
@@ -34,86 +35,29 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
     const multiSelectedPlayers = useSelector((state: RootState) => state.player.multiSelectedPlayers);
     const ball = useSelector((state: RootState) => state.ball.ball);
     const isPossibleBallMove = useSelector((state: RootState) => state.possibleBallMove.isPossible);
-    const [initialLoad, setInitialLoad] = useState(true);
     const { updateScreenSize } = useScreenSize();
 
-    const [animatedPositions, setAnimatedPositions] = useState<{ [key: number]: { left: number, top: number, frame: number } }>({});
-    const [animatedBallPosition, setAnimatedBallPosition] = useState<{ left: number, top: number, frame: number } | null>(null);
+    const [animatedPositions, setAnimatedPositions] = useState<{ [key: number]: { leftPercent: number, topPercent: number, frame: number } }>({});
+    const [animatedBallPosition, setAnimatedBallPosition] = useState<{ leftPercent: number, topPercent: number, frame: number } | null>(null);
 
     useEffect(() => {
         if (isSimulationOnState) {
+            dispatch(clearSelectedPlayer())
+            dispatch(clearPossiblePlayerMoveState())
             startSimulation();
+            dispatch(clearPossibleBallMoveState())
             dispatch(clearSimulationOn());
         }
     }, [isSimulationOnState]);
 
     const startSimulation = () => {
-        animatePlayers();
+        animatePlayers(
+            sequences.currentSequenceNumber,
+            sequences.sequences,
+            setAnimatedPositions,
+            setAnimatedBallPosition
+        );
     };
-
-    const animatePlayers = (callback?: () => void) => {
-        const startTime = performance.now();
-        const currentSequence = sequences.sequences[sequences.currentSequenceNumber];
-        const animationDuration = 5000; // Total animation duration in ms
-
-        const animate = (time: number) => {
-            const elapsed = time - startTime;
-            const progress = Math.min(elapsed / animationDuration, 1);
-
-            setAnimatedPositions(prevPositions => {
-                const newPositions = { ...prevPositions };
-                
-                currentSequence.players.forEach(move => {
-                    const { id, positions } = move;
-                    const totalFrames = positions.length;
-                    const frameDuration = animationDuration / totalFrames;
-                    const currentFrame = Math.min(Math.floor(elapsed / frameDuration), totalFrames - 1);
-
-                    if (currentFrame < positions.length) {
-                        const nextIndex = Math.min(currentFrame + 1, positions.length - 1);
-                        const pointProgress = (elapsed % frameDuration) / frameDuration;
-
-                        const currentPoint = positions[currentFrame] || { left: 0, top: 0 };
-                        const nextPoint = positions[nextIndex] || { left: 0, top: 0 };
-
-                        const left = currentPoint.leftPercent + (nextPoint.leftPercent - currentPoint.leftPercent) * pointProgress;
-                        const top = currentPoint.topPercent + (nextPoint.topPercent - currentPoint.topPercent) * pointProgress;
-
-                        newPositions[id] = { left, top, frame: currentFrame };
-                    }
-                });
-                return newPositions;
-            });
-
-            if (ball && currentSequence.balls.length > 0) {
-                setAnimatedBallPosition(prevBallPosition => {
-                    const totalFrames = currentSequence.balls.length;
-                    const frameDuration = animationDuration / totalFrames;
-                    const currentFrame = Math.min(Math.floor(elapsed / frameDuration), totalFrames - 1);
-
-                    const nextIndex = Math.min(currentFrame + 1, currentSequence.balls.length - 1);
-                    const pointProgress = (elapsed % frameDuration) / frameDuration;
-
-                    const currentPoint = currentSequence.balls[currentFrame] || { left: 0, top: 0 };
-                    const nextPoint = currentSequence.balls[nextIndex] || { left: 0, top: 0 };
-
-                    const left = currentPoint.leftPercent + (nextPoint.leftPercent - currentPoint.leftPercent) * pointProgress;
-                    const top = currentPoint.topPercent + (nextPoint.topPercent - currentPoint.topPercent) * pointProgress;
-
-                    return { left, top, frame: currentFrame };
-                });
-            }
-
-            if (elapsed < animationDuration) {
-                requestAnimationFrame(animate);
-            } else if (callback) {
-                callback();
-            }
-        };
-
-        requestAnimationFrame(animate);
-    };
-
 
     const [, drop] = useDrop({
         accept: [ItemTypes.PLAYER, ItemTypes.BALL],
@@ -210,29 +154,6 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
             return;
         }
     }
-
-    useEffect(() => {
-        if (initialLoad && imgRef.current) {
-            setInitialLoad(false);
-            const rect = imgRef.current.getBoundingClientRect();
-            setAnimatedPositions(players.reduce((acc, player) => {
-                acc[player.id] = {
-                    left: (player.leftPercent * rect.width / 100) + rect.x + window.scrollX,
-                    top: (player.topPercent * rect.height / 100) + rect.y + window.scrollY,
-                    frame: 0,
-                };
-                return acc;
-            }, {} as { [key: number]: { left: number, top: number, frame: number } }));
-
-            if (ball) {
-                setAnimatedBallPosition({
-                    left: ball.leftPercent * rect.width / 100 + rect.x + window.screenX,
-                    top: ball.topPercent * rect.height / 100 + rect.y + window.screenY,
-                    frame: 0,
-                });
-            }
-        }
-    }, [initialLoad, imgRef.current]);
 
     useEffect(() => {
         if (imgRef.current) {
@@ -409,8 +330,8 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
             }
 
             {ball && isSimulationStartState && animatedBallPosition && <DraggableBall
-                leftPercent={animatedBallPosition.left}
-                topPercent={animatedBallPosition.top}
+                leftPercent={animatedBallPosition.leftPercent}
+                topPercent={animatedBallPosition.topPercent}
                 imgRef={imgRef}
             ></DraggableBall>
             }
@@ -448,8 +369,8 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
                         backNumber={player.backNumber}
                         team={player.team}
                         name={player.name}
-                        leftPercent={position.left}
-                        topPercent={position.top}
+                        leftPercent={position.leftPercent}
+                        topPercent={position.topPercent}
                         imgRef={imgRef}
                         position={player.position}
                         onClick={handlePlayerClick}

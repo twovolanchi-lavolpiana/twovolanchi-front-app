@@ -1,14 +1,15 @@
+import { PlayerPosition } from "../component/PlayerPosition";
 import { PlayerPositionEnum } from "../component/PlayerPositionEnum";
 
-export interface Player {
-    id: number;
-    backNumber: number;
-    name: string;
-    position: PlayerPositionEnum;
-    team: 'HOME' | 'AWAY';
-    leftPercent: number;
-    topPercent: number;
-}
+// export interface Player {
+//     id: number;
+//     backNumber: number;
+//     name: string;
+//     position: PlayerPositionEnum;
+//     team: 'HOME' | 'AWAY';
+//     leftPercent: number;
+//     topPercent: number;
+// }
 
 export interface PlayerMove {
     id: number;
@@ -35,7 +36,7 @@ export interface ResponseData {
     body: {
         title: string;
         description: string;
-        players: Player[];
+        players: PlayerPosition[];
         tactics: Tactics;
     };
     type: string;

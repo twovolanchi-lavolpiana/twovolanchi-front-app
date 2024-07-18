@@ -1,6 +1,6 @@
 import { PlayerPositionEnum } from "./PlayerPositionEnum";
 
-export type PlayerPosition = {
+export interface PlayerPosition {
   id: number;
   backNumber: number;
   name: string;

@@ -6,11 +6,13 @@ import { RootState } from '../../store/Store';
 import { useScreenSize } from '../../provider/ScreenSizeProvider';
 import SoccerField from '../SoccerField';
 import { ShareMoveBall } from './ShareMoveBall';
-import { Player, Tactics } from '../../store/Tactics';
+import { Tactics } from '../../store/Tactics';
 import { clearShareSimulationOn } from '../../store/ShareSimulationOnSlice';
+import { PlayerPosition } from '../PlayerPosition';
+import { animatePlayers } from '../animate/AnimateTactics';
 
 interface GroundProps {
-    players: Player[];
+    players: PlayerPosition[];
     tactics: Tactics
 }
 
@@ -21,15 +23,14 @@ export const ShareGround: React.FC<GroundProps> = ({ players, tactics }) => {
 
     const ballMoves = tactics.sequences[tactics.currentSequenceNumber].balls
     const playerMoves = tactics.sequences[tactics.currentSequenceNumber].players
-    
+
     const isSimulationOnState = useSelector((state: RootState) => state.shareSimulation.isSimulationOn)
     const isSimulationStartState = useSelector((state: RootState) => state.shareSimulation.isSimulationStart)
 
-    const [initialLoad, setInitialLoad] = useState(true);
     const { updateScreenSize } = useScreenSize();
 
-    const [animatedPositions, setAnimatedPositions] = useState<{ [key: number]: { left: number, top: number, frame: number } }>({});
-    const [animatedBallPosition, setAnimatedBallPosition] = useState<{ left: number, top: number, frame: number } | null>(null);
+    const [animatedPositions, setAnimatedPositions] = useState<{ [key: number]: { leftPercent: number, topPercent: number, frame: number } }>({});
+    const [animatedBallPosition, setAnimatedBallPosition] = useState<{ leftPercent: number, topPercent: number, frame: number } | null>(null);
 
     useEffect(() => {
         if (isSimulationOnState) {
@@ -39,102 +40,19 @@ export const ShareGround: React.FC<GroundProps> = ({ players, tactics }) => {
     }, [isSimulationOnState]);
 
     const startSimulation = () => {
-        animatePlayers();
+        animatePlayers(
+            tactics.currentSequenceNumber,
+            tactics.sequences,
+            setAnimatedPositions,
+            setAnimatedBallPosition,
+        );
     };
 
     const notIncludePlayers = useMemo(() => {
         if (playerMoves === undefined) return;
-
         const ids = playerMoves.map((s) => s.id);
         return players.filter((p) => !ids.includes(p.id));
     }, [players, playerMoves]);
-
-
-    const animatePlayers = (callback?: () => void) => {
-        const startTime = performance.now();
-        const animationDuration = 5000; // Total animation duration in ms
-
-        const animate = (time: number) => {
-            const elapsed = time - startTime;
-            const progress = Math.min(elapsed / animationDuration, 1);
-
-            setAnimatedPositions(prevPositions => {
-                const newPositions = { ...prevPositions };
-                playerMoves.forEach(move => {
-                    const { id, positions } = move;
-                    const totalFrames = positions.length;
-                    const frameDuration = animationDuration / totalFrames;
-                    const currentFrame = Math.min(Math.floor(elapsed / frameDuration), totalFrames - 1);
-
-                    if (currentFrame < positions.length) {
-                        const nextIndex = Math.min(currentFrame + 1, positions.length - 1);
-                        const pointProgress = (elapsed % frameDuration) / frameDuration;
-
-                        const currentPoint = positions[currentFrame] || { left: 0, top: 0 };
-                        const nextPoint = positions[nextIndex] || { left: 0, top: 0 };
-
-                        const left = currentPoint.leftPercent + (nextPoint.leftPercent - currentPoint.leftPercent) * pointProgress;
-                        const top = currentPoint.topPercent + (nextPoint.topPercent - currentPoint.topPercent) * pointProgress;
-
-                        newPositions[id] = { left, top, frame: currentFrame };
-                    }
-                });
-                return newPositions;
-            });
-
-            if (ballMoves && ballMoves.length > 0) {
-                setAnimatedBallPosition(prevBallPosition => {
-                    const totalFrames = ballMoves.length;
-                    const frameDuration = animationDuration / totalFrames;
-                    const currentFrame = Math.min(Math.floor(elapsed / frameDuration), totalFrames - 1);
-
-                    const nextIndex = Math.min(currentFrame + 1, ballMoves.length - 1);
-                    const pointProgress = (elapsed % frameDuration) / frameDuration;
-
-                    const currentPoint = ballMoves[currentFrame] || { left: 0, top: 0 };
-                    const nextPoint = ballMoves[nextIndex] || { left: 0, top: 0 };
-
-                    const left = currentPoint.leftPercent + (nextPoint.leftPercent - currentPoint.leftPercent) * pointProgress;
-                    const top = currentPoint.topPercent + (nextPoint.topPercent - currentPoint.topPercent) * pointProgress;
-
-                    return { left, top, frame: currentFrame };
-                });
-            }
-
-            if (elapsed < animationDuration) {
-                requestAnimationFrame(animate);
-            } else if (callback) {
-                callback();
-            }
-        };
-
-        requestAnimationFrame(animate);
-    };
-
-    useEffect(() => {
-        if (initialLoad && imgRef.current) {
-            setInitialLoad(false);
-            const rect = imgRef.current.getBoundingClientRect();
-            setAnimatedPositions(players.reduce((acc, player) => {
-                acc[player.id] = {
-                    left: (player.leftPercent / 100) * rect.width + rect.x + window.screenX,
-                    top: (player.topPercent / 100) * rect.height + rect.y + window.screenY,
-                    frame: 0,
-                };
-                return acc;
-            }, {} as { [key: number]: { left: number, top: number, frame: number } }));
-
-            if (tactics.sequences[tactics.currentSequenceNumber].balls.length > 0) {
-                const ball = tactics.sequences[tactics.currentSequenceNumber].balls[0]
-                setAnimatedBallPosition({
-                    left: (ball.leftPercent / 100) * rect.width + rect.x + window.screenX,
-                    top: (ball.topPercent / 100) * rect.height + rect.y + window.screenY,
-                    frame: 0,
-                });
-            }
-        }
-    }, [initialLoad, imgRef.current]);
-
 
     useEffect(() => {
         if (imgRef.current) {
@@ -276,8 +194,8 @@ export const ShareGround: React.FC<GroundProps> = ({ players, tactics }) => {
             }
 
             {ballMoves && ballMoves.length > 0 && isSimulationStartState && animatedBallPosition && <ShareMoveBall
-                left={animatedBallPosition.left}
-                top={animatedBallPosition.top}
+                left={animatedBallPosition.leftPercent}
+                top={animatedBallPosition.topPercent}
                 imgRef={imgRef}
             ></ShareMoveBall>
             }
@@ -308,8 +226,8 @@ export const ShareGround: React.FC<GroundProps> = ({ players, tactics }) => {
                         backNumber={player.backNumber}
                         team={player.team}
                         name={player.name}
-                        left={position?.left}
-                        top={position?.top}
+                        left={position?.leftPercent}
+                        top={position?.topPercent}
                         imgRef={imgRef}
                     />
                 );
