@@ -30,9 +30,13 @@ import { useScreenSize } from "../provider/ScreenSizeProvider";
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { setBall } from '../store/BallSlice';
 import { Share } from "./Share";
+import { EditSave } from "./edit/EditSave";
 
+type MenuProps = {
+    editKey: string | null
+}
 
-export const Menu = () => {
+export const Menu: React.FC<MenuProps> = ({ editKey }) => {
     const defaultName = "Messi";
     const dispatch = useDispatch();
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
@@ -694,7 +698,7 @@ export const Menu = () => {
                 <StarBorderOutlinedIcon sx={{ color: '#FFD400' }} />
                 <Typography variant="body1" ml={1}>Recommend Formation</Typography>
             </Box>
-            <Share />
+            {editKey ? <EditSave editKey={editKey} /> : <Share />}
             <Modal
                 open={isModalOpen}
                 onClose={handleRecommendFormationModalClose}

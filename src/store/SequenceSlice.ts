@@ -13,6 +13,11 @@ const initialState: SequenceState = {
     sequences: [],
 };
 
+type EditSequenceProps = {
+    currentSequenceNumber: number;
+    sequences: Sequence[];
+}
+
 type SelectSequenceProp = {
     findSequenceNumber: number;
 }
@@ -118,9 +123,13 @@ const sequenceSlice = createSlice({
             if (currentSequence) {
                 currentSequence.players = currentSequence.players.filter((m) => m.id !== playerId);
             }
-        }
+        },
+        editSequences: (state, action: PayloadAction<EditSequenceProps>) => {
+            state.currentSequenceNumber = action.payload.currentSequenceNumber
+            state.sequences = action.payload.sequences
+        },
     },
 });
 
-export const { selectSequence, setPlayerMovingSequences, setBallSequences, removeBackPlayerMovingSequences, clearPlayerMovingSequence, clearBallSequences, removePlayerSequence } = sequenceSlice.actions;
+export const { selectSequence, setPlayerMovingSequences, setBallSequences, removeBackPlayerMovingSequences, clearPlayerMovingSequence, clearBallSequences, removePlayerSequence, editSequences } = sequenceSlice.actions;
 export default sequenceSlice.reducer;

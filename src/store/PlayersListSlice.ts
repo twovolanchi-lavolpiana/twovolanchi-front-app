@@ -37,9 +37,12 @@ const playersListSlice = createSlice({
     },
     clearPlayers: (state) => {
       state.players = []
-    }
+    },
+    editPlayers: (state, action: PayloadAction<PlayerPosition[]>) => {
+      state.players = action.payload
+    },
   },
 });
 
-export const { setPlayer, movePlayer, clearPlayers, removePlayer } = playersListSlice.actions;
+export const { setPlayer, movePlayer, clearPlayers, removePlayer, editPlayers } = playersListSlice.actions;
 export default playersListSlice.reducer;

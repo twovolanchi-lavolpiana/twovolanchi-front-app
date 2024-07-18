@@ -1,17 +1,21 @@
-import '../App.css';
-import { Menu } from './Menu'
-import { Ground } from './Ground';
+import '../../App.css';
+import { Menu } from '../Menu'
+import { Ground } from '../Ground';
 import { useEffect } from 'react'
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useSelector } from 'react-redux';
-import { RootState } from '../store/Store';
+import { RootState } from '../../store/Store';
 import { Card, CardContent, Stack } from '@mui/material';
-import { useScreenSize } from '../provider/ScreenSizeProvider';
-import { PlayerList } from './PlayerList';
-import { Description } from './Description';
+import { useScreenSize } from '../../provider/ScreenSizeProvider';
+import { PlayerList } from '../PlayerList';
+import { Description } from '../Description';
 
-export const Board = () => {
+export type EditProps = {
+    editKey: string
+}
+
+export const EditBoard: React.FC<EditProps> = ({ editKey }) => {
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
     const players = useSelector((state: RootState) => state.players.players)
     const { vw } = useScreenSize(); // width 값 사용
@@ -35,8 +39,7 @@ export const Board = () => {
                         <CardContent>
                             <Stack direction="column" spacing={2}>
                                 <Menu
-                                    editKey={null}
-                                />
+                                    editKey={editKey} />
                             </Stack>
                         </CardContent>
                     </Card>
@@ -79,8 +82,8 @@ export const Board = () => {
                     <Card className="menu-bar react-flex" sx={{ flexDirection: 'row', maxWidth: 800, marginTop: 5 }}>
                         <CardContent>
                             <Stack direction="row" sx={{ flexWrap: 'wrap' }}>
-                                <Menu
-                                    editKey={null}
+                                <Menu 
+                                    editKey={editKey}
                                 />
                             </Stack>
                         </CardContent>
