@@ -46,7 +46,7 @@ const MainPage = (props: MainComponentProps) => {
                 <div className="App-container">
                     <Grid container spacing={2} justifyContent="center" alignItems="center">
                         <Grid item xs={12}>
-                            <Navbar darkMode={props.darkMode} onThemeChange={props.onThemeChange} />
+                            <Navbar darkMode={props.darkMode} onThemeChange={props.onThemeChange}/>
                         </Grid>
                         <Grid item xs={12}>
                             <Board />

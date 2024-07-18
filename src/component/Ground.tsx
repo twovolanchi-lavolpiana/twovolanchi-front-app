@@ -280,7 +280,7 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
         <Box
             sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 2 }}
         >
-            <div style={{ width: '70%', height: '60%', justifyContent: 'center', alignItems: 'center' }}
+            <div style={{ width: '800px', minWidth: '100%', height: '60%', justifyContent: 'center', alignItems: 'center' }}
                 ref={drop}
                 onClick={handleClick}
             >

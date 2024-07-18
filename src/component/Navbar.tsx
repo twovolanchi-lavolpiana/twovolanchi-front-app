@@ -11,8 +11,9 @@ import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
 import { FormControlLabel, Switch } from '@mui/material';
 import { useScreenSize } from '../provider/ScreenSizeProvider';
+import { Link } from 'react-router-dom';
 
-const pages = ['Introduce', 'Guide', 'Language'];
+const pages = ['Introduce', 'Guide'];
 
 interface NavbarProps {
     darkMode: boolean;
@@ -41,7 +42,7 @@ function Navbar({ darkMode, onThemeChange }: NavbarProps) {
     };
 
     return (
-        <AppBar position="static" className='App-header' sx={{ backgroundColor: '#3BB26F' }}>
+        <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, backgroundColor: '#3BB26F' }} className='App-header'>
             {vw >= 14.96 ? <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Typography
@@ -62,15 +63,24 @@ function Navbar({ darkMode, onThemeChange }: NavbarProps) {
                         Lavolpiana
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: 'flex' }}>
-                        {pages.map((page) => (
-                            <Button
-                                key={page}
-                                onClick={handleCloseNavMenu}
-                                sx={{ my: 2, color: 'white', display: 'block' }}
-                            >
-                                {page}
-                            </Button>
-                        ))}
+                        <Button
+                            key={'introduce-page'}
+                            onClick={handleCloseNavMenu}
+                            component={Link}
+                            to="/introduce"
+                            sx={{ my: 2, color: 'white', display: 'block' }}
+                        >
+                            Introduce
+                        </Button>
+                        <Button
+                            key={'guide-page'}
+                            onClick={handleCloseNavMenu}
+                            component={Link}
+                            to="/guide"
+                            sx={{ my: 2, color: 'white', display: 'block' }}
+                        >
+                            Guide
+                        </Button>
                     </Box>
                     <Box sx={{ flexGrow: 0 }}>
                         <FormControlLabel
@@ -111,13 +121,29 @@ function Navbar({ darkMode, onThemeChange }: NavbarProps) {
                                     open={Boolean(anchorElNav)}
                                     onClose={handleCloseNavMenu}
                                 >
-                                    {pages.map((page) => (
+                                    {/* {pages.map((page) => (
                                         <MenuItem
                                             key={page}
                                             onClick={handleCloseNavMenu}>
                                             <Typography textAlign="center">{page}</Typography>
                                         </MenuItem>
-                                    ))}
+                                    ))} */}
+                                    <MenuItem
+                                        key={'introduce-page'}
+                                        onClick={handleCloseNavMenu}
+                                        component={Link}
+                                        to="/introduce"
+                                    >
+                                        <Typography textAlign="center">Introduce</Typography>
+                                    </MenuItem>
+                                    <MenuItem
+                                        key={'guide-page'}
+                                        onClick={handleCloseNavMenu}
+                                        component={Link}
+                                        to="/guide"
+                                    >
+                                        <Typography textAlign="center">Guide</Typography>
+                                    </MenuItem>
                                 </Menu>
 
                             }

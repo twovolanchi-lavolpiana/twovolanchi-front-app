@@ -6,6 +6,8 @@ import { Route, Routes } from 'react-router-dom';
 import SharePage from './component/share/SharePage';
 import MainPage from './component/MainPage';
 import EditPage from './component/edit/EditPage';
+import IntroducePage from './component/introduce/IntroducePage';
+import GuidePage from './component/introduce/GuidePage';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -50,6 +52,16 @@ function App() {
             key={'share'}
             path={'/:shareKey'}
             element={<SharePage darkMode={darkMode} onThemeChange={handleThemeChange} />}
+          />
+          <Route
+            key={'introduce'}
+            path={'/introduce'}
+            element={<IntroducePage darkMode={darkMode} onThemeChange={handleThemeChange} />}
+          />
+          <Route
+            key={'guide'}
+            path={'/guide'}
+            element={<GuidePage darkMode={darkMode} onThemeChange={handleThemeChange} />}
           />
         </Routes>
       </ScreenSizeProvider>

@@ -99,62 +99,80 @@ export const Share = () => {
         alert("URL copied to clipboard");
     };
 
-    return <>
-    <Box display="flex" alignItems="center" onClick={handleShare} sx={{ cursor: 'pointer', mr: 2 }}>
-        <IosShare sx={{ color: 'purple' }} />
-        <Typography variant="body1" ml={1}>Share</Typography>
-    </Box>
+    const isPossible = sequencesState.sequences[sequencesState.currentSequenceNumber] &&
+        (sequencesState.sequences[sequencesState.currentSequenceNumber].players.length > 0 ||
+            sequencesState.sequences[sequencesState.currentSequenceNumber].balls.length > 0
+        )
 
-    <Modal open={isModalOpen} onClose={handleClose}>
+    return <>
         <Box
+            display="flex"
+            alignItems="center"
+            onClick={isPossible ? handleShare : () => { }}
             sx={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                width: 400,
-                bgcolor: 'background.paper',
-                p: 4,
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 2,
+                cursor: isPossible ? 'pointer' : 'not-allowed',
+                opacity: isPossible ? 1 : 0.5,
+                mr: 2
             }}
         >
-            <IconButton
-                onClick={handleClose}
+            <IosShare sx={{ color: 'purple' }} />
+            <Typography
+                variant="body1"
+                ml={1}
+                color={isPossible ? 'auto' : 'gray'}
+            >Share</Typography>
+        </Box>
+
+        <Modal open={isModalOpen} onClose={handleClose}>
+            <Box
                 sx={{
                     position: 'absolute',
-                    top: 8,
-                    right: 8,
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: 400,
+                    bgcolor: 'background.paper',
+                    p: 4,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 2,
                 }}
             >
-                <CloseOutlined />
-            </IconButton>
+                <IconButton
+                    onClick={handleClose}
+                    sx={{
+                        position: 'absolute',
+                        top: 8,
+                        right: 8,
+                    }}
+                >
+                    <CloseOutlined />
+                </IconButton>
 
-            <Typography variant="body2" gutterBottom>
-                we don't provide login for accessibility.😭 <br />
-                Please use the links below <br />
-                to edit or share your data! 😄
-            </Typography>
+                <Typography variant="body2" gutterBottom>
+                    we don't provide login for accessibility. <br />
+                    Please use the links below <br />
+                    to edit or share your data! 😄
+                </Typography>
 
-            <Typography variant="body2">Edit URL</Typography>
-            <TextField
-                value={generatedEditUrl}
-                InputProps={{
-                    readOnly: true,
-                }}
-                onClick={() => handleCopyUrl(generatedEditUrl)}
-            />
+                <Typography variant="body2">Edit URL</Typography>
+                <TextField
+                    value={generatedEditUrl}
+                    InputProps={{
+                        readOnly: true,
+                    }}
+                    onClick={() => handleCopyUrl(generatedEditUrl)}
+                />
 
-            <Typography variant="body2">Share URL</Typography>
-            <TextField
-                value={generatedShareUrl}
-                InputProps={{
-                    readOnly: true,
-                }}
-                onClick={() => handleCopyUrl(generatedShareUrl)}
-            />
-        </Box>
-    </Modal>
-</>
+                <Typography variant="body2">Share URL</Typography>
+                <TextField
+                    value={generatedShareUrl}
+                    InputProps={{
+                        readOnly: true,
+                    }}
+                    onClick={() => handleCopyUrl(generatedShareUrl)}
+                />
+            </Box>
+        </Modal>
+    </>
 }

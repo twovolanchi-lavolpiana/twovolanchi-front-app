@@ -63,7 +63,7 @@ export const ShareGround: React.FC<GroundProps> = ({ players, tactics }) => {
 
             setAnimatedPositions(prevPositions => {
                 const newPositions = { ...prevPositions };
-                
+
                 currentSequence.players.forEach(move => {
                     const { id, positions } = move;
                     const totalFrames = positions.length;
@@ -157,7 +157,7 @@ export const ShareGround: React.FC<GroundProps> = ({ players, tactics }) => {
         <Box
             sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 2 }}
         >
-            <div style={{ width: '70%', height: '60%', justifyContent: 'center', alignItems: 'center' }}>
+            <div style={{ width: '800px', minWidth: '100%', height: '60%', justifyContent: 'center', alignItems: 'center' }}>
                 <SoccerField ref={imgRef} />
 
                 {
