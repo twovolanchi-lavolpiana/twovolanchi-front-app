@@ -7,7 +7,7 @@ interface MainComponentProps {
     onThemeChange: () => void;
 }
 
-const MainComponent = (props: MainComponentProps) => {
+const MainPage = (props: MainComponentProps) => {
     return <>
         <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh" flexDirection="column">
             <div className="App">
@@ -25,4 +25,4 @@ const MainComponent = (props: MainComponentProps) => {
         </Box></>
 }
 
-export default MainComponent;
+export default MainPage;

@@ -7,7 +7,7 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { Card, CardContent, Stack } from '@mui/material';
 import { useScreenSize } from '../../provider/ScreenSizeProvider';
 import { ShareDescription } from './ShareDescription';
-import { Player, Tactics } from './ShareComponent';
+import { Player, Tactics } from '../../store/Tactics';
 import { SharePlayerList } from './SharePlayerList';
 
 type BoardProps = {
@@ -16,7 +16,6 @@ type BoardProps = {
     players: Player[];
     tactics: Tactics;
 }
-
 
 export const ShareBoard: React.FC<BoardProps> = ({ title, description, players, tactics }) => {    
     const { vw } = useScreenSize(); // width 값 사용

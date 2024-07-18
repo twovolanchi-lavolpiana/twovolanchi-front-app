@@ -1,21 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { BallPosition } from "../component/BallPosition";
+import { Sequence } from "./Tactics";
 
-interface PlayerMove {
-    id: number;
-    sequence: { left: number; top: number, team: 'HOME' | 'AWAY' }[];
-}
-
-interface BallMove {
-    left: number,
-    top: number,
-}
-
-interface Sequence {
-    sequenceNumber: number;
-    moves: PlayerMove[];
-    balls: BallMove[],
-}
 
 interface SequenceState {
     currentSequenceNumber: number;
@@ -33,8 +19,8 @@ type SelectSequenceProp = {
 
 type PlayerMovingProps = {
     id: number,
-    left: number,
-    top: number,
+    leftPercent: number,
+    topPercent: number,
     team: 'HOME' | 'AWAY',
     isFirst: boolean,
 }
@@ -48,32 +34,32 @@ const sequenceSlice = createSlice({
         },
 
         setPlayerMovingSequences: (state, action: PayloadAction<PlayerMovingProps>) => {
-            const { id, left, top, team, isFirst } = action.payload;
+            const { id, leftPercent, topPercent, team, isFirst } = action.payload;
             const currentSequence = state.sequences.find((s) => s.sequenceNumber === state.currentSequenceNumber);
 
             if (currentSequence) {
-                const existingPlayer = currentSequence.moves.find((m) => m.id === id);
+                const existingPlayer = currentSequence.players.find((m) => m.id === id);
 
                 if (existingPlayer) {
                     if (!isFirst) {
-                        existingPlayer.sequence.push({ left, top, team });
+                        existingPlayer.positions.push({ leftPercent, topPercent, team });
                     } else {
-                        existingPlayer.sequence = [];
-                        existingPlayer.sequence.push({ left, top, team });
+                        existingPlayer.positions = [];
+                        existingPlayer.positions.push({ leftPercent, topPercent, team });
                     }
                 } else {
-                    currentSequence.moves.push({
+                    currentSequence.players.push({
                         id,
-                        sequence: [{ left, top, team }],
+                        positions: [{ leftPercent, topPercent, team }],
                     });
                 }
             } else {
                 state.sequences.push({
                     sequenceNumber: state.currentSequenceNumber,
-                    moves: [
+                    players: [
                         {
                             id,
-                            sequence: [{ left, top, team }],
+                            positions: [{ leftPercent, topPercent, team }],
                         },
                     ],
                     balls: []
@@ -81,21 +67,21 @@ const sequenceSlice = createSlice({
             }
         },
         setBallSequences: (state, action: PayloadAction<BallPosition>) => {
-            const { left, top } = action.payload;
+            const { leftPercent, topPercent } = action.payload;
             const currentSequence = state.sequences.find((s) => s.sequenceNumber === state.currentSequenceNumber);
 
             if (currentSequence) {
                 currentSequence.balls.push({
-                    left: left,
-                    top: top,
+                    leftPercent: leftPercent,
+                    topPercent: topPercent,
                 })
             } else {
                 state.sequences.push({
                     sequenceNumber: state.currentSequenceNumber,
-                    moves: [],
+                    players: [],
                     balls: [{
-                        left: left,
-                        top: top,
+                        leftPercent: leftPercent,
+                        topPercent: topPercent,
                     }]
                 });
             }
@@ -111,10 +97,10 @@ const sequenceSlice = createSlice({
             const currentSequence = state.sequences.find((s) => s.sequenceNumber === state.currentSequenceNumber);
 
             if (currentSequence) {
-                const player = currentSequence.moves.find((m) => m.id === playerId);
+                const player = currentSequence.players.find((m) => m.id === playerId);
 
-                if (player && player.sequence.length > 1) {
-                    player.sequence.pop();
+                if (player && player.positions.length > 1) {
+                    player.positions.pop();
                 }
             }
         },
@@ -122,7 +108,7 @@ const sequenceSlice = createSlice({
             const currentSequence = state.sequences.find((s) => s.sequenceNumber === state.currentSequenceNumber);
 
             if (currentSequence) {
-                currentSequence.moves = [];
+                currentSequence.players = [];
             }
         },
         removePlayerSequence: (state, action: PayloadAction<number>) => {
@@ -130,7 +116,7 @@ const sequenceSlice = createSlice({
             const currentSequence = state.sequences.find((s) => s.sequenceNumber === state.currentSequenceNumber);
 
             if (currentSequence) {
-                currentSequence.moves = currentSequence.moves.filter((m) => m.id !== playerId);
+                currentSequence.players = currentSequence.players.filter((m) => m.id !== playerId);
             }
         }
     },

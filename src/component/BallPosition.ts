@@ -1,4 +1,4 @@
 export type BallPosition = {
-  left: number;
-  top: number;
+  leftPercent: number;
+  topPercent: number;
 };

@@ -69,8 +69,8 @@ export const PlayerList: React.FC<PlayerListProps> = ({ width }) => {
             backNumber: backNumberState,
             name: nameState,
             team: selectedPlayer.team,
-            left: selectedPlayer.left,
-            top: selectedPlayer.top,
+            leftPercent: selectedPlayer.leftPercent,
+            topPercent: selectedPlayer.topPercent,
             position: positionState,
         }
 

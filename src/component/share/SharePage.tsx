@@ -3,8 +3,8 @@ import { useParams } from "react-router-dom";
 import Navbar from "../Navbar";
 import { useEffect, useState } from "react";
 import { ShareBoard } from "./ShareBoard";
-import { PlayerPositionEnum } from "../PlayerPositionEnum";
 import NotFoundPage from "../error/NotFound";
+import { ResponseData } from "../../store/Tactics";
 
 export interface ShareComponentProps {
     darkMode: boolean;
@@ -15,55 +15,7 @@ interface ShareKeyParams {
     shareKey: string
 }
 
-export interface Player {
-    id: number;
-    backNumber: number;
-    name: string;
-    position: PlayerPositionEnum;
-    team: 'HOME' | 'AWAY';
-    leftPercent: number;
-    topPercent: number;
-}
-
-export interface PositionInfo {
-    leftPercent: number;
-    topPercent: number;
-    team: 'HOME' | 'AWAY';
-}
-
-export interface PlayerMove {
-    id: number;
-    positions: PositionInfo[];
-}
-
-export interface BallMove {
-    leftPercent: number;
-    topPercent: number;
-}
-
-export interface MoveSequence {
-    sequenceNumber: number;
-    players: PlayerMove[];
-    ball: BallMove[];
-}
-
-export interface Tactics {
-    currentSequenceNumber: number;
-    sequences: MoveSequence[];
-}
-
-export interface ResponseData {
-    body: {
-        title: string;
-        description: string;
-        players: Player[];
-        tactics: Tactics;
-    };
-    type: string;
-    timestampUtc: number;
-}
-
-const ShareComponent = (props: ShareComponentProps) => {
+const SharePage = (props: ShareComponentProps) => {
     const { shareKey } = useParams<keyof ShareKeyParams>() as ShareKeyParams;
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState<ResponseData | null>(null);
@@ -113,7 +65,7 @@ const ShareComponent = (props: ShareComponentProps) => {
             />
         );
     }
-
+    
     return <>
         <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh" flexDirection="column">
             <div className="App">
@@ -137,4 +89,4 @@ const ShareComponent = (props: ShareComponentProps) => {
     </>
 };
 
-export default ShareComponent;
+export default SharePage;

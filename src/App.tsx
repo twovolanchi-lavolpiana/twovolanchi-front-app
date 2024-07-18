@@ -3,9 +3,9 @@ import './App.css';
 import { Box, createTheme, CssBaseline, ThemeProvider } from '@mui/material';
 import { ScreenSizeProvider } from './provider/ScreenSizeProvider';
 import { Route, Routes } from 'react-router-dom';
-import ShareComponent from './component/share/ShareComponent';
-import MainComponent from './component/MainComponent';
-import EditComponent from './component/EditComponent';
+import SharePage from './component/share/SharePage';
+import MainPage from './component/MainPage';
+import EditPage from './component/edit/EditPage';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -34,22 +34,22 @@ function App() {
           <Route
             key={'default'}
             path={''}
-            element={<MainComponent darkMode={darkMode} onThemeChange={handleThemeChange} />}
+            element={<MainPage darkMode={darkMode} onThemeChange={handleThemeChange} />}
           />
           <Route
             key={'home'}
             path={'/'}
-            element={<MainComponent darkMode={darkMode} onThemeChange={handleThemeChange} />}
+            element={<MainPage darkMode={darkMode} onThemeChange={handleThemeChange} />}
           />
           <Route
             key={'edit'}
             path={'/edit/:editKey'}
-            element={<EditComponent darkMode={darkMode} onThemeChange={handleThemeChange} />}
+            element={<EditPage darkMode={darkMode} onThemeChange={handleThemeChange} />}
           />
           <Route
             key={'share'}
             path={'/:shareKey'}
-            element={<ShareComponent darkMode={darkMode} onThemeChange={handleThemeChange} />}
+            element={<SharePage darkMode={darkMode} onThemeChange={handleThemeChange} />}
           />
         </Routes>
       </ScreenSizeProvider>

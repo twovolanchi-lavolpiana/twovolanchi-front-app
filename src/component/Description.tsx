@@ -28,7 +28,7 @@ export const Description = () => {
             maxWidth: 700,
         }}>
             <CardContent>
-                <div style={{  width: '100%', maxWidth: '500px', margin: 'auto', overflow: 'hidden'  }}>
+                <div style={{  width: '100%', maxWidth: '500px', margin: 'auto', overflow: 'hidden', display: 'flex'  }}>
                     <Typography
                         gutterBottom
                         variant="h5"

@@ -1,6 +1,6 @@
 import { Avatar, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { PlayerPositionEnum } from "../PlayerPositionEnum";
-import { Player } from "./ShareComponent";
+import { Player } from '../../store/Tactics';
 
 export interface SharePlayerListProps {
     width: number;

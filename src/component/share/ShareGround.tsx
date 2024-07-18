@@ -6,7 +6,7 @@ import { RootState } from '../../store/Store';
 import { useScreenSize } from '../../provider/ScreenSizeProvider';
 import SoccerField from '../SoccerField';
 import { ShareMoveBall } from './ShareMoveBall';
-import { Player, Tactics } from './ShareComponent';
+import { Player, Tactics } from '../../store/Tactics';
 import { clearShareSimulationOn } from '../../store/ShareSimulationOnSlice';
 
 interface GroundProps {
@@ -19,9 +19,9 @@ export const ShareGround: React.FC<GroundProps> = ({ players, tactics }) => {
     const dispatch = useDispatch()
     const imgRef = useRef<HTMLDivElement>(null);
 
-    const ball = tactics.sequences[tactics.currentSequenceNumber].ball
-    const sequences = tactics.sequences[tactics.currentSequenceNumber].players
-
+    const ballMoves = tactics.sequences[tactics.currentSequenceNumber].balls
+    const playerMoves = tactics.sequences[tactics.currentSequenceNumber].players
+    
     const isSimulationOnState = useSelector((state: RootState) => state.shareSimulation.isSimulationOn)
     const isSimulationStartState = useSelector((state: RootState) => state.shareSimulation.isSimulationStart)
 
@@ -43,9 +43,11 @@ export const ShareGround: React.FC<GroundProps> = ({ players, tactics }) => {
     };
 
     const notIncludePlayers = useMemo(() => {
-        const ids = sequences.map((s) => s.id);
+        if (playerMoves === undefined) return;
+
+        const ids = playerMoves.map((s) => s.id);
         return players.filter((p) => !ids.includes(p.id));
-    }, [players, sequences]);
+    }, [players, playerMoves]);
 
 
     const animatePlayers = (callback?: () => void) => {
@@ -58,18 +60,11 @@ export const ShareGround: React.FC<GroundProps> = ({ players, tactics }) => {
 
             setAnimatedPositions(prevPositions => {
                 const newPositions = { ...prevPositions };
-
-                sequences.forEach(move => {
+                playerMoves.forEach(move => {
                     const { id, positions } = move;
                     const totalFrames = positions.length;
                     const frameDuration = animationDuration / totalFrames;
                     const currentFrame = Math.min(Math.floor(elapsed / frameDuration), totalFrames - 1);
-
-                    if (currentFrame === 0 && positions.length === 1) {
-                        const initialPoint = players[id];
-                        console.log("test!!!")
-                        newPositions[id] = { left: initialPoint.leftPercent, top: initialPoint.topPercent, frame: currentFrame };
-                    }
 
                     if (currentFrame < positions.length) {
                         const nextIndex = Math.min(currentFrame + 1, positions.length - 1);
@@ -87,17 +82,17 @@ export const ShareGround: React.FC<GroundProps> = ({ players, tactics }) => {
                 return newPositions;
             });
 
-            if (ball && ball.length > 0) {
+            if (ballMoves && ballMoves.length > 0) {
                 setAnimatedBallPosition(prevBallPosition => {
-                    const totalFrames = ball.length;
+                    const totalFrames = ballMoves.length;
                     const frameDuration = animationDuration / totalFrames;
                     const currentFrame = Math.min(Math.floor(elapsed / frameDuration), totalFrames - 1);
 
-                    const nextIndex = Math.min(currentFrame + 1, ball.length - 1);
+                    const nextIndex = Math.min(currentFrame + 1, ballMoves.length - 1);
                     const pointProgress = (elapsed % frameDuration) / frameDuration;
 
-                    const currentPoint = ball[currentFrame] || { left: 0, top: 0 };
-                    const nextPoint = ball[nextIndex] || { left: 0, top: 0 };
+                    const currentPoint = ballMoves[currentFrame] || { left: 0, top: 0 };
+                    const nextPoint = ballMoves[nextIndex] || { left: 0, top: 0 };
 
                     const left = currentPoint.leftPercent + (nextPoint.leftPercent - currentPoint.leftPercent) * pointProgress;
                     const top = currentPoint.topPercent + (nextPoint.topPercent - currentPoint.topPercent) * pointProgress;
@@ -129,8 +124,8 @@ export const ShareGround: React.FC<GroundProps> = ({ players, tactics }) => {
                 return acc;
             }, {} as { [key: number]: { left: number, top: number, frame: number } }));
 
-            if (tactics.sequences[tactics.currentSequenceNumber].ball.length > 0) {
-                const ball = tactics.sequences[tactics.currentSequenceNumber].ball[0]
+            if (tactics.sequences[tactics.currentSequenceNumber].balls.length > 0) {
+                const ball = tactics.sequences[tactics.currentSequenceNumber].balls[0]
                 setAnimatedBallPosition({
                     left: (ball.leftPercent / 100) * rect.width + rect.x + window.screenX,
                     top: (ball.topPercent / 100) * rect.height + rect.y + window.screenY,
@@ -222,10 +217,10 @@ export const ShareGround: React.FC<GroundProps> = ({ players, tactics }) => {
                             </marker>
                         </defs>
 
-                        {sequences.map(sequence => (
-                            sequence.positions.map((move, index) => {
+                        {playerMoves.map(moves => (
+                            moves.positions.map((move, index) => {
                                 if (index === 0) return null;
-                                const { x: x1, y: y1 } = getLeftLocation(sequence.positions[index - 1].leftPercent, sequence.positions[index - 1].topPercent);
+                                const { x: x1, y: y1 } = getLeftLocation(moves.positions[index - 1].leftPercent, moves.positions[index - 1].topPercent);
                                 const { x: x2, y: y2 } = getLeftLocation(move.leftPercent, move.topPercent);
                                 return <line
                                     key={`${move.leftPercent}-${index}`}
@@ -241,12 +236,12 @@ export const ShareGround: React.FC<GroundProps> = ({ players, tactics }) => {
                             })
                         ))}
 
-                        {ball && ball.map((sequence, index) => {
+                        {ballMoves && ballMoves.map((ballMove, index) => {
                             if (index === 0) return null;
-                            const { x: x1, y: y1 } = getLeftLocation(ball[index - 1].leftPercent, ball[index - 1].topPercent);
-                            const { x: x2, y: y2 } = getLeftLocation(sequence.leftPercent, sequence.topPercent);
+                            const { x: x1, y: y1 } = getLeftLocation(ballMoves[index - 1].leftPercent, ballMoves[index - 1].topPercent);
+                            const { x: x2, y: y2 } = getLeftLocation(ballMove.leftPercent, ballMove.topPercent);
                             return <line
-                                key={`${sequence.leftPercent}-${sequence.topPercent}-${index}`}
+                                key={`${ballMove.leftPercent}-${ballMove.topPercent}-${index}`}
                                 x1={x1}
                                 y1={y1}
                                 x2={x2}
@@ -273,21 +268,21 @@ export const ShareGround: React.FC<GroundProps> = ({ players, tactics }) => {
                     imgRef={imgRef} />
             })}
 
-            {ball && ball.length > 0 && !isSimulationStartState && <ShareMoveBall
-                left={ball[0].leftPercent}
-                top={ball[0].topPercent}
+            {ballMoves && ballMoves.length > 0 && !isSimulationStartState && <ShareMoveBall
+                left={ballMoves[0].leftPercent}
+                top={ballMoves[0].topPercent}
                 imgRef={imgRef}
             ></ShareMoveBall>
             }
 
-            {ball && ball.length > 0 && isSimulationStartState && animatedBallPosition && <ShareMoveBall
+            {ballMoves && ballMoves.length > 0 && isSimulationStartState && animatedBallPosition && <ShareMoveBall
                 left={animatedBallPosition.left}
                 top={animatedBallPosition.top}
                 imgRef={imgRef}
             ></ShareMoveBall>
             }
 
-            {isSimulationStartState && notIncludePlayers.map(player => {
+            {isSimulationStartState && notIncludePlayers && notIncludePlayers.map(player => {
                 return (
                     <ShareMovePlayer
                         key={player.id}
@@ -303,7 +298,8 @@ export const ShareGround: React.FC<GroundProps> = ({ players, tactics }) => {
             })}
 
             {isSimulationStartState && players.map(player => {
-                const percent = getLeftLocation(player.leftPercent, player.topPercent)
+                const position = animatedPositions[player.id]
+                if (!position) return;
 
                 return (
                     <ShareMovePlayer
@@ -312,8 +308,8 @@ export const ShareGround: React.FC<GroundProps> = ({ players, tactics }) => {
                         backNumber={player.backNumber}
                         team={player.team}
                         name={player.name}
-                        left={animatedPositions[player.id]?.left ?? percent.x}
-                        top={animatedPositions[player.id]?.top ?? percent.y}
+                        left={position?.left}
+                        top={position?.top}
                         imgRef={imgRef}
                     />
                 );

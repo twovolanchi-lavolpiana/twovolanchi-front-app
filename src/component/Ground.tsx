@@ -1,6 +1,6 @@
 import { Box } from '@mui/material';
 import { PlayerPosition } from './PlayerPosition';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useDrop } from 'react-dnd';
 import { ItemTypes } from './ItemTypes';
 import { DraggablePlayer } from './DraggablePlayer';
@@ -62,21 +62,22 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
 
             setAnimatedPositions(prevPositions => {
                 const newPositions = { ...prevPositions };
-                currentSequence.moves.forEach(move => {
-                    const { id, sequence } = move;
-                    const totalFrames = sequence.length;
+                
+                currentSequence.players.forEach(move => {
+                    const { id, positions } = move;
+                    const totalFrames = positions.length;
                     const frameDuration = animationDuration / totalFrames;
                     const currentFrame = Math.min(Math.floor(elapsed / frameDuration), totalFrames - 1);
 
-                    if (currentFrame < sequence.length) {
-                        const nextIndex = Math.min(currentFrame + 1, sequence.length - 1);
+                    if (currentFrame < positions.length) {
+                        const nextIndex = Math.min(currentFrame + 1, positions.length - 1);
                         const pointProgress = (elapsed % frameDuration) / frameDuration;
 
-                        const currentPoint = sequence[currentFrame] || { left: 0, top: 0 };
-                        const nextPoint = sequence[nextIndex] || { left: 0, top: 0 };
+                        const currentPoint = positions[currentFrame] || { left: 0, top: 0 };
+                        const nextPoint = positions[nextIndex] || { left: 0, top: 0 };
 
-                        const left = currentPoint.left + (nextPoint.left - currentPoint.left) * pointProgress;
-                        const top = currentPoint.top + (nextPoint.top - currentPoint.top) * pointProgress;
+                        const left = currentPoint.leftPercent + (nextPoint.leftPercent - currentPoint.leftPercent) * pointProgress;
+                        const top = currentPoint.topPercent + (nextPoint.topPercent - currentPoint.topPercent) * pointProgress;
 
                         newPositions[id] = { left, top, frame: currentFrame };
                     }
@@ -96,8 +97,8 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
                     const currentPoint = currentSequence.balls[currentFrame] || { left: 0, top: 0 };
                     const nextPoint = currentSequence.balls[nextIndex] || { left: 0, top: 0 };
 
-                    const left = currentPoint.left + (nextPoint.left - currentPoint.left) * pointProgress;
-                    const top = currentPoint.top + (nextPoint.top - currentPoint.top) * pointProgress;
+                    const left = currentPoint.leftPercent + (nextPoint.leftPercent - currentPoint.leftPercent) * pointProgress;
+                    const top = currentPoint.topPercent + (nextPoint.topPercent - currentPoint.topPercent) * pointProgress;
 
                     return { left, top, frame: currentFrame };
                 });
@@ -122,20 +123,20 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
             const delta = monitor.getDifferenceFromInitialOffset() as { x: number, y: number };
             const rect = imgRef.current.getBoundingClientRect();
 
-            const realLeft = (item.left / 100) * rect.width;
-            const realTop = (item.top / 100) * rect.height;
+            const realLeft = (item.leftPercent / 100) * rect.width;
+            const realTop = (item.topPercent / 100) * rect.height;
 
-            const left = Math.round(((realLeft + delta.x) / rect.width) * 100);
-            const top = Math.round(((realTop + delta.y) / rect.height) * 100);
+            const leftPercent = Math.round(((realLeft + delta.x) / rect.width) * 100);
+            const topPercent = Math.round(((realTop + delta.y) / rect.height) * 100);
 
-            if (left < 0 || left > 100 || top < 0 || top > 100) return;
+            if (leftPercent < 0 || leftPercent > 100 || topPercent < 0 || topPercent > 100) return;
 
             if (item.type === ItemTypes.PLAYER) {
                 if (multiSelectedPlayers) {
                     for (let i = 0; i < multiSelectedPlayers.length; i++) {
                         const m = multiSelectedPlayers[i];
-                        const realLeft = (m.left / 100) * rect.width;
-                        const realTop = (m.top / 100) * rect.height;
+                        const realLeft = (m.leftPercent / 100) * rect.width;
+                        const realTop = (m.topPercent / 100) * rect.height;
 
                         const left = Math.round(((realLeft + delta.x) / rect.width) * 100);
                         const top = Math.round(((realTop + delta.y) / rect.height) * 100);
@@ -148,26 +149,34 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
 
                 if (multiSelectedPlayers) {
                     multiSelectedPlayers.forEach((m) => {
-                        const realLeft = (m.left / 100) * rect.width;
-                        const realTop = (m.top / 100) * rect.height;
+                        const realLeft = (m.leftPercent / 100) * rect.width;
+                        const realTop = (m.topPercent / 100) * rect.height;
 
-                        const left = Math.round(((realLeft + delta.x) / rect.width) * 100);
-                        const top = Math.round(((realTop + delta.y) / rect.height) * 100);
+                        const multiLeftPercent = Math.round(((realLeft + delta.x) / rect.width) * 100);
+                        const multiTopPercent = Math.round(((realTop + delta.y) / rect.height) * 100);
 
-                        dispatch(movePlayer({ id: m.id, left: left, top: top }));
-                        dispatch(setPlayerMovingSequences({ id: m.id, left, top, team: m.team, isFirst: true }));
+                        dispatch(movePlayer({ id: m.id, leftPercent: multiLeftPercent, topPercent: multiTopPercent }));
+                        dispatch(setPlayerMovingSequences({ id: m.id, leftPercent: multiLeftPercent, topPercent: multiTopPercent, team: m.team, isFirst: true }));
                     });
                 }
 
-                dispatch(movePlayer({ id: item.id, left: left, top: top }));
-                dispatch(selectPlayer({ id: item.id, backNumber: item.backNumber, team: item.team, name: item.name, left, top, position: item.position }));
-                dispatch(setPlayerMovingSequences({ id: item.id, left, top, team: item.team, isFirst: true }));
+                dispatch(movePlayer({ id: item.id, leftPercent: leftPercent, topPercent: topPercent }));
+                dispatch(selectPlayer({ id: item.id, backNumber: item.backNumber, team: item.team, name: item.name, leftPercent, topPercent, position: item.position }));
+                dispatch(setPlayerMovingSequences({ id: item.id, leftPercent, topPercent, team: item.team, isFirst: true }));
             } else if (item.type === ItemTypes.BALL) {
                 dispatch(clearBallSequences())
-                dispatch(setBall({ left: left, top: top }));
+                dispatch(setBall({ leftPercent: leftPercent, topPercent: topPercent }));
             }
         },
     });
+
+    const notIncludePlayers = useMemo(() => {
+        const current = sequences.sequences[sequences.currentSequenceNumber]
+        if (!current) return;
+        const ids = current.players.map((s) => s.id);
+        return players.filter((p) => !ids.includes(p.id));
+    }, [players, sequences]);
+
 
     const handlePlayerClick = (event: React.MouseEvent<HTMLElement>, player: PlayerPosition) => {
         if (multiSelectedPlayers) {
@@ -191,13 +200,13 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
 
         if (selectedPlayer && isPossiblePlayerMoveState) {
             dispatch(clearPossibleBallMoveState())
-            const { id, left, top, team } = selectedPlayer;
-            dispatch(setPlayerMovingSequences({ id, left: clickedLeft, top: clickedTop, team: team, isFirst: false }));
+            const { id, leftPercent, topPercent, team } = selectedPlayer;
+            dispatch(setPlayerMovingSequences({ id, leftPercent: clickedLeft, topPercent: clickedTop, team: team, isFirst: false }));
             return;
         }
 
         if (isPossibleBallMove) {
-            dispatch(setBallSequences({ left: clickedLeft, top: clickedTop }));
+            dispatch(setBallSequences({ leftPercent: clickedLeft, topPercent: clickedTop }));
             return;
         }
     }
@@ -208,8 +217,8 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
             const rect = imgRef.current.getBoundingClientRect();
             setAnimatedPositions(players.reduce((acc, player) => {
                 acc[player.id] = {
-                    left: player.left * rect.width / 100,
-                    top: player.top * rect.height / 100,
+                    left: (player.leftPercent * rect.width / 100) + rect.x + window.scrollX,
+                    top: (player.topPercent * rect.height / 100) + rect.y + window.scrollY,
                     frame: 0,
                 };
                 return acc;
@@ -217,14 +226,13 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
 
             if (ball) {
                 setAnimatedBallPosition({
-                    left: ball.left * rect.width / 100,
-                    top: ball.top * rect.height / 100,
+                    left: ball.leftPercent * rect.width / 100 + rect.x + window.screenX,
+                    top: ball.topPercent * rect.height / 100 + rect.y + window.screenY,
                     frame: 0,
                 });
             }
         }
     }, [initialLoad, imgRef.current]);
-
 
     useEffect(() => {
         if (imgRef.current) {
@@ -334,11 +342,11 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
                         </defs>
 
                         {sequences.sequences.map(sequence => (
-                            sequence.moves.map((move) => (
-                                move.sequence.map((location, index) => {
+                            sequence.players.map((move) => (
+                                move.positions.map((location, index) => {
                                     if (index === 0) return null;
-                                    const { x: x1, y: y1 } = getLeftLocation(move.sequence[index - 1].left, move.sequence[index - 1].top);
-                                    const { x: x2, y: y2 } = getLeftLocation(location.left, location.top);
+                                    const { x: x1, y: y1 } = getLeftLocation(move.positions[index - 1].leftPercent, move.positions[index - 1].topPercent);
+                                    const { x: x2, y: y2 } = getLeftLocation(location.leftPercent, location.topPercent);
                                     return <line
                                         key={`${move.id}-${index}`}
                                         x1={x1}
@@ -357,10 +365,10 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
                         {sequences.sequences.map(sequence => (
                             sequence.balls.map((ball, index) => {
                                 if (index === 0) return null;
-                                const { x: x1, y: y1 } = getLeftLocation(sequence.balls[index - 1].left, sequence.balls[index - 1].top);
-                                const { x: x2, y: y2 } = getLeftLocation(ball.left, ball.top);
+                                const { x: x1, y: y1 } = getLeftLocation(sequence.balls[index - 1].leftPercent, sequence.balls[index - 1].topPercent);
+                                const { x: x2, y: y2 } = getLeftLocation(ball.leftPercent, ball.topPercent);
                                 return <line
-                                    key={`${ball.left}-${ball.top}-${index}`}
+                                    key={`${ball.leftPercent}-${ball.topPercent}-${index}`}
                                     x1={x1}
                                     y1={y1}
                                     x2={x2}
@@ -386,30 +394,52 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
                     backNumber={player.backNumber}
                     team={player.team}
                     name={player.name}
-                    left={player.left}
-                    top={player.top}
+                    leftPercent={player.leftPercent}
+                    topPercent={player.topPercent}
                     imgRef={imgRef}
                     position={player.position}
                     onClick={handlePlayerClick} />
             })}
 
             {ball && !isSimulationStartState && <DraggableBall
-                left={ball.left}
-                top={ball.top}
+                leftPercent={ball.leftPercent}
+                topPercent={ball.topPercent}
                 imgRef={imgRef}
             ></DraggableBall>
             }
 
             {ball && isSimulationStartState && animatedBallPosition && <DraggableBall
-                left={animatedBallPosition.left}
-                top={animatedBallPosition.top}
+                leftPercent={animatedBallPosition.left}
+                topPercent={animatedBallPosition.top}
                 imgRef={imgRef}
             ></DraggableBall>
             }
+            
+            {isSimulationStartState && notIncludePlayers !== undefined && notIncludePlayers.map(player => {
+                return (
+                    <DraggablePlayer
+                        key={player.id}
+                        id={player.id}
+                        backNumber={player.backNumber}
+                        team={player.team}
+                        name={player.name}
+                        leftPercent={player.leftPercent}
+                        topPercent={player.topPercent}
+                        imgRef={imgRef}
+                        position={player.position}
+                        onClick={handlePlayerClick}
+                    />
+                );
+            })}
+
 
             {isSimulationStartState && players.map(player => {
                 const multiSelectedPlayer = multiSelectedPlayers?.find(m => m.id === player.id);
                 if (multiSelectedPlayer) return null;
+                
+                const position = animatedPositions[player.id] 
+                if (!position) return;
+
 
                 return (
                     <DraggablePlayer
@@ -418,8 +448,8 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
                         backNumber={player.backNumber}
                         team={player.team}
                         name={player.name}
-                        left={animatedPositions[player.id]?.left ?? player.left}
-                        top={animatedPositions[player.id]?.top ?? player.top}
+                        leftPercent={position.left}
+                        topPercent={position.top}
                         imgRef={imgRef}
                         position={player.position}
                         onClick={handlePlayerClick}

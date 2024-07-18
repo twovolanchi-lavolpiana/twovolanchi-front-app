@@ -9,24 +9,24 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../store/Store';
 
 export type BallProps = {
-    left: number,
-    top: number,
+    leftPercent: number,
+    topPercent: number,
     imgRef: React.RefObject<HTMLDivElement>
 }
 
-export const DraggableBall: React.FC<BallProps> = ({ left, top, imgRef }) => {
+export const DraggableBall: React.FC<BallProps> = ({ leftPercent, topPercent, imgRef }) => {
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
     const isPossiblePlayerMove = useSelector((state: RootState) => state.possiblePlayerMove.isPossible);
 
     const [{ isDragging }, dragRef] = useDrag(() => ({
         type: ItemTypes.BALL,
         item: () => {
-            return { left, top, type: ItemTypes.BALL };
+            return { leftPercent, topPercent, type: ItemTypes.BALL };
         },
         collect: (monitor) => ({
             isDragging: !!monitor.isDragging(),
         }),
-    }), [left, top]);
+    }), [leftPercent, topPercent]);
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => { };
 
@@ -52,7 +52,7 @@ export const DraggableBall: React.FC<BallProps> = ({ left, top, imgRef }) => {
     useEffect(() => {
     }, [selectedPlayer])
 
-    const ballStyle = getBallStyle(left, top);
+    const ballStyle = getBallStyle(leftPercent, topPercent);
 
     return (
         <div

@@ -1,13 +1,14 @@
 import { Box, Grid } from "@mui/material";
 import { useParams } from "react-router-dom";
-import Navbar from "./Navbar";
+import Navbar from "../Navbar";
 
 interface EditComponentProps {
     darkMode: boolean;
     onThemeChange: () => void;
 }
 
-const EditComponent = (props: EditComponentProps) => {
+
+const EditPage = (props: EditComponentProps) => {
     const { editKey } = useParams();
 
     return <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh" flexDirection="column">
@@ -26,4 +27,4 @@ const EditComponent = (props: EditComponentProps) => {
     </Box>
 };
 
-export default EditComponent;
+export default EditPage;

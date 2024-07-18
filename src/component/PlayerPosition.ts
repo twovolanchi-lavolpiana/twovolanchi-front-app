@@ -6,6 +6,6 @@ export type PlayerPosition = {
   name: string;
   position: PlayerPositionEnum,
   team: 'HOME' | 'AWAY';
-  left: number;
-  top: number;
+  leftPercent: number;
+  topPercent: number;
 };

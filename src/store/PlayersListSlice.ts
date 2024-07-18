@@ -22,13 +22,13 @@ const playersListSlice = createSlice({
         state.players.push(action.payload)
       }
     },
-    movePlayer: (state, action: PayloadAction<{ id: number, left: number, top: number }>) => {
-      const { id, left, top } = action.payload;
+    movePlayer: (state, action: PayloadAction<{ id: number, leftPercent: number, topPercent: number }>) => {
+      const { id, leftPercent, topPercent } = action.payload;
       const player = state.players.find((p) => p.id === id);
 
       if (player) {
-        player.left = left;
-        player.top = top;
+        player.leftPercent = leftPercent;
+        player.topPercent = topPercent;
       }
     },
     removePlayer: (state, action: PayloadAction<{ id: number }>) => {

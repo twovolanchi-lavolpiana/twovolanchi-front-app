@@ -1,5 +1,5 @@
 import { CloseOutlined, IosShare } from "@mui/icons-material"
-import { Box, Button, IconButton, Modal, TextField, Typography } from "@mui/material"
+import { Box, IconButton, Modal, TextField, Typography } from "@mui/material"
 import { useSelector } from "react-redux";
 import { RootState } from "../store/Store";
 import { useEffect, useState } from "react";
@@ -37,24 +37,24 @@ export const Share = () => {
                 name: player.name,
                 position: player.position,
                 team: player.team,
-                leftPercent: player.left,
-                topPercent: player.top
+                leftPercent: player.leftPercent,
+                topPercent: player.topPercent
             })),
             tactics: {
                 currentSequenceNumber: sequencesState.currentSequenceNumber,
                 sequences: sequencesState.sequences.map(sequence => ({
                     sequenceNumber: sequence.sequenceNumber,
-                    players: sequence.moves.map(move => ({
+                    players: sequence.players.map(move => ({
                         id: move.id,
-                        positions: move.sequence.map(position => ({
-                            leftPercent: position.left,
-                            topPercent: position.top,
+                        positions: move.positions.map(position => ({
+                            leftPercent: position.leftPercent,
+                            topPercent: position.topPercent,
                             team: position.team
                         }))
                     })),
-                    ball: sequence.balls.map(ball => ({
-                        leftPercent: ball.left,
-                        topPercent: ball.top
+                    balls: sequence.balls.map(ball => ({
+                        leftPercent: ball.leftPercent,
+                        topPercent: ball.topPercent
                     }))
                 }))
             }

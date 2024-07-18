@@ -1,5 +1,4 @@
 import { Box, Button, Chip, FormControl, IconButton, InputLabel, MenuItem, Modal, Select, Stack, Typography } from "@mui/material";
-import IosShareIcon from '@mui/icons-material/IosShare';
 import RestartAltIcon from '@mui/icons-material/RestartAlt';
 import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { useDispatch, useSelector } from 'react-redux';
@@ -51,8 +50,8 @@ export const Menu = () => {
 
     const handleAddPlusPlayer = (team: 'HOME' | 'AWAY', position: PlayerPositionEnum) => {
         handlePlayerMoveNotPossible()
-        const left = 50; // 50%
-        const top = 50; // 50%
+        const leftPercent = 50; // 50%
+        const topPercent = 50; // 50%
 
         const newPlayer = {
             id: playerId,
@@ -60,8 +59,8 @@ export const Menu = () => {
             name: defaultName,
             position: position,
             team: team,
-            left: left,
-            top: top,
+            leftPercent: leftPercent,
+            topPercent: topPercent,
         };
         dispatch(setPlayer(newPlayer));
         dispatch(selectPlayer(newPlayer));
@@ -71,15 +70,15 @@ export const Menu = () => {
 
     const handleSetBall = () => {
         handlePlayerMoveNotPossible()
-        const left = 50; // 50%
-        const top = 50; // 50%
+        const leftPercent = 50; // 50%
+        const topPercent = 50; // 50%
 
         const ball = {
-            left: left,
-            top: top,
+            leftPercent: leftPercent,
+            topPercent: topPercent,
         };
         dispatch(setBall(ball));
-        dispatch(setBallSequences({ left, top }));
+        dispatch(setBallSequences({ leftPercent, topPercent }));
     };
 
     useEffect(() => {
@@ -102,10 +101,10 @@ export const Menu = () => {
 
     const handlePlayerMovePossible = () => {
         if (!selectedPlayer) return;
-        const { id, left, top, team } = selectedPlayer;
+        const { id, leftPercent, topPercent, team } = selectedPlayer;
         dispatch(clearPossibleBallMoveState())
         dispatch(setPossiblePlayerMoveState({ playerId: id, isPossible: true }))
-        dispatch(setPlayerMovingSequences({ id, left, top, team, isFirst: true }));
+        dispatch(setPlayerMovingSequences({ id, leftPercent, topPercent, team, isFirst: true }));
     }
 
     const handleBallMovePossible = () => {
@@ -114,7 +113,7 @@ export const Menu = () => {
         dispatch(setPossibleBallMoveState({
             isPossible: true
         }))
-        dispatch(setBallSequences({ left: ball.left, top: ball.top }));
+        dispatch(setBallSequences({ leftPercent: ball.leftPercent, topPercent: ball.topPercent }));
     }
 
     const handlePlayerMoveNotPossible = () => {
@@ -344,8 +343,8 @@ export const Menu = () => {
             name: name,
             position: position,
             team: team,
-            left: left,
-            top: top,
+            leftPercent: left,
+            topPercent: top,
         };
         dispatch(setPlayer(newPlayer));
     }
@@ -423,7 +422,9 @@ export const Menu = () => {
     const isMoveBackable = selectedPlayer && possibleMoveState.isPossible;
     const isPlayerMoveStopable = selectedPlayer && possibleMoveState.isPossible;
     const isBallMoveStopable = ball && isPossibleBallMove
-    const isSimulationPossible = sequencesState.sequences.find((s) => s.sequenceNumber === sequencesState.currentSequenceNumber)
+    const tempSequenceState = sequencesState.sequences.find((s) => s.sequenceNumber === sequencesState.currentSequenceNumber)
+    const isSimulationPossible = tempSequenceState && (tempSequenceState.players.length > 0 || tempSequenceState.balls.length > 0)
+
     return (
         <>
             <Box

@@ -16,14 +16,14 @@ export type PlayerProps = {
     backNumber: number,
     name: string,
     team: 'HOME' | 'AWAY',
-    left: number,
-    top: number,
+    leftPercent: number,
+    topPercent: number,
     imgRef: React.RefObject<HTMLDivElement>,
     position: PlayerPositionEnum,
     onClick: (event: React.MouseEvent<HTMLElement>, player: PlayerPosition) => void;
 }
 
-export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, name, left, top, imgRef, position, onClick }) => {
+export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, name, leftPercent, topPercent, imgRef, position, onClick }) => {
     const dispatch = useDispatch();
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
     const multiSelectedPlayers = useSelector((state: RootState) => state.player.multiSelectedPlayers)
@@ -40,16 +40,16 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, n
         type: ItemTypes.PLAYER,
         item: () => {
             handlePlayerMoveNotPossible()
-            return { id, backNumber, name, left, top, team, position, type: ItemTypes.PLAYER };
+            return { id, backNumber, name, leftPercent, topPercent, team, position, type: ItemTypes.PLAYER };
         },
         collect: (monitor) => ({
             isDragging: !!monitor.isDragging(),
         }),
-    }), [id, backNumber, name, left, top, team, position]);
+    }), [id, backNumber, name, leftPercent, topPercent, team, position]);
 
     const handleClick = (event: React.MouseEvent<HTMLElement>) => {
         handlePlayerMoveNotPossible()
-        onClick(event, { id, team, backNumber, name, left, top, position });
+        onClick(event, { id, team, backNumber, name, leftPercent, topPercent, position });
     };
 
     const renderPlayerInfo = () => {
@@ -97,7 +97,7 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, n
     useEffect(() => {
     }, [multiSelectedPlayers])
 
-    const playerStyle = getPlayerStyle(left, top);
+    const playerStyle = getPlayerStyle(leftPercent, topPercent);
 
     return (
         <div
@@ -179,7 +179,7 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, n
             </div>
 
             {multiSelectedPlayers && multiSelectedPlayers.map((element) => {
-                const { left: elementLeft, top: elementTop } = getPlayerStyle(element.left, element.top)
+                const { left: elementLeft, top: elementTop } = getPlayerStyle(element.leftPercent, element.topPercent)
                 return <div
                     key={element.id}
                     style={{

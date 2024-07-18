@@ -28,8 +28,8 @@ export const PlayerPlus: React.FC = () => {
 
     const handleAddPlayer = (team: 'HOME' | 'AWAY', position: PlayerPositionEnum) => {
         handlePlayerMoveNotPossible()
-        const left = 50; // 50%
-        const top = 50; // 50%
+        const leftPercent = 50; // 50%
+        const topPercent = 50; // 50%
 
         const newPlayer = {
             id: playerId,
@@ -37,8 +37,8 @@ export const PlayerPlus: React.FC = () => {
             name: defaultName,
             position: position,
             team: team,
-            left: left,
-            top: top,
+            leftPercent: leftPercent,
+            topPercent: topPercent,
         };
         dispatch(setPlayer(newPlayer));
         dispatch(selectPlayer(newPlayer));
@@ -48,15 +48,15 @@ export const PlayerPlus: React.FC = () => {
 
     const handleSetBall = () => {
         handlePlayerMoveNotPossible()
-        const left = 50; // 50%
-        const top = 50; // 50%
+        const leftPercent = 50; // 50%
+        const topPercent = 50; // 50%
 
         const ball = {
-            left: left,
-            top: top,
+            leftPercent: leftPercent,
+            topPercent: topPercent,
         };
         dispatch(setBall(ball));
-        dispatch(setBallSequences({left, top}));
+        dispatch(setBallSequences({leftPercent, topPercent}));
     };
 
     useEffect(() => {
