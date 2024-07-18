@@ -11,7 +11,6 @@ import { clearPlayerId } from "../../store/PlayerIdSlice";
 import { clearBall } from "../../store/BallSlice";
 import { clearPossibleBallMoveState } from "../../store/PossibleBallMoveSlice";
 import { useEffect, useState } from "react";
-import { ExpandMoreOutlined, FavoriteOutlined, GitHub, InboxOutlined, MailOutline, MoreVertOutlined, ShareOutlined } from "@mui/icons-material";
 import AddPlayer from '../../image/guide-add-player.png'
 import AddBall from '../../image/guide-add-ball.png'
 import PlayerMove from '../../image/guide-player-move.png'
@@ -25,6 +24,7 @@ import Share from '../../image/guide-share.png'
 import EditTactics from '../../image/guide-edit-tactics.png'
 import SharedTactics from '../../image/guide-shared-tactics.png'
 import EditTitle from '../../image/guide-edit-title.png'
+import { useTranslation } from "react-i18next";
 
 
 interface MainComponentProps {
@@ -34,6 +34,7 @@ interface MainComponentProps {
 
 const GuidePage = (props: MainComponentProps) => {
     const dispatch = useDispatch()
+    const { t } = useTranslation();
 
     const handleReset = () => {
         dispatch(clearSelectedPlayer());
@@ -100,7 +101,7 @@ const GuidePage = (props: MainComponentProps) => {
             </Drawer>
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                 <Toolbar />
-                <Typography paragraph sx={{paddingBottom: 5}}>
+                <Typography paragraph sx={{ paddingBottom: 5 }}>
                     <Card sx={{ maxWidth: 1000 }}>
                         <CardMedia
                             component="img"
@@ -112,13 +113,13 @@ const GuidePage = (props: MainComponentProps) => {
                             <Typography gutterBottom variant="h5" component="div" sx={{ paddingBottom: 3 }}>
                                 Add Player
                             </Typography>
-                            <Typography variant="body2" color="text.secondary"  sx={{ lineHeight: 2 }}>
-                                You can add players by clicking on the Home Team Player or Away Team Player.
+                            <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 2 }}>
+                                {t('guide-add-player-description')}
                             </Typography>
                         </CardContent>
                     </Card>
                 </Typography>
-                <Typography paragraph sx={{paddingBottom: 5}}>
+                <Typography paragraph sx={{ paddingBottom: 5 }}>
                     <Card sx={{ maxWidth: 1000 }}>
                         <CardMedia
                             component="img"
@@ -130,15 +131,13 @@ const GuidePage = (props: MainComponentProps) => {
                             <Typography gutterBottom variant="h5" component="div" sx={{ paddingBottom: 3 }}>
                                 Add Ball
                             </Typography>
-                            <Typography variant="body2" color="text.secondary"  sx={{ lineHeight: 2 }}>
-                                You can add a soccer ball by clicking on the Ball. <br />
-                                Only one ball can be placed on the ground at a time. <br />
-                                If you want to add a new ball, please remove the existing one first and then add the new one.
+                            <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 2 }}>
+                                {t('guide-add-ball-description')}
                             </Typography>
                         </CardContent>
                     </Card>
                 </Typography>
-                <Typography paragraph sx={{paddingBottom: 5}}>
+                <Typography paragraph sx={{ paddingBottom: 5 }}>
                     <Card sx={{ maxWidth: 1000 }}>
                         <CardMedia
                             component="img"
@@ -150,17 +149,13 @@ const GuidePage = (props: MainComponentProps) => {
                             <Typography gutterBottom variant="h5" component="div" sx={{ paddingBottom: 3 }}>
                                 Player Move
                             </Typography>
-                            <Typography variant="body2" color="text.secondary"  sx={{ lineHeight: 2 }}>
-                                After selecting a player, <br />
-                                you can choose the desired position on the ground by clicking when the light appears. <br />
-                                When you run the simulation, the player will move to the selected positions. <br />
-                                You can see the selected positions connected by lines. To stop the movement, <br />
-                                click on Player Stop. Ball Move works similarly for the ball.
+                            <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 2 }}>
+                                {t('guide-player-move-description')}
                             </Typography>
                         </CardContent>
                     </Card>
                 </Typography>
-                <Typography paragraph sx={{paddingBottom: 5}}>
+                <Typography paragraph sx={{ paddingBottom: 5 }}>
                     <Card sx={{ maxWidth: 1000 }}>
                         <CardMedia
                             component="img"
@@ -172,15 +167,13 @@ const GuidePage = (props: MainComponentProps) => {
                             <Typography gutterBottom variant="h5" component="div" sx={{ paddingBottom: 3 }}>
                                 Player Back
                             </Typography>
-                            <Typography variant="body2" color="text.secondary"  sx={{ lineHeight: 2 }}>
-                                If you want to correct a player's movement, <br />
-                                click on the player and then click on Player Back to return to the previous position. <br />
-                                Ball Back works similarly for the ball.
+                            <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 2 }}>
+                                {t('guide-player-back-description')}
                             </Typography>
                         </CardContent>
                     </Card>
                 </Typography>
-                <Typography paragraph sx={{paddingBottom: 5}}>
+                <Typography paragraph sx={{ paddingBottom: 5 }}>
                     <Card sx={{ maxWidth: 1000 }}>
                         <CardMedia
                             component="img"
@@ -193,13 +186,12 @@ const GuidePage = (props: MainComponentProps) => {
                                 Player Remove
                             </Typography>
                             <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 2 }}>
-                                To delete a player, click on the player and then select Remove. <br />
-                                Ball Remove works similarly for the ball.
+                                {t('guide-player-remove-description')}
                             </Typography>
                         </CardContent>
                     </Card>
                 </Typography>
-                <Typography paragraph sx={{paddingBottom: 5}}>
+                <Typography paragraph sx={{ paddingBottom: 5 }}>
                     <Card sx={{ maxWidth: 1000 }}>
                         <CardMedia
                             component="img"
@@ -212,13 +204,12 @@ const GuidePage = (props: MainComponentProps) => {
                                 Edit Title
                             </Typography>
                             <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 2 }}>
-                                You can edit the title and description of your tactics. <br />
-                                Please describe your amazing tactics, coach.
+                                {t('guide-edit-title-description')}
                             </Typography>
                         </CardContent>
                     </Card>
                 </Typography>
-                <Typography paragraph sx={{paddingBottom: 5}}>
+                <Typography paragraph sx={{ paddingBottom: 5 }}>
                     <Card sx={{ maxWidth: 1000 }}>
                         <CardMedia
                             component="img"
@@ -231,12 +222,12 @@ const GuidePage = (props: MainComponentProps) => {
                                 Recommend
                             </Typography>
                             <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 2 }}>
-                                Clicking on Recommend Formation will quickly set up recommended tactics and a recommended team.
+                                {t('guide-recommend-description')}
                             </Typography>
                         </CardContent>
                     </Card>
                 </Typography>
-                <Typography paragraph sx={{paddingBottom: 5}}>
+                <Typography paragraph sx={{ paddingBottom: 5 }}>
                     <Card sx={{ maxWidth: 1000 }}>
                         <CardMedia
                             component="img"
@@ -248,13 +239,13 @@ const GuidePage = (props: MainComponentProps) => {
                             <Typography gutterBottom variant="h5" component="div" sx={{ paddingBottom: 3 }}>
                                 Player List
                             </Typography>
-                            <Typography variant="body2" color="text.secondary"  sx={{ lineHeight: 2 }}>
-                                After adding players, you can check the Player List.
+                            <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 2 }}>
+                                {t('guide-player-list-description')}
                             </Typography>
                         </CardContent>
                     </Card>
                 </Typography>
-                <Typography paragraph sx={{paddingBottom: 5}}>
+                <Typography paragraph sx={{ paddingBottom: 5 }}>
                     <Card sx={{ maxWidth: 1000 }}>
                         <CardMedia
                             component="img"
@@ -266,13 +257,13 @@ const GuidePage = (props: MainComponentProps) => {
                             <Typography gutterBottom variant="h5" component="div" sx={{ paddingBottom: 3 }}>
                                 Player Edit
                             </Typography>
-                            <Typography variant="body2" color="text.secondary"  sx={{ lineHeight: 2 }}>
-                                Double-click on a player to edit their name, number, and position.
+                            <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 2 }}>
+                                {t('guide-player-edit-description')}
                             </Typography>
                         </CardContent>
                     </Card>
                 </Typography>
-                <Typography paragraph sx={{paddingBottom: 5}}>
+                <Typography paragraph sx={{ paddingBottom: 5 }}>
                     <Card sx={{ maxWidth: 1000 }}>
                         <CardMedia>
                             <video
@@ -285,13 +276,13 @@ const GuidePage = (props: MainComponentProps) => {
                             <Typography gutterBottom variant="h5" component="div" sx={{ paddingBottom: 3 }}>
                                 Simulation
                             </Typography>
-                            <Typography variant="body2" color="text.secondary"  sx={{ lineHeight: 2 }}>
-                                You can run the simulation if you have set at least one movement for a player or the ball.
+                            <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 2 }}>
+                                {t('guide-simulation-description')}
                             </Typography>
                         </CardContent>
                     </Card>
                 </Typography>
-                <Typography paragraph sx={{paddingBottom: 5}}>
+                <Typography paragraph sx={{ paddingBottom: 5 }}>
                     <Card sx={{ maxWidth: 1000 }}>
                         <CardMedia
                             component="img"
@@ -303,17 +294,13 @@ const GuidePage = (props: MainComponentProps) => {
                             <Typography gutterBottom variant="h5" component="div" sx={{ paddingBottom: 3 }}>
                                 Share
                             </Typography>
-                            <Typography variant="body2" color="text.secondary"  sx={{ lineHeight: 2 }}>
-                                The Share function provides a link to share your tactics. <br />
-                                Edit URL allows you to modify the simulation. <br />
-                                Share URL allows you to replay the simulation. <br />
-                                Since there is no login feature, please remember your Edit URL and Share URL. <br />
-                                If you lose them, please contact koseyundeploy@gmail.com
+                            <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 2 }}>
+                                {t('guide-share-description')}
                             </Typography>
                         </CardContent>
                     </Card>
                 </Typography>
-                <Typography paragraph sx={{paddingBottom: 5}}>
+                <Typography paragraph sx={{ paddingBottom: 5 }}>
                     <Card sx={{ maxWidth: 1000 }}>
                         <CardMedia
                             component="img"
@@ -325,12 +312,8 @@ const GuidePage = (props: MainComponentProps) => {
                             <Typography gutterBottom variant="h5" component="div" sx={{ paddingBottom: 3 }}>
                                 Edit Tactics
                             </Typography>
-                            <Typography variant="body2" color="text.secondary"  sx={{ lineHeight: 2 }}>
-                                When you go to the Edit URL, your saved tactics will be displayed.  <br />
-                                After modifying your tactics,  <br />
-                                click Save to update them.  <br />
-                                The Share URL and Edit URL will remain the same even if you modify the simulation,  <br />
-                                so you can use them permanently.
+                            <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 2 }}>
+                                {t('guide-edit-tactics-description')}
                             </Typography>
                         </CardContent>
                     </Card>
@@ -347,9 +330,8 @@ const GuidePage = (props: MainComponentProps) => {
                             <Typography gutterBottom variant="h5" component="div" sx={{ paddingBottom: 3 }}>
                                 Shared Tactics
                             </Typography>
-                            <Typography variant="body2" color="text.secondary"  sx={{ lineHeight: 2 }}>
-                                When you go to the Share URL, you can simulate the tactics created by the coach.  <br />
-                                Shall we start creating tactics now?  <br />
+                            <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 2 }}>
+                                {t('guide-shared-tactics-description')}
                             </Typography>
                         </CardContent>
                     </Card>

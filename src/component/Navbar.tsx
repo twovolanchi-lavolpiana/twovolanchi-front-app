@@ -9,9 +9,11 @@ import MenuIcon from '@mui/icons-material/Menu';
 import Container from '@mui/material/Container';
 import Button from '@mui/material/Button';
 import MenuItem from '@mui/material/MenuItem';
-import { FormControlLabel, Switch } from '@mui/material';
 import { useScreenSize } from '../provider/ScreenSizeProvider';
 import { Link } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { Brightness4Outlined, Brightness7Outlined } from '@mui/icons-material';
+import TranslateIcon from '@mui/icons-material/Translate';
 
 const pages = ['Introduce', 'Guide'];
 
@@ -24,6 +26,8 @@ function Navbar({ darkMode, onThemeChange }: NavbarProps) {
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
     const { vw } = useScreenSize(); // width 값 사용
+
+    const [lng, setLng] = React.useState<string>("en")
 
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
@@ -39,6 +43,18 @@ function Navbar({ darkMode, onThemeChange }: NavbarProps) {
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
+    };
+
+    const { i18n } = useTranslation();
+
+    const changeLanguage = () => {
+        if (lng === "en") {
+            i18n.changeLanguage("ko");
+            setLng("ko")
+        } else {
+            i18n.changeLanguage("en");
+            setLng("en")
+        }
     };
 
     return (
@@ -83,11 +99,14 @@ function Navbar({ darkMode, onThemeChange }: NavbarProps) {
                         </Button>
                     </Box>
                     <Box sx={{ flexGrow: 0 }}>
-                        <FormControlLabel
-                            control={<Switch checked={darkMode} onChange={onThemeChange} />}
-                            label="Dark Mode"
-                            sx={{ ml: 'auto' }} // 오른쪽 정렬을 위해 추가
-                        />
+                        <IconButton sx={{ ml: 'auto' }} onClick={changeLanguage} color="inherit">
+                            <TranslateIcon />
+                        </IconButton>
+                    </Box>
+                    <Box sx={{ flexGrow: 0 }}>
+                        <IconButton sx={{ ml: 'auto' }} onClick={onThemeChange} color="inherit">
+                            {darkMode ? <Brightness7Outlined /> : <Brightness4Outlined />}
+                        </IconButton>
                     </Box>
                 </Toolbar>
             </Container> :
@@ -121,13 +140,6 @@ function Navbar({ darkMode, onThemeChange }: NavbarProps) {
                                     open={Boolean(anchorElNav)}
                                     onClose={handleCloseNavMenu}
                                 >
-                                    {/* {pages.map((page) => (
-                                        <MenuItem
-                                            key={page}
-                                            onClick={handleCloseNavMenu}>
-                                            <Typography textAlign="center">{page}</Typography>
-                                        </MenuItem>
-                                    ))} */}
                                     <MenuItem
                                         key={'introduce-page'}
                                         onClick={handleCloseNavMenu}
@@ -167,11 +179,14 @@ function Navbar({ darkMode, onThemeChange }: NavbarProps) {
                             Lavolpiana
                         </Typography>
                         <Box sx={{ flexGrow: 0 }}>
-                            <FormControlLabel
-                                control={<Switch checked={darkMode} onChange={onThemeChange} />}
-                                label="Dark Mode"
-                                sx={{ ml: 'auto' }} // 오른쪽 정렬을 위해 추가
-                            />
+                            <IconButton sx={{ ml: 'auto' }} onClick={changeLanguage} color="inherit">
+                                <TranslateIcon />
+                            </IconButton>
+                        </Box>
+                        <Box sx={{ flexGrow: 0 }}>
+                            <IconButton sx={{ ml: 'auto' }} onClick={onThemeChange} color="inherit">
+                                {darkMode ? <Brightness7Outlined /> : <Brightness4Outlined />}
+                            </IconButton>
                         </Box>
                     </Toolbar>
                 </Container>

@@ -1,3 +1,4 @@
+import './config/i18n';
 import React, { useState } from 'react';
 import './App.css';
 import { Box, createTheme, CssBaseline, ThemeProvider } from '@mui/material';
