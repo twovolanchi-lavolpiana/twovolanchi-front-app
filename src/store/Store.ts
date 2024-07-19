@@ -10,6 +10,7 @@ import ballReducer from './BallSlice';
 import possibleBallMoveReducer from './PossibleBallMoveSlice'
 import tacticsDescriptionReducer from './TacticsDescriptionSlice'
 import shareSimulationReducer from './ShareSimulationOnSlice'
+import translationReducer from './TranslationSlice'
 
 export const store = configureStore({
     reducer: {
@@ -24,6 +25,7 @@ export const store = configureStore({
         simulationOn: simulationOnReducer,
         tacticsDescription: tacticsDescriptionReducer,
         shareSimulation: shareSimulationReducer,
+        translation: translationReducer,
     }
 });
 

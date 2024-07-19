@@ -6,6 +6,7 @@ import { Avatar, Box, Button, FormControl, InputLabel, MenuItem, Modal, Paper, S
 import { PlayerPositionEnum } from "./PlayerPositionEnum";
 import { setPlayer } from "../store/PlayersListSlice";
 import { selectPlayer } from "../store/PlayerSlice";
+import { useTranslation } from "react-i18next";
 
 export interface PlayerListProps {
     width: number;
@@ -13,6 +14,7 @@ export interface PlayerListProps {
 
 export const PlayerList: React.FC<PlayerListProps> = ({ width }) => {
     const dispatch = useDispatch();
+    const { t } = useTranslation();
     const players = useSelector((state: RootState) => state.players.players);
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
 
@@ -122,9 +124,9 @@ export const PlayerList: React.FC<PlayerListProps> = ({ width }) => {
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell align="center"><Typography variant="subtitle1" fontWeight="bold">Position</Typography></TableCell>
-                            <TableCell align="center"><Typography variant="subtitle1" fontWeight="bold">Name</Typography></TableCell>
-                            <TableCell align="center"><Typography variant="subtitle1" fontWeight="bold">No</Typography></TableCell>
+                            <TableCell align="center"><Typography variant="subtitle1" fontWeight="bold">{t('Position')}</Typography></TableCell>
+                            <TableCell align="center"><Typography variant="subtitle1" fontWeight="bold">{t('Name')}</Typography></TableCell>
+                            <TableCell align="center"><Typography variant="subtitle1" fontWeight="bold">{t('No')}</Typography></TableCell>
                             {/* <TableCell align="center"><Typography variant="subtitle1" fontWeight="bold">Team</Typography></TableCell> */}
                         </TableRow>
                     </TableHead>
@@ -175,11 +177,11 @@ export const PlayerList: React.FC<PlayerListProps> = ({ width }) => {
                         gap: 2, // 요소 간의 간격
                     }}
                 >
-                    <h3 id="modal-title" style={{ marginTop: 0, marginBottom: 10 }}>Edit Player</h3>
+                    <h3 id="modal-title" style={{ marginTop: 0, marginBottom: 10 }}>{t('Edit Player')}</h3>
                     <FormControl fullWidth>
                         <TextField
                             id="name-label"
-                            label="Name"
+                            label={t('Name')}
                             variant="outlined"
                             value={nameState}
                             onChange={(e) => setName(e.target.value)}
@@ -189,7 +191,7 @@ export const PlayerList: React.FC<PlayerListProps> = ({ width }) => {
                     <FormControl fullWidth>
                         <TextField
                             id="back-number-label"
-                            label="Back Number"
+                            label={t('Back Number')}
                             variant="outlined"
                             value={backNumberState}
                             onChange={handleBackNumberChange}
@@ -198,12 +200,12 @@ export const PlayerList: React.FC<PlayerListProps> = ({ width }) => {
                         />
                     </FormControl>
                     <FormControl fullWidth>
-                        <InputLabel id="position-label">Position</InputLabel>
+                        <InputLabel id="position-label">{t('Position')}</InputLabel>
                         <Select
                             labelId="position-label"
                             id="position-select"
                             value={positionState}
-                            label="position"
+                            label={t('Position')}
                             onChange={(e) => setPosition(e.target.value as PlayerPositionEnum)}
                         >
                             <MenuItem value={PlayerPositionEnum.ST}>ST</MenuItem>
@@ -233,7 +235,7 @@ export const PlayerList: React.FC<PlayerListProps> = ({ width }) => {
                         variant="contained"
                         onClick={handlePlayerProfileUpdate}
                     >
-                        Save
+                        {t('Save')}
                     </Button>
                 </Box>
             </Modal>

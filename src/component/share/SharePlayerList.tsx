@@ -1,6 +1,7 @@
 import { Avatar, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { PlayerPositionEnum } from "../PlayerPositionEnum";
 import { PlayerPosition } from "../PlayerPosition";
+import { useTranslation } from "react-i18next";
 
 export interface SharePlayerListProps {
     width: number;
@@ -8,6 +9,7 @@ export interface SharePlayerListProps {
 }
 
 export const SharePlayerList: React.FC<SharePlayerListProps> = ({ width, players }) => {    
+    const { t } = useTranslation();
     const setColorByPosition = (position: PlayerPositionEnum) => {
         switch (position) {
             case 'ST':
@@ -48,9 +50,9 @@ export const SharePlayerList: React.FC<SharePlayerListProps> = ({ width, players
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell align="center"><Typography variant="subtitle1" fontWeight="bold">Position</Typography></TableCell>
-                            <TableCell align="center"><Typography variant="subtitle1" fontWeight="bold">Name</Typography></TableCell>
-                            <TableCell align="center"><Typography variant="subtitle1" fontWeight="bold">No</Typography></TableCell>
+                            <TableCell align="center"><Typography variant="subtitle1" fontWeight="bold">{t('Position')}</Typography></TableCell>
+                            <TableCell align="center"><Typography variant="subtitle1" fontWeight="bold">{t('Name')}</Typography></TableCell>
+                            <TableCell align="center"><Typography variant="subtitle1" fontWeight="bold">{t('No')}</Typography></TableCell>
                             {/* <TableCell align="center"><Typography variant="subtitle1" fontWeight="bold">Team</Typography></TableCell> */}
                         </TableRow>
                     </TableHead>

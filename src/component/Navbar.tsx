@@ -14,6 +14,9 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Brightness4Outlined, Brightness7Outlined } from '@mui/icons-material';
 import TranslateIcon from '@mui/icons-material/Translate';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '../store/Store';
+import { changeLng } from '../store/TranslationSlice';
 
 const pages = ['Introduce', 'Guide'];
 
@@ -23,12 +26,12 @@ interface NavbarProps {
 }
 
 function Navbar({ darkMode, onThemeChange }: NavbarProps) {
+    const dispatch = useDispatch();
     const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
     const { vw } = useScreenSize(); // width 값 사용
 
-    const [lng, setLng] = React.useState<string>("en")
-
+    const lng = useSelector((state: RootState) => state.translation.lng);
 
     const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
         setAnchorElNav(event.currentTarget);
@@ -50,10 +53,10 @@ function Navbar({ darkMode, onThemeChange }: NavbarProps) {
     const changeLanguage = () => {
         if (lng === "en") {
             i18n.changeLanguage("ko");
-            setLng("ko")
+            dispatch(changeLng({ lng: "ko" }))
         } else {
             i18n.changeLanguage("en");
-            setLng("en")
+            dispatch(changeLng({ lng: "en" }))
         }
     };
 
@@ -64,8 +67,8 @@ function Navbar({ darkMode, onThemeChange }: NavbarProps) {
                     <Typography
                         variant="h6"
                         noWrap
-                        component="a"
-                        href="/"
+                        component={Link}
+                        to="/"
                         sx={{
                             mr: 2,
                             display: { xs: 'none', md: 'flex' },
@@ -80,15 +83,6 @@ function Navbar({ darkMode, onThemeChange }: NavbarProps) {
                     </Typography>
                     <Box sx={{ flexGrow: 1, display: 'flex' }}>
                         <Button
-                            key={'introduce-page'}
-                            onClick={handleCloseNavMenu}
-                            component={Link}
-                            to="/introduce"
-                            sx={{ my: 2, color: 'white', display: 'block' }}
-                        >
-                            Introduce
-                        </Button>
-                        <Button
                             key={'guide-page'}
                             onClick={handleCloseNavMenu}
                             component={Link}
@@ -96,6 +90,15 @@ function Navbar({ darkMode, onThemeChange }: NavbarProps) {
                             sx={{ my: 2, color: 'white', display: 'block' }}
                         >
                             Guide
+                        </Button>
+                        <Button
+                            key={'introduce-page'}
+                            onClick={handleCloseNavMenu}
+                            component={Link}
+                            to="/introduce"
+                            sx={{ my: 2, color: 'white', display: 'block' }}
+                        >
+                            Introduce
                         </Button>
                     </Box>
                     <Box sx={{ flexGrow: 0 }}>
@@ -141,20 +144,20 @@ function Navbar({ darkMode, onThemeChange }: NavbarProps) {
                                     onClose={handleCloseNavMenu}
                                 >
                                     <MenuItem
-                                        key={'introduce-page'}
-                                        onClick={handleCloseNavMenu}
-                                        component={Link}
-                                        to="/introduce"
-                                    >
-                                        <Typography textAlign="center">Introduce</Typography>
-                                    </MenuItem>
-                                    <MenuItem
                                         key={'guide-page'}
                                         onClick={handleCloseNavMenu}
                                         component={Link}
                                         to="/guide"
                                     >
                                         <Typography textAlign="center">Guide</Typography>
+                                    </MenuItem>
+                                    <MenuItem
+                                        key={'introduce-page'}
+                                        onClick={handleCloseNavMenu}
+                                        component={Link}
+                                        to="/introduce"
+                                    >
+                                        <Typography textAlign="center">Introduce</Typography>
                                     </MenuItem>
                                 </Menu>
 
@@ -163,8 +166,8 @@ function Navbar({ darkMode, onThemeChange }: NavbarProps) {
                         <Typography
                             variant="h5"
                             noWrap
-                            component="a"
-                            href="/"
+                            component={Link}
+                            to="/"
                             sx={{
                                 mr: 2,
                                 display: 'flex',

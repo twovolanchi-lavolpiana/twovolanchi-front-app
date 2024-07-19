@@ -3,8 +3,10 @@ import { Box, IconButton, Modal, TextField, Typography } from "@mui/material"
 import { useSelector } from "react-redux";
 import { RootState } from "../store/Store";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export const Share = () => {
+    const { t } = useTranslation();
     const players = useSelector((state: RootState) => state.players)
     const ball = useSelector((state: RootState) => state.ball.ball);
     const tacticsDescription = useSelector((state: RootState) => state.tacticsDescription)
@@ -120,7 +122,7 @@ export const Share = () => {
                 variant="body1"
                 ml={1}
                 color={isPossible ? 'auto' : 'gray'}
-            >Share</Typography>
+            >{t('Share')}</Typography>
         </Box>
 
         <Modal open={isModalOpen} onClose={handleClose}>
@@ -150,12 +152,10 @@ export const Share = () => {
                 </IconButton>
 
                 <Typography variant="body2" gutterBottom>
-                    we don't provide login for accessibility. <br />
-                    Please use the links below <br />
-                    to edit or share your data! 😄
+                    {t('Share Message')}
                 </Typography>
 
-                <Typography variant="body2">Edit URL</Typography>
+                <Typography variant="body2">{t('Edit URL')}</Typography>
                 <TextField
                     value={generatedEditUrl}
                     InputProps={{
@@ -164,7 +164,7 @@ export const Share = () => {
                     onClick={() => handleCopyUrl(generatedEditUrl)}
                 />
 
-                <Typography variant="body2">Share URL</Typography>
+                <Typography variant="body2">{t('Share URL')}</Typography>
                 <TextField
                     value={generatedShareUrl}
                     InputProps={{

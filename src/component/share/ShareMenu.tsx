@@ -5,10 +5,12 @@ import { useEffect } from 'react';
 import { useScreenSize } from "../../provider/ScreenSizeProvider";
 import { RootState } from "../../store/Store";
 import { endShareSimulation, setShareSimulationOn, startShareSimulation } from "../../store/ShareSimulationOnSlice";
+import { useTranslation } from "react-i18next";
 
 
 export const ShareMenu = () => {
     const { vw } = useScreenSize(); // width 값 사용
+    const { t } = useTranslation();
     const dispatch = useDispatch();
 
     const isSimulationOn = useSelector((state: RootState) => state.shareSimulation.isSimulationOn);
@@ -49,7 +51,7 @@ export const ShareMenu = () => {
                     variant="body1"
                     ml={1}
                     color={'auto'}
-                >Simulation</Typography>
+                >{t('Simulation')}</Typography>
             </Box>
 
             <Box
@@ -66,7 +68,7 @@ export const ShareMenu = () => {
                     variant="body1"
                     ml={1}
                     color={isSimulationStart ? 'auto' : 'gray'}
-                >Simulation Reset</Typography>
+                >{t('Simulation Reset')}</Typography>
             </Box>
         </>
     )

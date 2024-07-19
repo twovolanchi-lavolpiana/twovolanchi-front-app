@@ -1,14 +1,16 @@
 import { Button, Card, CardActionArea, CardActions, CardContent, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, TextField, Typography } from "@mui/material"
 import SettingsIcon from '@mui/icons-material/Settings';
-import { useState } from "react";
+import { useState, useTransition } from "react";
 import { useDispatch } from "react-redux";
 import { setTacticsDescription } from "../store/TacticsDescriptionSlice";
+import { useTranslation } from "react-i18next";
 
 export const Description = () => {
+    const { t } = useTranslation();
     const dispatch = useDispatch();
     const [open, setOpen] = useState(false);
-    const [title, setTitle] = useState('2-3 BuildUp');
-    const [description, setDescription] = useState('Robin Le Normand and Laporte form a pair, while Cucurella, Rodrigo, and Carvajal form a trio.');
+    const [title, setTitle] = useState("My Tactics");
+    const [description, setDescription] = useState("My Tactics Description. Please Edit Tactics");
 
     const handleClickOpen = () => {
         setOpen(true);
@@ -49,12 +51,12 @@ export const Description = () => {
                 </Typography>
             </CardContent>
             <Dialog open={open} onClose={handleClose}>
-                <DialogTitle>Edit Details</DialogTitle>
+                <DialogTitle>{t('Edit Details')}</DialogTitle>
                 <DialogContent>
                     <TextField
                         autoFocus
                         margin="dense"
-                        label="Title"
+                        label={t('Title')}
                         type="text"
                         fullWidth
                         value={title}
@@ -62,7 +64,7 @@ export const Description = () => {
                     />
                     <TextField
                         margin="dense"
-                        label="Description"
+                        label={t('Description')}
                         type="text"
                         fullWidth
                         multiline
@@ -72,8 +74,8 @@ export const Description = () => {
                     />
                 </DialogContent>
                 <DialogActions>
-                    <Button onClick={handleClose}>Cancel</Button>
-                    <Button onClick={handleSave}>Save</Button>
+                    <Button onClick={handleClose}>{t('Cancel')}</Button>
+                    <Button onClick={handleSave}>{t('Save')}</Button>
                 </DialogActions>
             </Dialog>
         </Card>

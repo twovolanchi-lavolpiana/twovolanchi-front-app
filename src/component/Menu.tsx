@@ -31,6 +31,7 @@ import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import { setBall } from '../store/BallSlice';
 import { Share } from "./Share";
 import { EditSave } from "./edit/EditSave";
+import { useTranslation } from "react-i18next";
 
 type MenuProps = {
     editKey: string | null
@@ -38,6 +39,7 @@ type MenuProps = {
 
 export const Menu: React.FC<MenuProps> = ({ editKey }) => {
     const defaultName = "Messi";
+    const { t } = useTranslation();
     const dispatch = useDispatch();
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
     const multiSelectedPlayer = useSelector((state: RootState) => state.player.multiSelectedPlayers);
@@ -443,7 +445,7 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                 <Typography
                     variant="body1"
                     ml={1}
-                >Home Team Player</Typography>
+                >{t('Home Team Player')}</Typography>
             </Box>
             <Box
                 display="flex"
@@ -455,7 +457,7 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                 <Typography
                     variant="body1"
                     ml={1}
-                >Away Team Player</Typography>
+                >{t('Away Team Player')}</Typography>
             </Box>
             <Box
                 display="flex"
@@ -467,7 +469,7 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                     mr: 2
                 }}>
                 <AddOutlinedIcon sx={{ color: '#ff93ac' }} />
-                <Typography variant="body1" ml={1} color={!ball ? 'auto' : 'gray'}>Ball</Typography>
+                <Typography variant="body1" ml={1} color={!ball ? 'auto' : 'gray'}>{t('Ball')}</Typography>
             </Box>
             <Box
                 width="100%"
@@ -507,7 +509,7 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                     variant="body1"
                     ml={1}
                     color={isMovable ? 'auto' : 'gray'}
-                >Player Move</Typography>
+                >{t('Player Move')}</Typography>
             </Box>
 
 
@@ -525,7 +527,7 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                     variant="body1"
                     ml={1}
                     color={isMoveBackable ? 'auto' : 'gray'}
-                >Player Back</Typography>
+                >{t('Player Back')}</Typography>
             </Box>
 
             <Box
@@ -542,7 +544,7 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                     variant="body1"
                     ml={1}
                     color={isPlayerMoveStopable ? 'auto' : 'gray'}
-                >Player Stop</Typography>
+                >{t('Player Stop')}</Typography>
             </Box>
 
             <Box
@@ -559,7 +561,7 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                     variant="body1"
                     ml={1}
                     color={selectedPlayer ? 'auto' : 'gray'}
-                >Player Remove</Typography>
+                >{t('Player Remove')}</Typography>
             </Box>
 
             <Box
@@ -584,7 +586,7 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                     variant="body1"
                     ml={1}
                     color={ball && !isPossibleBallMove ? 'auto' : 'gray'}
-                >Ball Move</Typography>
+                >{t('Ball Move')}</Typography>
             </Box>
 
             <Box
@@ -618,7 +620,7 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                     variant="body1"
                     ml={1}
                     color={isBallMoveStopable ? 'auto' : 'gray'}
-                >Ball Stop</Typography>
+                >{t('Ball Stop')}</Typography>
             </Box>
 
             <Box
@@ -635,7 +637,7 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                     variant="body1"
                     ml={1}
                     color={ball ? 'auto' : 'gray'}
-                >Ball Remove</Typography>
+                >{t('Ball Remove')}</Typography>
             </Box>
 
             <Box
@@ -660,7 +662,7 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                     variant="body1"
                     ml={1}
                     color={isSimulationPossible ? 'auto' : 'gray'}
-                >Simulation</Typography>
+                >{t('Simulation')}</Typography>
             </Box>
 
             <Box
@@ -677,12 +679,12 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                     variant="body1"
                     ml={1}
                     color={isSimulationStart ? 'auto' : 'gray'}
-                >Simulation Reset</Typography>
+                >{t('Simulation Reset')}</Typography>
             </Box>
 
             <Box display="flex" alignItems="center" onClick={handleReset} sx={{ cursor: 'pointer', mr: 2 }}>
                 <RestartAltIcon sx={{ color: '#D389E9' }} />
-                <Typography variant="body1" ml={1}>Ground Reset</Typography>
+                <Typography variant="body1" ml={1}>{t('Ground Reset')}</Typography>
             </Box>
 
             <Box
@@ -696,7 +698,7 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
 
             <Box display="flex" alignItems="center" onClick={handleRecommendFormationModalOpen} sx={{ cursor: 'pointer', mr: 2 }}>
                 <StarBorderOutlinedIcon sx={{ color: '#FFD400' }} />
-                <Typography variant="body1" ml={1}>Recommend Formation</Typography>
+                <Typography variant="body1" ml={1}>{t('Recommend Formation')}</Typography>
             </Box>
             {editKey ? <EditSave editKey={editKey} /> : <Share />}
             <Modal
@@ -719,9 +721,9 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                         gap: 2, // 요소 간의 간격
                     }}
                 >
-                    <h3 id="modal-title" style={{ marginTop: 0, marginBottom: 10 }}>Edit Player</h3>
+                    <h3 id="modal-title" style={{ marginTop: 0, marginBottom: 10 }}>{t('Edit Player')}</h3>
                     <FormControl fullWidth>
-                        <InputLabel id="home-formation-label">Home Team Formation</InputLabel>
+                        <InputLabel id="home-formation-label">{t('Home Team Formation')}</InputLabel>
                         <Select
                             labelId="home-formation-label"
                             id="home-formation-select"
@@ -736,7 +738,7 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                         </Select>
                     </FormControl>
                     <FormControl fullWidth>
-                        <InputLabel id="home-country-label">Home Team Formation</InputLabel>
+                        <InputLabel id="home-country-label">{t('Home Team')}</InputLabel>
                         <Select
                             labelId="home-country-label"
                             id="home-country-select"
@@ -750,7 +752,7 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                         </Select>
                     </FormControl>
                     <FormControl fullWidth>
-                        <InputLabel id="away-formation-label">Away Team Formation</InputLabel>
+                        <InputLabel id="away-formation-label">{t('Away Team Formation')}</InputLabel>
                         <Select
                             labelId="away-formation-label"
                             id="away-formation-select"
@@ -765,7 +767,7 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                         </Select>
                     </FormControl>
                     <FormControl fullWidth>
-                        <InputLabel id="away-country-label">Home Team Formation</InputLabel>
+                        <InputLabel id="away-country-label">{t('Away Team')}</InputLabel>
                         <Select
                             labelId="away-country-label"
                             id="away-country-select"
@@ -789,7 +791,7 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                         variant="contained"
                         onClick={handleFormationUpdate}
                     >
-                        Save
+                        {t('Save')}
                     </Button>
                 </Box>
             </Modal>
