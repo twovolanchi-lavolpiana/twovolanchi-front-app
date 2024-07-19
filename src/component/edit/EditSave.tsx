@@ -72,12 +72,10 @@ export const EditSave: React.FC<EditProps> = ({ editKey }) => {
             });
 
             if (!response.ok) {
-                console.log("response = ", response);
                 throw new Error('Network response was not ok');
             }
 
             const responseData = await response.json();
-            console.log('Response Data:', responseData);
 
             // 응답에서 shortKey 추출 및 URL 생성
             const shortEditKey = responseData.body.shortEditKey;

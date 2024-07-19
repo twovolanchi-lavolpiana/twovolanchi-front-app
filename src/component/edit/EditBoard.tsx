@@ -21,11 +21,9 @@ export const EditBoard: React.FC<EditProps> = ({ editKey }) => {
     const { vw } = useScreenSize(); // width 값 사용
 
     useEffect(() => {
-        console.log(players)
     }, [players]);
 
     useEffect(() => {
-        console.log(selectedPlayer)
     }, [selectedPlayer]);
 
     useEffect(() => {

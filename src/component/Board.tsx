@@ -20,11 +20,9 @@ export const Board = () => {
 
 
     useEffect(() => {
-        console.log(players)
     }, [players]);
 
     useEffect(() => {
-        console.log(selectedPlayer)
     }, [selectedPlayer]);
 
     useEffect(() => {

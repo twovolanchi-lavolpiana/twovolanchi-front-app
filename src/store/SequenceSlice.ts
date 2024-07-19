@@ -30,6 +30,12 @@ type PlayerMovingProps = {
     isFirst: boolean,
 }
 
+type BallMovingProps = {
+    leftPercent: number,
+    topPercent: number,
+    isFirst: boolean,
+}
+
 const sequenceSlice = createSlice({
     name: 'sequences',
     initialState,
@@ -71,11 +77,15 @@ const sequenceSlice = createSlice({
                 });
             }
         },
-        setBallSequences: (state, action: PayloadAction<BallPosition>) => {
-            const { leftPercent, topPercent } = action.payload;
+        setBallSequences: (state, action: PayloadAction<BallMovingProps>) => {
+            const { leftPercent, topPercent, isFirst } = action.payload;
             const currentSequence = state.sequences.find((s) => s.sequenceNumber === state.currentSequenceNumber);
 
             if (currentSequence) {
+                if (isFirst) {
+                    currentSequence.balls = [];
+                }
+
                 currentSequence.balls.push({
                     leftPercent: leftPercent,
                     topPercent: topPercent,
@@ -109,6 +119,15 @@ const sequenceSlice = createSlice({
                 }
             }
         },
+        removeBackBallMovingSequences: (state) => {
+            const currentSequence = state.sequences.find((s) => s.sequenceNumber === state.currentSequenceNumber);
+
+            if (currentSequence) {
+                if (currentSequence.balls.length > 0) {
+                    currentSequence.balls.pop();
+                }
+            }
+        },
         clearPlayerMovingSequence: (state) => {
             const currentSequence = state.sequences.find((s) => s.sequenceNumber === state.currentSequenceNumber);
 
@@ -131,5 +150,5 @@ const sequenceSlice = createSlice({
     },
 });
 
-export const { selectSequence, setPlayerMovingSequences, setBallSequences, removeBackPlayerMovingSequences, clearPlayerMovingSequence, clearBallSequences, removePlayerSequence, editSequences } = sequenceSlice.actions;
+export const { selectSequence, setPlayerMovingSequences, setBallSequences, removeBackPlayerMovingSequences, clearPlayerMovingSequence, clearBallSequences, removePlayerSequence, editSequences, removeBackBallMovingSequences } = sequenceSlice.actions;
 export default sequenceSlice.reducer;

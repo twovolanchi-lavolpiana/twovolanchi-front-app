@@ -220,7 +220,7 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
         }
 
         if (isPossibleBallMove) {
-            dispatch(setBallSequences({ leftPercent: clickedLeft, topPercent: clickedTop }));
+            dispatch(setBallSequences({ leftPercent: clickedLeft, topPercent: clickedTop, isFirst: false }));
             return;
         }
     }

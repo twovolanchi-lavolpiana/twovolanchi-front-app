@@ -56,7 +56,7 @@ export const PlayerPlus: React.FC = () => {
             topPercent: topPercent,
         };
         dispatch(setBall(ball));
-        dispatch(setBallSequences({leftPercent, topPercent}));
+        dispatch(setBallSequences({leftPercent, topPercent, isFirst: true}));
     };
 
     useEffect(() => {
@@ -66,7 +66,6 @@ export const PlayerPlus: React.FC = () => {
     }, [players])
 
     useEffect(() =>{
-        console.log("ball  = ", ball)
     }, [ball])
 
     return (

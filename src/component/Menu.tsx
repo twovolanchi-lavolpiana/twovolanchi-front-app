@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import PlayArrowOutlinedIcon from '@mui/icons-material/PlayArrowOutlined';
 import { RootState } from '../store/Store';
 import { useEffect, useState } from 'react';
-import { clearBallSequences, removeBackPlayerMovingSequences, removePlayerSequence, setBallSequences, setPlayerMovingSequences } from '../store/SequenceSlice';
+import { clearBallSequences, removeBackBallMovingSequences, removeBackPlayerMovingSequences, removePlayerSequence, setBallSequences, setPlayerMovingSequences } from '../store/SequenceSlice';
 import { setPossiblePlayerMoveState } from '../store/PossiblePlayerMoveSlice';
 import StopIcon from '@mui/icons-material/Stop';
 import { endSimulation, setSimulationOn, startSimulation } from '../store/SimulationOnSlice';
@@ -84,7 +84,7 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
             topPercent: topPercent,
         };
         dispatch(setBall(ball));
-        dispatch(setBallSequences({ leftPercent, topPercent }));
+        dispatch(setBallSequences({ leftPercent, topPercent, isFirst: true }));
     };
 
     useEffect(() => {
@@ -119,7 +119,7 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
         dispatch(setPossibleBallMoveState({
             isPossible: true
         }))
-        dispatch(setBallSequences({ leftPercent: ball.leftPercent, topPercent: ball.topPercent }));
+        dispatch(setBallSequences({ leftPercent: ball.leftPercent, topPercent: ball.topPercent, isFirst: true }));
     }
 
     const handlePlayerMoveNotPossible = () => {
@@ -132,9 +132,13 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
         dispatch(clearPossibleBallMoveState())
     }
 
-    const handlePlayerRemoveBack = () => {
+    const handlePlayerBack = () => {
         if (!selectedPlayer || !possibleMoveState.isPossible) return;
         dispatch(removeBackPlayerMovingSequences(selectedPlayer.id))
+    }
+
+    const handleBallBack = () => {
+        dispatch(removeBackBallMovingSequences())
     }
 
     const handleSimulation = () => {
@@ -341,8 +345,6 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
 
         dispatch(plusPlayerIdWithNumber(23));
         handleRecommendFormationModalClose();
-
-        console.log(playerId)
     };
 
     const handleAddPlayer = (id: number, left: number, top: number, name: string, backNumber: number, position: PlayerPositionEnum, team: 'HOME' | 'AWAY') => {
@@ -430,6 +432,7 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
     const isMoveBackable = selectedPlayer && possibleMoveState.isPossible;
     const isPlayerMoveStopable = selectedPlayer && possibleMoveState.isPossible;
     const isBallMoveStopable = ball && isPossibleBallMove
+    const isBallMoveBackable = ball && isPossibleBallMove
     const tempSequenceState = sequencesState.sequences.find((s) => s.sequenceNumber === sequencesState.currentSequenceNumber)
     const isSimulationPossible = tempSequenceState && (tempSequenceState.players.length > 0 || tempSequenceState.balls.length > 0)
 
@@ -516,7 +519,7 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
             <Box
                 display="flex"
                 alignItems="center"
-                onClick={isMoveBackable ? handlePlayerRemoveBack : () => { }}
+                onClick={isMoveBackable ? handlePlayerBack : () => { }}
                 sx={{
                     cursor: isMoveBackable ? 'pointer' : 'not-allowed',
                     opacity: isMoveBackable ? 1 : 0.5,
@@ -592,18 +595,18 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
             <Box
                 display="flex"
                 alignItems="center"
-                onClick={isMoveBackable ? handlePlayerRemoveBack : () => { }}
+                onClick={isBallMoveBackable ? handleBallBack : () => { }}
                 sx={{
-                    cursor: isMoveBackable ? 'pointer' : 'not-allowed',
-                    opacity: isMoveBackable ? 1 : 0.5,
+                    cursor: isBallMoveBackable ? 'pointer' : 'not-allowed',
+                    opacity: isBallMoveBackable ? 1 : 0.5,
                     mr: 2
                 }}>
                 <ArrowBackIcon sx={{ color: '#78492a' }} />
                 <Typography
                     variant="body1"
                     ml={1}
-                    color={isMoveBackable ? 'auto' : 'gray'}
-                >Ball Back</Typography>
+                    color={isBallMoveBackable ? 'auto' : 'gray'}
+                >{t('Ball Back')}</Typography>
             </Box>
 
             <Box

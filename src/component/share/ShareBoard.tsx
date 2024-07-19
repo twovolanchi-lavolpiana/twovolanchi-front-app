@@ -22,7 +22,6 @@ export const ShareBoard: React.FC<BoardProps> = ({ title, description, players, 
     const { vw } = useScreenSize(); // width 값 사용
 
     useEffect(() => {
-        console.log(players)
     }, [players]);
 
     useEffect(() => {
