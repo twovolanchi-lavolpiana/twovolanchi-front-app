@@ -18,6 +18,8 @@ export const Share = () => {
 
     const handleClose = () => setIsModalOpen(false);
 
+    const baseUrl = process.env.REACT_APP_SERVER_BASE_URL;
+
     useEffect(() => {
     }, [players])
 
@@ -28,8 +30,6 @@ export const Share = () => {
     }, [sequencesState])
 
     const handleShare = async () => {
-        const baseUrl = process.env.REACT_APP_SERVER_BASE_URL;
-
         const requestBody = {
             title: tacticsDescription.title,
             description: tacticsDescription.description,
@@ -63,7 +63,7 @@ export const Share = () => {
         };
 
         try {
-            const response = await fetch(`http://localhost:8080/api/v1/share`, {
+            const response = await fetch(`${baseUrl}/api/v1/share`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'

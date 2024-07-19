@@ -33,6 +33,8 @@ const EditPage = (props: EditComponentProps) => {
     
     const dispatch = useDispatch()
 
+    const baseUrl = process.env.REACT_APP_SERVER_BASE_URL;
+
     const handleReset = () => {
         dispatch(clearSelectedPlayer());
         dispatch(clearMultiSelectedPlayers());
@@ -56,7 +58,7 @@ const EditPage = (props: EditComponentProps) => {
     useEffect(() => {
         const handleShare = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/v1/edit/${editKey}`, {
+                const response = await fetch(`${baseUrl}/api/v1/edit/${editKey}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'

@@ -16,6 +16,7 @@ export const EditSave: React.FC<EditProps> = ({ editKey }) => {
     const [generatedEditUrl, setGeneratedEditUrl] = useState("");
 
     const handleClose = () => setIsModalOpen(false);
+    const baseUrl = process.env.REACT_APP_SERVER_BASE_URL;
 
     useEffect(() => {
     }, [players])
@@ -27,7 +28,6 @@ export const EditSave: React.FC<EditProps> = ({ editKey }) => {
     }, [sequencesState])
 
     const handleShare = async () => {
-        const baseUrl = process.env.REACT_APP_SERVER_BASE_URL;
 
         const requestBody = {
             title: tacticsDescription.title,
@@ -62,7 +62,7 @@ export const EditSave: React.FC<EditProps> = ({ editKey }) => {
         };
 
         try {
-            const response = await fetch(`http://localhost:8080/api/v1/edit/${editKey}`, {
+            const response = await fetch(`${baseUrl}/api/v1/edit/${editKey}`, {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

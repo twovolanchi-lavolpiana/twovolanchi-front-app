@@ -119,7 +119,7 @@ const GuidePage = (props: MainComponentProps) => {
             </Drawer>
             <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
                 <Toolbar />
-                <Typography paragraph sx={{ paddingBottom: 5 }} ref={refs['guide-add-player-title']}>
+                <div style={{ paddingBottom: 30 }} ref={refs['guide-add-player-title']}>
                     <Card sx={{ maxWidth: 1000 }}>
                         <CardMedia
                             component="img"
@@ -136,8 +136,8 @@ const GuidePage = (props: MainComponentProps) => {
                             </Typography>
                         </CardContent>
                     </Card>
-                </Typography>
-                <Typography paragraph sx={{ paddingBottom: 5 }} ref={refs['guide-add-ball-title']}>
+                </div>
+                <div style={{ paddingBottom: 30 }} ref={refs['guide-add-ball-title']}>
                     <Card sx={{ maxWidth: 1000 }}>
                         <CardMedia
                             component="img"
@@ -154,8 +154,8 @@ const GuidePage = (props: MainComponentProps) => {
                             </Typography>
                         </CardContent>
                     </Card>
-                </Typography>
-                <Typography paragraph sx={{ paddingBottom: 5 }} ref={refs['guide-player-move-title']}>
+                </div>
+                <div style={{ paddingBottom: 5 }} ref={refs['guide-player-move-title']}>
                     <Card sx={{ maxWidth: 1000 }}>
                         <CardMedia
                             component="img"
@@ -172,8 +172,8 @@ const GuidePage = (props: MainComponentProps) => {
                             </Typography>
                         </CardContent>
                     </Card>
-                </Typography>
-                <Typography paragraph sx={{ paddingBottom: 5 }} ref={refs['guide-player-back-title']}>
+                </div>
+                <div style={{ paddingBottom: 30 }} ref={refs['guide-player-back-title']}>
                     <Card sx={{ maxWidth: 1000 }}>
                         <CardMedia
                             component="img"
@@ -190,8 +190,8 @@ const GuidePage = (props: MainComponentProps) => {
                             </Typography>
                         </CardContent>
                     </Card>
-                </Typography>
-                <Typography paragraph sx={{ paddingBottom: 5 }} ref={refs['guide-player-remove-title']}>
+                </div>
+                <div style={{ paddingBottom: 30 }} ref={refs['guide-player-remove-title']}>
                     <Card sx={{ maxWidth: 1000 }}>
                         <CardMedia
                             component="img"
@@ -208,8 +208,8 @@ const GuidePage = (props: MainComponentProps) => {
                             </Typography>
                         </CardContent>
                     </Card>
-                </Typography>
-                <Typography paragraph sx={{ paddingBottom: 5 }} ref={refs['guide-edit-title-title']}>
+                </div>
+                <div style={{ paddingBottom: 30 }} ref={refs['guide-edit-title-title']}>
                     <Card sx={{ maxWidth: 1000 }}>
                         <CardMedia
                             component="img"
@@ -226,8 +226,8 @@ const GuidePage = (props: MainComponentProps) => {
                             </Typography>
                         </CardContent>
                     </Card>
-                </Typography>
-                <Typography paragraph sx={{ paddingBottom: 5 }} ref={refs['guide-recommend-title']}>
+                </div>
+                <div style={{ paddingBottom: 30 }} ref={refs['guide-recommend-title']}>
                     <Card sx={{ maxWidth: 1000 }}>
                         <CardMedia
                             component="img"
@@ -244,8 +244,8 @@ const GuidePage = (props: MainComponentProps) => {
                             </Typography>
                         </CardContent>
                     </Card>
-                </Typography>
-                <Typography paragraph sx={{ paddingBottom: 5 }} ref={refs['guide-player-list-title']}>
+                </div>
+                <div style={{ paddingBottom: 30 }} ref={refs['guide-player-list-title']}>
                     <Card sx={{ maxWidth: 1000 }}>
                         <CardMedia
                             component="img"
@@ -262,8 +262,8 @@ const GuidePage = (props: MainComponentProps) => {
                             </Typography>
                         </CardContent>
                     </Card>
-                </Typography>
-                <Typography paragraph sx={{ paddingBottom: 5 }} ref={refs['guide-player-edit-title']}>
+                </div>
+                <div style={{ paddingBottom: 30 }} ref={refs['guide-player-edit-title']}>
                     <Card sx={{ maxWidth: 1000 }}>
                         <CardMedia
                             component="img"
@@ -280,8 +280,8 @@ const GuidePage = (props: MainComponentProps) => {
                             </Typography>
                         </CardContent>
                     </Card>
-                </Typography>
-                <Typography paragraph sx={{ paddingBottom: 5 }} ref={refs['guide-simulation-title']}>
+                </div>
+                <div style={{ paddingBottom: 30 }} ref={refs['guide-simulation-title']}>
                     <Card sx={{ maxWidth: 1000 }}>
                         <CardMedia>
                             <video
@@ -299,8 +299,8 @@ const GuidePage = (props: MainComponentProps) => {
                             </Typography>
                         </CardContent>
                     </Card>
-                </Typography>
-                <Typography paragraph sx={{ paddingBottom: 5 }} ref={refs['guide-share-title']}>
+                </div>
+                <div style={{ paddingBottom: 30 }} ref={refs['guide-share-title']}>
                     <Card sx={{ maxWidth: 1000 }}>
                         <CardMedia
                             component="img"
@@ -317,8 +317,8 @@ const GuidePage = (props: MainComponentProps) => {
                             </Typography>
                         </CardContent>
                     </Card>
-                </Typography>
-                <Typography paragraph sx={{ paddingBottom: 5 }} ref={refs['guide-edit-tactics-title']}>
+                </div>
+                <div style={{ paddingBottom: 30 }} ref={refs['guide-edit-tactics-title']}>
                     <Card sx={{ maxWidth: 1000 }}>
                         <CardMedia
                             component="img"
@@ -335,8 +335,8 @@ const GuidePage = (props: MainComponentProps) => {
                             </Typography>
                         </CardContent>
                     </Card>
-                </Typography>
-                <Typography paragraph ref={refs['guide-shared-tactics-title']}>
+                </div>
+                <div style={{ paddingBottom: 30 }} ref={refs['guide-shared-tactics-title']}>
                     <Card sx={{ maxWidth: 1000 }}>
                         <CardMedia
                             component="img"
@@ -353,7 +353,7 @@ const GuidePage = (props: MainComponentProps) => {
                             </Typography>
                         </CardContent>
                     </Card>
-                </Typography>
+                </div>
             </Box>
         </Box >
     );

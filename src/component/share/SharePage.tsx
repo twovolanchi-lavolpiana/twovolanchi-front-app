@@ -19,11 +19,12 @@ const SharePage = (props: ShareComponentProps) => {
     const { shareKey } = useParams<keyof ShareKeyParams>() as ShareKeyParams;
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState<ResponseData | null>(null);
+    const baseUrl = process.env.REACT_APP_SERVER_BASE_URL;
 
     useEffect(() => {
         const handleShare = async () => {
             try {
-                const response = await fetch(`http://localhost:8080/api/v1/${shareKey}`, {
+                const response = await fetch(`${baseUrl}/api/v1/${shareKey}`, {
                     method: 'GET',
                     headers: {
                         'Content-Type': 'application/json'
