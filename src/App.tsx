@@ -9,6 +9,7 @@ import MainPage from './component/MainPage';
 import EditPage from './component/edit/EditPage';
 import IntroducePage from './component/introduce/IntroducePage';
 import GuidePage from './component/introduce/GuidePage';
+import Footer from './component/footer/Footer';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -65,6 +66,7 @@ function App() {
             element={<GuidePage darkMode={darkMode} onThemeChange={handleThemeChange} />}
           />
         </Routes>
+        <Footer />
       </ScreenSizeProvider>
     </ThemeProvider>
   );

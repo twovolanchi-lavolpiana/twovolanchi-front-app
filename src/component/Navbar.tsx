@@ -18,7 +18,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../store/Store';
 import { changeLng } from '../store/TranslationSlice';
 
-const pages = ['Introduce', 'Guide'];
+const pages = ['Guide'];
 
 interface NavbarProps {
     darkMode: boolean;
@@ -91,7 +91,7 @@ function Navbar({ darkMode, onThemeChange }: NavbarProps) {
                         >
                             Guide
                         </Button>
-                        <Button
+                        {/* <Button
                             key={'introduce-page'}
                             onClick={handleCloseNavMenu}
                             component={Link}
@@ -99,7 +99,7 @@ function Navbar({ darkMode, onThemeChange }: NavbarProps) {
                             sx={{ my: 2, color: 'white', display: 'block' }}
                         >
                             Introduce
-                        </Button>
+                        </Button> */}
                     </Box>
                     <Box sx={{ flexGrow: 0 }}>
                         <IconButton sx={{ ml: 'auto' }} onClick={changeLanguage} color="inherit">
@@ -151,14 +151,14 @@ function Navbar({ darkMode, onThemeChange }: NavbarProps) {
                                     >
                                         <Typography textAlign="center">Guide</Typography>
                                     </MenuItem>
-                                    <MenuItem
+                                    {/* <MenuItem
                                         key={'introduce-page'}
                                         onClick={handleCloseNavMenu}
                                         component={Link}
                                         to="/introduce"
                                     >
                                         <Typography textAlign="center">Introduce</Typography>
-                                    </MenuItem>
+                                    </MenuItem> */}
                                 </Menu>
 
                             }
