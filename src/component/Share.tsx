@@ -81,7 +81,7 @@ export const Share = () => {
             // 응답에서 shortKey 추출 및 URL 생성
             const shortEditKey = responseData.body.shortEditKey;
             const shortShareKey = responseData.body.shortShareKey;
-            const currentUrl = window.location.origin;
+            const currentUrl = "https://www.lavolpiana.com"
             const generatedEditUrl = `${currentUrl}/edit/${shortEditKey}`;
             const generatedShareUrl = `${currentUrl}/${shortShareKey}`;
 
