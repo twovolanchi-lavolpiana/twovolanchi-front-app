@@ -120,10 +120,10 @@ const resources = {
             "guide-simulation-description": "플레이어나 공의 움직임을 하나 이상 설정한 경우 시뮬레이션을 실행할 수 있습니다.",
 
             "guide-share-title": "공유하기",
-            "guide-share-description": "Share 기능을 통해 만든 전술을 공유할 수 있는 링크를 제공합니다. Edit URL은 시뮬레이션을 수정할 수 있는 기능을m Share URL은 시뮬레이션을 재생할 수 있는 기능을 제공합니다. 현재 로그인 기능이 없으므로 Edit URL과 Share URL을 반드시 기억해주세요. 저장하지 못한 경우 koseyundeploy@gmail.com에 문의해주세요.",
+            "guide-share-description": "Share 기능을 통해 만든 전술을 공유할 수 있는 링크를 제공합니다. Edit URL은 시뮬레이션을 수정할 수 있는 기능, Share URL은 시뮬레이션을 재생할 수 있는 기능을 제공합니다. 혹시 링크를 저장하지 못하신 경우에는 koseyundeploy@gmail.com에 문의해주세요.!",
 
             "guide-edit-tactics-title": "공유한 전술 편집",
-            "guide-edit-tactics-description": "Edit URL로 이동하면 작성한 전술이 저장되어 있습니다. 전술 수정 후 Save를 클릭하면 전술이 수정됩니다.이때, 시뮬레이션을 수정하더라도 Share URL과 Edit URL은 변경되지 않습니다.",
+            "guide-edit-tactics-description": "Edit URL로 이동하면 작성한 전술이 저장되어 있습니다. 전술 수정 후 Save를 클릭하면 전술이 수정됩니다. 시뮬레이션을 수정하더라도 Share URL과 Edit URL은 변경되지 않습니다.",
 
             "guide-shared-tactics-title": "공유한 전술",
             "guide-shared-tactics-description": "Share URL로 이동하면 감독님이 만든 전술을 시뮬레이션할 수 있습니다. 이제 전술을 만들러 가볼까요?",
