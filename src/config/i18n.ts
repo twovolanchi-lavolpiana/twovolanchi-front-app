@@ -85,6 +85,7 @@ const resources = {
 
             "GUIDE": "GUIDE",
             "INTRODUCE": "INTRODUCE",
+            'Mobile Snack Bar': "Sorry, Mobile view may not display correctly. Please access from a desktop!",
         }
     },
     ko: {
@@ -169,6 +170,7 @@ const resources = {
 
             "GUIDE": "가이드",
             "INTRODUCE": "소개",
+            'Mobile Snack Bar': "모바일은 화면이 일부 올바르지 않을 수 있습니다. 데스크톱으로 접속해주세요!",
         }
     }
 };
