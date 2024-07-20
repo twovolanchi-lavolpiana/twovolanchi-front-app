@@ -144,12 +144,9 @@ export const ShareGround: React.FC<GroundProps> = ({ players, tactics }) => {
         const realLeft = (left / 100) * rect.width;
         const realTop = (top / 100) * rect.height;
 
-        const defaultLeft = rect.x + window.scrollX;
-        const defaultTop = rect.y + window.scrollY;
-
         return {
-            x: defaultLeft + realLeft,
-            y: defaultTop + realTop,
+            x: realLeft,
+            y: realTop,
         }
     }
 
@@ -158,87 +155,87 @@ export const ShareGround: React.FC<GroundProps> = ({ players, tactics }) => {
             sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 2 }}
         >
             <div style={{ width: '800px', minWidth: '100%', height: '60%', justifyContent: 'center', alignItems: 'center' }}>
-                <SoccerField ref={imgRef} />
+                <SoccerField ref={imgRef}>
+                    {
+                        !isSimulationOnState && !isSimulationStartState && <svg style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 30 }}>
+                            <defs>
+                                <marker
+                                    id="arrow-home"
+                                    viewBox="0 0 10 10"
+                                    refX="5"
+                                    refY="5"
+                                    markerWidth="3"
+                                    markerHeight="3"
+                                    opacity={0.7}
+                                    orient="auto-start-reverse">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" fill='#3B6FB2' />
+                                </marker>
+                            </defs>
+                            <defs>
+                                <marker
+                                    id="arrow-away"
+                                    viewBox="0 0 10 10"
+                                    refX="5"
+                                    refY="5"
+                                    markerWidth="3"
+                                    markerHeight="3"
+                                    opacity={0.7}
+                                    orient="auto-start-reverse">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" fill='#B23B7F' />
+                                </marker>
+                            </defs>
+                            <defs>
+                                <marker
+                                    id="arrow-ball"
+                                    viewBox="0 0 10 10"
+                                    refX="5"
+                                    refY="5"
+                                    markerWidth="3"
+                                    markerHeight="3"
+                                    opacity={0.7}
+                                    orient="auto-start-reverse">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" fill='black' />
+                                </marker>
+                            </defs>
 
-                {
-                    !isSimulationOnState && !isSimulationStartState && <svg style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 30 }}>
-                        <defs>
-                            <marker
-                                id="arrow-home"
-                                viewBox="0 0 10 10"
-                                refX="5"
-                                refY="5"
-                                markerWidth="3"
-                                markerHeight="3"
-                                opacity={0.7}
-                                orient="auto-start-reverse">
-                                <path d="M 0 0 L 10 5 L 0 10 z" fill='#3B6FB2' />
-                            </marker>
-                        </defs>
-                        <defs>
-                            <marker
-                                id="arrow-away"
-                                viewBox="0 0 10 10"
-                                refX="5"
-                                refY="5"
-                                markerWidth="3"
-                                markerHeight="3"
-                                opacity={0.7}
-                                orient="auto-start-reverse">
-                                <path d="M 0 0 L 10 5 L 0 10 z" fill='#B23B7F' />
-                            </marker>
-                        </defs>
-                        <defs>
-                            <marker
-                                id="arrow-ball"
-                                viewBox="0 0 10 10"
-                                refX="5"
-                                refY="5"
-                                markerWidth="3"
-                                markerHeight="3"
-                                opacity={0.7}
-                                orient="auto-start-reverse">
-                                <path d="M 0 0 L 10 5 L 0 10 z" fill='black' />
-                            </marker>
-                        </defs>
+                            {playerMoves.map(moves => (
+                                moves.positions.map((move, index) => {
+                                    if (index === 0) return null;
+                                    const { x: x1, y: y1 } = getLeftLocation(moves.positions[index - 1].leftPercent, moves.positions[index - 1].topPercent);
+                                    const { x: x2, y: y2 } = getLeftLocation(move.leftPercent, move.topPercent);
+                                    return <line
+                                        key={`${move.leftPercent}-${index}`}
+                                        x1={x1}
+                                        y1={y1}
+                                        x2={x2}
+                                        y2={y2}
+                                        stroke={move.team === 'HOME' ? '#3B6FB2' : '#B23B7F'}
+                                        strokeWidth="3"
+                                        strokeOpacity={0.7}
+                                        markerEnd={move.team === 'HOME' ? 'url(#arrow-home)' : 'url(#arrow-away)'}
+                                    />
+                                })
+                            ))}
 
-                        {playerMoves.map(moves => (
-                            moves.positions.map((move, index) => {
+                            {ballMoves && ballMoves.map((ballMove, index) => {
                                 if (index === 0) return null;
-                                const { x: x1, y: y1 } = getLeftLocation(moves.positions[index - 1].leftPercent, moves.positions[index - 1].topPercent);
-                                const { x: x2, y: y2 } = getLeftLocation(move.leftPercent, move.topPercent);
+                                const { x: x1, y: y1 } = getLeftLocation(ballMoves[index - 1].leftPercent, ballMoves[index - 1].topPercent);
+                                const { x: x2, y: y2 } = getLeftLocation(ballMove.leftPercent, ballMove.topPercent);
                                 return <line
-                                    key={`${move.leftPercent}-${index}`}
+                                    key={`${ballMove.leftPercent}-${ballMove.topPercent}-${index}`}
                                     x1={x1}
                                     y1={y1}
                                     x2={x2}
                                     y2={y2}
-                                    stroke={move.team === 'HOME' ? '#3B6FB2' : '#B23B7F'}
+                                    stroke={'black'}
                                     strokeWidth="3"
                                     strokeOpacity={0.7}
-                                    markerEnd={move.team === 'HOME' ? 'url(#arrow-home)' : 'url(#arrow-away)'}
+                                    markerEnd={'url(#arrow-ball)'}
                                 />
-                            })
-                        ))}
-
-                        {ballMoves && ballMoves.map((ballMove, index) => {
-                            if (index === 0) return null;
-                            const { x: x1, y: y1 } = getLeftLocation(ballMoves[index - 1].leftPercent, ballMoves[index - 1].topPercent);
-                            const { x: x2, y: y2 } = getLeftLocation(ballMove.leftPercent, ballMove.topPercent);
-                            return <line
-                                key={`${ballMove.leftPercent}-${ballMove.topPercent}-${index}`}
-                                x1={x1}
-                                y1={y1}
-                                x2={x2}
-                                y2={y2}
-                                stroke={'black'}
-                                strokeWidth="3"
-                                strokeOpacity={0.7}
-                                markerEnd={'url(#arrow-ball)'}
-                            />
-                        })}
-                    </svg>
-                }
+                            })}
+                        </svg>
+                    }
+                </SoccerField>
             </div>
 
             {!isSimulationStartState && players.map((player) => {

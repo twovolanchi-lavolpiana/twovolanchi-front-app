@@ -68,7 +68,7 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
 
             setAnimatedPositions(prevPositions => {
                 const newPositions = { ...prevPositions };
-                
+
                 currentSequence.players.forEach(move => {
                     const { id, positions } = move;
                     const totalFrames = positions.length;
@@ -267,12 +267,9 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
         const realLeft = (left / 100) * rect.width;
         const realTop = (top / 100) * rect.height;
 
-        const defaultLeft = rect.x + window.scrollX;
-        const defaultTop = rect.y + window.scrollY;
-
         return {
-            x: defaultLeft + realLeft,
-            y: defaultTop + realTop,
+            x: realLeft,
+            y: realTop,
         }
     }
 
@@ -280,95 +277,103 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
         <Box
             sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 2 }}
         >
-            <div style={{ width: '800px', minWidth: '100%', height: '60%', justifyContent: 'center', alignItems: 'center' }}
+            <div style={{
+                width: '100%',
+                minWidth: '100%',
+
+                height: '60%',
+                justifyContent: 'center',
+                alignItems: 'center'
+            }}
                 ref={drop}
                 onClick={handleClick}
             >
-                <SoccerField ref={imgRef} />
+                <SoccerField ref={imgRef}>
+                    {
+                        !isSimulationOnState && !isSimulationStartState &&
+                        <svg style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", zIndex: 30 }}>
+                            <defs>
+                                <marker
+                                    id="arrow-home"
+                                    viewBox="0 0 10 10"
+                                    refX="5"
+                                    refY="5"
+                                    markerWidth="3"
+                                    markerHeight="3"
+                                    opacity={0.7}
+                                    orient="auto-start-reverse">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" fill='#3B6FB2' />
+                                </marker>
+                            </defs>
+                            <defs>
+                                <marker
+                                    id="arrow-away"
+                                    viewBox="0 0 10 10"
+                                    refX="5"
+                                    refY="5"
+                                    markerWidth="3"
+                                    markerHeight="3"
+                                    opacity={0.7}
+                                    orient="auto-start-reverse">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" fill='#B23B7F' />
+                                </marker>
+                            </defs>
+                            <defs>
+                                <marker
+                                    id="arrow-ball"
+                                    viewBox="0 0 10 10"
+                                    refX="5"
+                                    refY="5"
+                                    markerWidth="3"
+                                    markerHeight="3"
+                                    opacity={0.7}
+                                    orient="auto-start-reverse">
+                                    <path d="M 0 0 L 10 5 L 0 10 z" fill='black' />
+                                </marker>
+                            </defs>
 
-                {
-                    !isSimulationOnState && !isSimulationStartState && <svg style={{ position: "absolute", top: 0, left: 0, width: "100%", height: "100%", pointerEvents: "none", zIndex: 30 }}>
-                        <defs>
-                            <marker
-                                id="arrow-home"
-                                viewBox="0 0 10 10"
-                                refX="5"
-                                refY="5"
-                                markerWidth="3"
-                                markerHeight="3"
-                                opacity={0.7}
-                                orient="auto-start-reverse">
-                                <path d="M 0 0 L 10 5 L 0 10 z" fill='#3B6FB2' />
-                            </marker>
-                        </defs>
-                        <defs>
-                            <marker
-                                id="arrow-away"
-                                viewBox="0 0 10 10"
-                                refX="5"
-                                refY="5"
-                                markerWidth="3"
-                                markerHeight="3"
-                                opacity={0.7}
-                                orient="auto-start-reverse">
-                                <path d="M 0 0 L 10 5 L 0 10 z" fill='#B23B7F' />
-                            </marker>
-                        </defs>
-                        <defs>
-                            <marker
-                                id="arrow-ball"
-                                viewBox="0 0 10 10"
-                                refX="5"
-                                refY="5"
-                                markerWidth="3"
-                                markerHeight="3"
-                                opacity={0.7}
-                                orient="auto-start-reverse">
-                                <path d="M 0 0 L 10 5 L 0 10 z" fill='black' />
-                            </marker>
-                        </defs>
+                            {sequences.sequences.map(sequence => (
+                                sequence.players.map((move) => (
+                                    move.positions.map((location, index) => {
+                                        if (index === 0) return null;
+                                        const { x: x1, y: y1 } = getLeftLocation(move.positions[index - 1].leftPercent, move.positions[index - 1].topPercent);
+                                        const { x: x2, y: y2 } = getLeftLocation(location.leftPercent, location.topPercent);
+                                        return <line
+                                            key={`${move.id}-${index}`}
+                                            x1={x1}
+                                            y1={y1}
+                                            x2={x2}
+                                            y2={y2}
+                                            stroke={location.team === 'HOME' ? '#3B6FB2' : '#B23B7F'}
+                                            strokeWidth="3"
+                                            strokeOpacity={0.7}
+                                            markerEnd={location.team === 'HOME' ? 'url(#arrow-home)' : 'url(#arrow-away)'}
+                                        />
+                                    })
+                                ))
+                            ))}
 
-                        {sequences.sequences.map(sequence => (
-                            sequence.players.map((move) => (
-                                move.positions.map((location, index) => {
+                            {sequences.sequences.map(sequence => (
+                                sequence.balls.map((ball, index) => {
                                     if (index === 0) return null;
-                                    const { x: x1, y: y1 } = getLeftLocation(move.positions[index - 1].leftPercent, move.positions[index - 1].topPercent);
-                                    const { x: x2, y: y2 } = getLeftLocation(location.leftPercent, location.topPercent);
+                                    const { x: x1, y: y1 } = getLeftLocation(sequence.balls[index - 1].leftPercent, sequence.balls[index - 1].topPercent);
+                                    const { x: x2, y: y2 } = getLeftLocation(ball.leftPercent, ball.topPercent);
                                     return <line
-                                        key={`${move.id}-${index}`}
+                                        key={`${ball.leftPercent}-${ball.topPercent}-${index}`}
                                         x1={x1}
                                         y1={y1}
                                         x2={x2}
                                         y2={y2}
-                                        stroke={location.team === 'HOME' ? '#3B6FB2' : '#B23B7F'}
+                                        stroke={'black'}
                                         strokeWidth="3"
                                         strokeOpacity={0.7}
-                                        markerEnd={location.team === 'HOME' ? 'url(#arrow-home)' : 'url(#arrow-away)'}
+                                        markerEnd={'url(#arrow-ball)'}
                                     />
                                 })
-                            ))
-                        ))}
-
-                        {sequences.sequences.map(sequence => (
-                            sequence.balls.map((ball, index) => {
-                                if (index === 0) return null;
-                                const { x: x1, y: y1 } = getLeftLocation(sequence.balls[index - 1].leftPercent, sequence.balls[index - 1].topPercent);
-                                const { x: x2, y: y2 } = getLeftLocation(ball.leftPercent, ball.topPercent);
-                                return <line
-                                    key={`${ball.leftPercent}-${ball.topPercent}-${index}`}
-                                    x1={x1}
-                                    y1={y1}
-                                    x2={x2}
-                                    y2={y2}
-                                    stroke={'black'}
-                                    strokeWidth="3"
-                                    strokeOpacity={0.7}
-                                    markerEnd={'url(#arrow-ball)'}
-                                />
-                            })
-                        ))}
-                    </svg>
-                }
+                            ))}
+                        </svg>
+                    }
+                </SoccerField>
             </div>
 
             {!isSimulationStartState && players.map((player) => {
@@ -385,7 +390,8 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
                     topPercent={player.topPercent}
                     imgRef={imgRef}
                     position={player.position}
-                    onClick={handlePlayerClick} />
+                    onClick={handlePlayerClick}
+                />
             })}
 
             {ball && !isSimulationStartState && <DraggableBall
@@ -401,7 +407,7 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
                 imgRef={imgRef}
             ></DraggableBall>
             }
-            
+
             {isSimulationStartState && notIncludePlayers !== undefined && notIncludePlayers.map(player => {
                 return (
                     <DraggablePlayer
@@ -423,8 +429,8 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
             {isSimulationStartState && players.map(player => {
                 const multiSelectedPlayer = multiSelectedPlayers?.find(m => m.id === player.id);
                 if (multiSelectedPlayer) return null;
-                
-                const position = animatedPositions[player.id] 
+
+                const position = animatedPositions[player.id]
                 if (!position) return;
 
 
@@ -443,7 +449,6 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
                     />
                 );
             })}
-
-        </Box>
+        </Box >
     );
 };

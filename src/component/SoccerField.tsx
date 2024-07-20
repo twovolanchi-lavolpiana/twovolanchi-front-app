@@ -1,7 +1,11 @@
-import React, { forwardRef } from 'react';
+import React, { forwardRef, ReactNode } from 'react';
 import '../css/SoccerField.css'; // CSS 파일을 불러옵니다.
 
-const SoccerField = forwardRef<HTMLDivElement>((props, ref) => {
+type SoccerFieldProps = {
+    children?: ReactNode;
+};
+
+const SoccerField = forwardRef<HTMLDivElement, SoccerFieldProps>(({ children }, ref) => {
     return (
         <div ref={ref} className="soccer-field">
             <div className="field-line horizontal top"></div>
@@ -18,6 +22,7 @@ const SoccerField = forwardRef<HTMLDivElement>((props, ref) => {
             <div className="corner corner-top-right"></div>
             <div className="corner corner-bottom-left"></div>
             <div className="corner corner-bottom-right"></div>
+            {children}
         </div>
     );
 });
