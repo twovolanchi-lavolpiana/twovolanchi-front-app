@@ -91,6 +91,15 @@ function Navbar({ darkMode, onThemeChange }: NavbarProps) {
                         >
                             Guide
                         </Button>
+                        <Button
+                            key={'plan-page'}
+                            onClick={handleCloseNavMenu}
+                            component={Link}
+                            to="/plan"
+                            sx={{ my: 2, color: 'white', display: 'block' }}
+                        >
+                            Plan
+                        </Button>
                         {/* <Button
                             key={'introduce-page'}
                             onClick={handleCloseNavMenu}
@@ -151,14 +160,14 @@ function Navbar({ darkMode, onThemeChange }: NavbarProps) {
                                     >
                                         <Typography textAlign="center">Guide</Typography>
                                     </MenuItem>
-                                    {/* <MenuItem
-                                        key={'introduce-page'}
+                                    <MenuItem
+                                        key={'plan-page'}
                                         onClick={handleCloseNavMenu}
                                         component={Link}
-                                        to="/introduce"
+                                        to="/plan"
                                     >
-                                        <Typography textAlign="center">Introduce</Typography>
-                                    </MenuItem> */}
+                                        <Typography textAlign="center">Plan</Typography>
+                                    </MenuItem>
                                 </Menu>
 
                             }

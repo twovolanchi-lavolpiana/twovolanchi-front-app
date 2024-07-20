@@ -86,6 +86,19 @@ const resources = {
             "GUIDE": "GUIDE",
             "INTRODUCE": "INTRODUCE",
             'Mobile Snack Bar': "Sorry, Mobile view may not display correctly. Please access from a desktop!",
+
+            'Exciting New Plans Coming Soon!': 'Exciting New Plans Coming Soon!',
+            '/ month': '/ month',
+            'Default Team Color': 'Default Team Color',
+            'Default Green Ground': 'Default Green Ground',
+            'Default Player Icon': 'Default Player Icon',
+            '3 Team Recommendations': '3 Team Recommendations',
+            'Simulation Play': 'Simulation Play',
+            'Custom Team Color': 'Custom Team Color',
+            '10 Special Grounds': '10 Special Grounds',
+            'Custom Player Image': 'Custom Player Image',
+            'Recommendations for 50 Teams Including 5 League': 'Recommendations for 50 Teams Including 5 League',
+            'Simulation Play & Download': 'Simulation Play & Download'
         }
     },
     ko: {
@@ -171,6 +184,19 @@ const resources = {
             "GUIDE": "가이드",
             "INTRODUCE": "소개",
             'Mobile Snack Bar': "모바일은 화면이 일부 올바르지 않을 수 있습니다. 데스크톱으로 접속해주세요!",
+            
+            'Exciting New Plans Coming Soon!': '새로운 플랜이 출시됩니다!',
+            '/ month': '/ 월',
+            'Default Team Color': '기본 팀 컬러 제공',
+            'Default Green Ground': '기본 그라운드 제공',
+            'Default Player Icon': '기본 플레이어 아이콘 제공',
+            '3 Team Recommendations': '3개의 추천 팀 제공',
+            'Simulation Play': '시뮬레이션 플레이 제공',
+            'Custom Team Color': '커스텀 팀 컬러 제공',
+            '10 Special Grounds': '10개 스폐셜 그라운드 제공',
+            'Custom Player Image': '플레이어 이미지 설정 제공',
+            'Recommendations for 50 Teams Including 5 League': '5대 리그 포함 50개 추천 팀 제공',
+            'Simulation Play & Download': '시뮬레이션 및 다운로드 제공'
         }
     }
 };
