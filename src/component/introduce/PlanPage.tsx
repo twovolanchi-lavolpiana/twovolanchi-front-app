@@ -78,7 +78,7 @@ const PlanPage = (props: PremiumComponentProps) => {
         },
         {
             title: "Premium Plan",
-            price: "$2",
+            price: "$3",
             period: "/ month",
             buttonText: "Subscribe",
             buttonVariant: "contained",
