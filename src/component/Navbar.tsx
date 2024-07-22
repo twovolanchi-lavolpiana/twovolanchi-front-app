@@ -62,147 +62,84 @@ function Navbar({ darkMode, onThemeChange }: NavbarProps) {
 
     return (
         <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, backgroundColor: '#3BB26F' }} className='App-header'>
-            {vw >= 14.96 ? <Container maxWidth="xl">
-                <Toolbar disableGutters>
+            <Container maxWidth="xl">
+                <Toolbar disableGutters sx={{ justifyContent: 'space-between', flexWrap: 'wrap' }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                        <IconButton
+                            size="large"
+                            aria-label="open drawer"
+                            aria-controls="menu-appbar"
+                            aria-haspopup="true"
+                            onClick={handleOpenNavMenu}
+                            color="inherit"
+                        >
+                            <MenuIcon />
+                        </IconButton>
+                    </Box>
                     <Typography
                         variant="h6"
                         noWrap
                         component={Link}
                         to="/"
                         sx={{
-                            mr: 2,
-                            display: { xs: 'none', md: 'flex' },
+                            display: 'flex',
                             fontFamily: 'monospace',
-                            fontWeight: 700,
-                            letterSpacing: '.3rem',
                             color: 'inherit',
                             textDecoration: 'none',
+                            flexGrow: 1,
+                            textAlign: 'center',
+                            justifyContent: 'center',
+                            position: 'absolute',
+                            left: '50%',
+                            transform: 'translateX(-50%)',
                         }}
                     >
                         Lavolpiana
                     </Typography>
-                    <Box sx={{ flexGrow: 1, display: 'flex' }}>
-                        <Button
-                            key={'guide-page'}
-                            onClick={handleCloseNavMenu}
-                            component={Link}
-                            to="/guide"
-                            sx={{ my: 2, color: 'white', display: 'block' }}
-                        >
-                            Guide
-                        </Button>
-                        <Button
-                            key={'plan-page'}
-                            onClick={handleCloseNavMenu}
-                            component={Link}
-                            to="/plan"
-                            sx={{ my: 2, color: 'white', display: 'block' }}
-                        >
-                            Plan
-                        </Button>
-                        {/* <Button
-                            key={'introduce-page'}
-                            onClick={handleCloseNavMenu}
-                            component={Link}
-                            to="/introduce"
-                            sx={{ my: 2, color: 'white', display: 'block' }}
-                        >
-                            Introduce
-                        </Button> */}
-                    </Box>
-                    <Box sx={{ flexGrow: 0 }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <IconButton sx={{ ml: 'auto' }} onClick={changeLanguage} color="inherit">
                             <TranslateIcon />
                         </IconButton>
-                    </Box>
-                    <Box sx={{ flexGrow: 0 }}>
-                        <IconButton sx={{ ml: 'auto' }} onClick={onThemeChange} color="inherit">
+                        <IconButton sx={{ ml: 1 }} onClick={onThemeChange} color="inherit">
                             {darkMode ? <Brightness7Outlined /> : <Brightness4Outlined />}
                         </IconButton>
                     </Box>
                 </Toolbar>
-            </Container> :
-
-                <Container maxWidth="xl">
-                    <Toolbar disableGutters>
-                        <Box sx={{ flexGrow: 1, display: 'flex' }}>
-                            <IconButton
-                                size="large"
-                                aria-label="account of current user"
-                                aria-controls="menu-appbar"
-                                aria-haspopup="true"
-                                onClick={handleOpenNavMenu}
-                                color="inherit"
-                            >
-                                <MenuIcon />
-                            </IconButton>
-                            {anchorElNav &&
-                                <Menu
-                                    id="menu-appbar"
-                                    anchorEl={anchorElNav}
-                                    anchorOrigin={{
-                                        vertical: 'bottom',
-                                        horizontal: 'left',
-                                    }}
-                                    keepMounted
-                                    transformOrigin={{
-                                        vertical: 'top',
-                                        horizontal: 'left',
-                                    }}
-                                    open={Boolean(anchorElNav)}
-                                    onClose={handleCloseNavMenu}
-                                >
-                                    <MenuItem
-                                        key={'guide-page'}
-                                        onClick={handleCloseNavMenu}
-                                        component={Link}
-                                        to="/guide"
-                                    >
-                                        <Typography textAlign="center">Guide</Typography>
-                                    </MenuItem>
-                                    <MenuItem
-                                        key={'plan-page'}
-                                        onClick={handleCloseNavMenu}
-                                        component={Link}
-                                        to="/plan"
-                                    >
-                                        <Typography textAlign="center">Plan</Typography>
-                                    </MenuItem>
-                                </Menu>
-
-                            }
-                        </Box>
-                        <Typography
-                            variant="h5"
-                            noWrap
+                {anchorElNav && (
+                    <Menu
+                        id="menu-appbar"
+                        anchorEl={anchorElNav}
+                        anchorOrigin={{
+                            vertical: 'bottom',
+                            horizontal: 'left',
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                            vertical: 'top',
+                            horizontal: 'left',
+                        }}
+                        open={Boolean(anchorElNav)}
+                        onClose={handleCloseNavMenu}
+                    >
+                        <MenuItem
+                            key={'guide-page'}
+                            onClick={handleCloseNavMenu}
                             component={Link}
-                            to="/"
-                            sx={{
-                                mr: 2,
-                                display: 'flex',
-                                flexGrow: 1,
-                                fontFamily: 'monospace',
-                                fontWeight: 700,
-                                letterSpacing: '.3rem',
-                                color: 'inherit',
-                                textDecoration: 'none',
-                            }}
+                            to="/guide"
                         >
-                            Lavolpiana
-                        </Typography>
-                        <Box sx={{ flexGrow: 0 }}>
-                            <IconButton sx={{ ml: 'auto' }} onClick={changeLanguage} color="inherit">
-                                <TranslateIcon />
-                            </IconButton>
-                        </Box>
-                        <Box sx={{ flexGrow: 0 }}>
-                            <IconButton sx={{ ml: 'auto' }} onClick={onThemeChange} color="inherit">
-                                {darkMode ? <Brightness7Outlined /> : <Brightness4Outlined />}
-                            </IconButton>
-                        </Box>
-                    </Toolbar>
-                </Container>
-            }
+                            <Typography textAlign="center">Guide</Typography>
+                        </MenuItem>
+                        <MenuItem
+                            key={'plan-page'}
+                            onClick={handleCloseNavMenu}
+                            component={Link}
+                            to="/plan"
+                        >
+                            <Typography textAlign="center">Plan</Typography>
+                        </MenuItem>
+                    </Menu>
+                )}
+            </Container>
         </AppBar>
     );
 }

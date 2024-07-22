@@ -1,6 +1,7 @@
 import './config/i18n';
 import React, { useEffect, useState } from 'react';
 import './App.css';
+import './css/test.css'
 import { Alert, Box, createTheme, CssBaseline, Snackbar, ThemeProvider } from '@mui/material';
 import { ScreenSizeProvider } from './provider/ScreenSizeProvider';
 import { Route, Routes } from 'react-router-dom';
@@ -11,6 +12,7 @@ import GuidePage from './component/introduce/GuidePage';
 import Footer from './component/footer/Footer';
 import { useTranslation } from 'react-i18next';
 import PlanPage from './component/introduce/PlanPage';
+import CustomGrid from './component/CustomGrid';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -50,6 +52,11 @@ function App() {
             key={'default'}
             path={''}
             element={<MainPage darkMode={darkMode} onThemeChange={handleThemeChange} />}
+          />
+          <Route
+            key={'custom'}
+            path={'/custom'}
+            element={<CustomGrid />}
           />
           <Route
             key={'home'}
