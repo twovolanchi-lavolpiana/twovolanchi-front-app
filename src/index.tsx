@@ -8,7 +8,6 @@ import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import { store } from './store/Store';
 import { BrowserRouter } from 'react-router-dom';
-import './css/test.css'
 
 
 const root = ReactDOM.createRoot(

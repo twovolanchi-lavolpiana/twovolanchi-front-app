@@ -444,9 +444,10 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                 onClick={() => handleAddPlusPlayer('HOME', PlayerPositionEnum.CM)}
                 sx={{ cursor: 'pointer', mr: 2 }}
             >
-                <AddOutlinedIcon sx={{ color: '#3B6FB2' }} />
+                <AddOutlinedIcon sx={{ color: 'white' }} />
                 <Typography
                     variant="body1"
+                    color={'white'}
                     ml={1}
                 >{t('Home Team Player')}</Typography>
             </Box>
@@ -456,9 +457,10 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                 onClick={() => handleAddPlusPlayer('AWAY', PlayerPositionEnum.CM)}
                 sx={{ cursor: 'pointer', mr: 2 }}
             >
-                <AddOutlinedIcon sx={{ color: '#B23B7F' }} />
+                <AddOutlinedIcon sx={{ color: 'white' }} />
                 <Typography
                     variant="body1"
+                    color={'white'}
                     ml={1}
                 >{t('Away Team Player')}</Typography>
             </Box>
@@ -471,8 +473,11 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                     opacity: !ball ? 1 : 0.5,
                     mr: 2
                 }}>
-                <AddOutlinedIcon sx={{ color: '#ff93ac' }} />
-                <Typography variant="body1" ml={1} color={!ball ? 'auto' : 'gray'}>{t('Ball')}</Typography>
+                <AddOutlinedIcon sx={{ color: 'white' }} />
+                <Typography
+                    variant="body1"
+                    ml={1}
+                    color={!ball ? 'white' : 'gray'}>{t('Ball')}</Typography>
             </Box>
             <Box
                 width="100%"
@@ -482,22 +487,6 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                     opacity: 0.5
                 }}
             />
-            {/* <Box
-                display="flex"
-                alignItems="center"
-                onClick={selectedPlayer ? handleMultiSelect : () => { }}
-                sx={{
-                    cursor: selectedPlayer ? 'pointer' : 'not-allowed',
-                    opacity: selectedPlayer ? 1 : 0.5,
-                    mr: 2
-                }}
-            >
-                <DoneAllOutlinedIcon sx={{ color: 'green' }} />
-                <Typography variant="body1" ml={1} color={selectedPlayer ? 'black' : 'gray'}>
-                    Player Multi Select
-                </Typography>
-            </Box> */}
-
             <Box
                 display="flex"
                 alignItems="center"
@@ -507,11 +496,11 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                     opacity: isMovable ? 1 : 0.5,
                     mr: 2
                 }}>
-                <MoveUpIcon sx={{ color: 'orange' }} />
+                <MoveUpIcon sx={{ color: 'white' }} />
                 <Typography
                     variant="body1"
                     ml={1}
-                    color={isMovable ? 'auto' : 'gray'}
+                    color={isMovable ? 'white' : 'gray'}
                 >{t('Player Move')}</Typography>
             </Box>
 
@@ -525,11 +514,11 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                     opacity: isMoveBackable ? 1 : 0.5,
                     mr: 2
                 }}>
-                <ArrowBackIcon sx={{ color: '#78492a' }} />
+                <ArrowBackIcon sx={{ color: 'white' }} />
                 <Typography
                     variant="body1"
                     ml={1}
-                    color={isMoveBackable ? 'auto' : 'gray'}
+                    color={isMoveBackable ? 'white' : 'gray'}
                 >{t('Player Back')}</Typography>
             </Box>
 
@@ -542,11 +531,11 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                     opacity: isPlayerMoveStopable ? 1 : 0.5,
                     mr: 2
                 }}>
-                <StopIcon sx={{ color: 'red' }} />
+                <StopIcon sx={{ color: 'white' }} />
                 <Typography
                     variant="body1"
                     ml={1}
-                    color={isPlayerMoveStopable ? 'auto' : 'gray'}
+                    color={isPlayerMoveStopable ? 'white' : 'gray'}
                 >{t('Player Stop')}</Typography>
             </Box>
 
@@ -559,11 +548,11 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                     opacity: selectedPlayer ? 1 : 0.5,
                     mr: 2
                 }}>
-                <RemoveIcon sx={{ color: '	#89E9D3' }} />
+                <RemoveIcon sx={{ color: 'white' }} />
                 <Typography
                     variant="body1"
                     ml={1}
-                    color={selectedPlayer ? 'auto' : 'gray'}
+                    color={selectedPlayer ? 'white' : 'gray'}
                 >{t('Player Remove')}</Typography>
             </Box>
 
@@ -584,11 +573,11 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                     opacity: ball && !isPossibleBallMove ? 1 : 0.5,
                     mr: 2
                 }}>
-                <MoveUpIcon sx={{ color: 'orange' }} />
+                <MoveUpIcon sx={{ color: 'white' }} />
                 <Typography
                     variant="body1"
                     ml={1}
-                    color={ball && !isPossibleBallMove ? 'auto' : 'gray'}
+                    color={ball && !isPossibleBallMove ? 'white' : 'gray'}
                 >{t('Ball Move')}</Typography>
             </Box>
 
@@ -601,11 +590,11 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                     opacity: isBallMoveBackable ? 1 : 0.5,
                     mr: 2
                 }}>
-                <ArrowBackIcon sx={{ color: '#78492a' }} />
+                <ArrowBackIcon sx={{ color: 'white' }} />
                 <Typography
                     variant="body1"
                     ml={1}
-                    color={isBallMoveBackable ? 'auto' : 'gray'}
+                    color={isBallMoveBackable ? 'white' : 'gray'}
                 >{t('Ball Back')}</Typography>
             </Box>
 
@@ -618,11 +607,11 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                     opacity: isBallMoveStopable ? 1 : 0.5,
                     mr: 2
                 }}>
-                <StopIcon sx={{ color: 'red' }} />
+                <StopIcon sx={{ color: 'white' }} />
                 <Typography
                     variant="body1"
                     ml={1}
-                    color={isBallMoveStopable ? 'auto' : 'gray'}
+                    color={isBallMoveStopable ? 'white' : 'gray'}
                 >{t('Ball Stop')}</Typography>
             </Box>
 
@@ -635,11 +624,11 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                     opacity: ball ? 1 : 0.5,
                     mr: 2
                 }}>
-                <RemoveIcon sx={{ color: '	#89E9D3' }} />
+                <RemoveIcon sx={{ color: 'white' }} />
                 <Typography
                     variant="body1"
                     ml={1}
-                    color={ball ? 'auto' : 'gray'}
+                    color={ball ? 'white' : 'gray'}
                 >{t('Ball Remove')}</Typography>
             </Box>
 
@@ -660,11 +649,11 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                     opacity: isSimulationPossible ? 1 : 0.5,
                     mr: 2
                 }}>
-                <PlayArrowOutlinedIcon sx={{ color: '#89B2E9' }} />
+                <PlayArrowOutlinedIcon sx={{ color: 'white' }} />
                 <Typography
                     variant="body1"
                     ml={1}
-                    color={isSimulationPossible ? 'auto' : 'gray'}
+                    color={isSimulationPossible ? 'white' : 'gray'}
                 >{t('Simulation')}</Typography>
             </Box>
 
@@ -677,17 +666,21 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                     opacity: isSimulationStart ? 1 : 0.5,
                     mr: 2
                 }}>
-                <PlayArrowOutlinedIcon sx={{ color: '#89B2E9' }} />
+                <PlayArrowOutlinedIcon sx={{ color: 'white' }} />
                 <Typography
                     variant="body1"
                     ml={1}
-                    color={isSimulationStart ? 'auto' : 'gray'}
+                    color={isSimulationStart ? 'white' : 'gray'}
                 >{t('Simulation Reset')}</Typography>
             </Box>
 
             <Box display="flex" alignItems="center" onClick={handleReset} sx={{ cursor: 'pointer', mr: 2 }}>
-                <RestartAltIcon sx={{ color: '#D389E9' }} />
-                <Typography variant="body1" ml={1}>{t('Ground Reset')}</Typography>
+                <RestartAltIcon sx={{ color: 'white' }} />
+                <Typography
+                    variant="body1"
+                    ml={1}
+                    color={'white'}
+                >{t('Ground Reset')}</Typography>
             </Box>
 
             <Box
@@ -700,8 +693,12 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
             />
 
             <Box display="flex" alignItems="center" onClick={handleRecommendFormationModalOpen} sx={{ cursor: 'pointer', mr: 2 }}>
-                <StarBorderOutlinedIcon sx={{ color: '#FFD400' }} />
-                <Typography variant="body1" ml={1}>{t('Recommend Formation')}</Typography>
+                <StarBorderOutlinedIcon sx={{ color: 'white' }} />
+                <Typography
+                    variant="body1"
+                    ml={1}
+                    color={'white'}
+                >{t('Recommend Formation')}</Typography>
             </Box>
             {editKey ? <EditSave editKey={editKey} /> : <Share />}
             <Modal

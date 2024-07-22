@@ -1,7 +1,6 @@
 import './config/i18n';
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import './css/test.css'
 import { Alert, Box, createTheme, CssBaseline, Snackbar, ThemeProvider } from '@mui/material';
 import { ScreenSizeProvider } from './provider/ScreenSizeProvider';
 import { Route, Routes } from 'react-router-dom';
@@ -12,7 +11,6 @@ import GuidePage from './component/introduce/GuidePage';
 import Footer from './component/footer/Footer';
 import { useTranslation } from 'react-i18next';
 import PlanPage from './component/introduce/PlanPage';
-import CustomGrid from './component/CustomGrid';
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
@@ -25,11 +23,11 @@ function App() {
     },
   });
 
-  const lightTheme = createTheme({
-    palette: {
-      mode: 'light',
-    },
-  });
+  // const lightTheme = createTheme({
+  //   palette: {
+  //     mode: 'light',
+  //   },
+  // });
 
   const handleThemeChange = () => {
     setDarkMode(!darkMode);
@@ -44,61 +42,53 @@ function App() {
   };
 
   return (
-    <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-      <CssBaseline />
-      <ScreenSizeProvider>
-        <Routes>
-          <Route
-            key={'default'}
-            path={''}
-            element={<MainPage darkMode={darkMode} onThemeChange={handleThemeChange} />}
-          />
-          <Route
-            key={'custom'}
-            path={'/custom'}
-            element={<CustomGrid />}
-          />
-          <Route
-            key={'home'}
-            path={'/'}
-            element={<MainPage darkMode={darkMode} onThemeChange={handleThemeChange} />}
-          />
-          <Route
-            key={'edit'}
-            path={'/edit/:editKey'}
-            element={<EditPage darkMode={darkMode} onThemeChange={handleThemeChange} />}
-          />
-          <Route
-            key={'share'}
-            path={'/:shareKey'}
-            element={<SharePage darkMode={darkMode} onThemeChange={handleThemeChange} />}
-          />
-          <Route
-            key={'plan'}
-            path={'/plan'}
-            element={<PlanPage darkMode={darkMode} onThemeChange={handleThemeChange} />}
-          />
-          <Route
-            key={'guide'}
-            path={'/guide'}
-            element={<GuidePage darkMode={darkMode} onThemeChange={handleThemeChange} />}
-          />
-        </Routes>
-        <Footer />
+    <ScreenSizeProvider>
+      <Routes>
+        <Route
+          key={'default'}
+          path={''}
+          element={<MainPage darkMode={darkMode} onThemeChange={handleThemeChange} />}
+        />
+        <Route
+          key={'home'}
+          path={'/'}
+          element={<MainPage darkMode={darkMode} onThemeChange={handleThemeChange} />}
+        />
+        <Route
+          key={'edit'}
+          path={'/edit/:editKey'}
+          element={<EditPage darkMode={darkMode} onThemeChange={handleThemeChange} />}
+        />
+        <Route
+          key={'share'}
+          path={'/:shareKey'}
+          element={<SharePage darkMode={darkMode} onThemeChange={handleThemeChange} />}
+        />
+        <Route
+          key={'plan'}
+          path={'/plan'}
+          element={<PlanPage darkMode={darkMode} onThemeChange={handleThemeChange} />}
+        />
+        <Route
+          key={'guide'}
+          path={'/guide'}
+          element={<GuidePage darkMode={darkMode} onThemeChange={handleThemeChange} />}
+        />
+      </Routes>
+      <Footer />
 
-        <Snackbar
-          open={openSnackbar}
-          autoHideDuration={6000}
-          onClose={handleCloseSnackbar}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        >
-          <Alert onClose={handleCloseSnackbar} severity="warning" sx={{ width: '100%' }}>
-            {t('Mobile Snack Bar')}
-          </Alert>
-        </Snackbar>
+      <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity="warning" sx={{ width: '100%' }}>
+          {t('Mobile Snack Bar')}
+        </Alert>
+      </Snackbar>
 
-      </ScreenSizeProvider>
-    </ThemeProvider>
+    </ScreenSizeProvider>
   );
 }
 

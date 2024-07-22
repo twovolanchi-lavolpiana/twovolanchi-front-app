@@ -1,5 +1,5 @@
 import '../App.css';
-import '../css/test.css';
+import '../css/main.css';
 import { Menu } from './Menu'
 import { Ground } from './Ground';
 import { useEffect } from 'react'
@@ -12,6 +12,7 @@ import { useScreenSize } from '../provider/ScreenSizeProvider';
 import { PlayerList } from './PlayerList';
 import { Description } from './Description';
 import { useTranslation } from 'react-i18next';
+import boardImage from "../image/board-background.jpg"
 
 export const Board = () => {
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
@@ -31,27 +32,72 @@ export const Board = () => {
 
     return (
         <DndProvider backend={HTML5Backend}>
-            <div className='board-parent'>
-                <div className='container'>
-                    <Card className="card card-grid1">
-                        <CardContent><Description /></CardContent>
-                    </Card>
-                    <Card className="card card-grid6">
-                        <CardContent><Description /></CardContent>
-                    </Card>
-                    <Card className="card card-grid2">
-                        <CardContent><Ground players={players} /></CardContent>
-                    </Card>
-                    <Card className="card card-grid3">
-                        <CardContent><Menu editKey={null} /></CardContent>
-                    </Card>
-                    <Card className="card card-grid4">
-                        <CardContent><PlayerList width={300} /></CardContent>
-                    </Card>
-                    <Card className="card card-grid5">
-                        <CardContent><PlayerList width={300} /></CardContent>
-                    </Card>
-                </div>
+            <div
+                className='container'
+                style={{
+                    background: `url(${boardImage}) no-repeat center center`,
+                    backgroundSize: 'cover'
+                }}
+            >
+                <Card
+                    className="card card-grid1"
+                    style={{
+                        backgroundColor: "transparent"
+                    }}
+                >
+                    <CardContent><Description /></CardContent>
+                </Card>
+                <Card
+                    className="card card-grid2"
+                    style={{
+                        backgroundColor: "transparent"
+                    }}
+                >
+                    <CardContent
+                        sx={{ width: '100%' }}
+                    >
+                        <Ground players={players} /></CardContent>
+                </Card>
+                <Card
+                    className="card card-grid3"
+                    style={{
+                        backgroundColor: "transparent"
+                    }}
+                >
+                    <CardContent><Menu editKey={null} /></CardContent>
+                </Card>
+                <Card
+                    className="card card-grid4"
+                    style={{
+                        backgroundColor: "transparent"
+                    }}
+                >
+                    <CardContent
+                        sx={{ width: '100%' }}
+                    ><PlayerList
+                            filteredPlayers={
+                                players.filter((p) => {
+                                    return p.team === 'HOME';
+                                })
+                            }
+                        /></CardContent>
+                </Card>
+                <Card
+                    className="card card-grid5"
+                    style={{
+                        backgroundColor: "transparent"
+                    }}
+                >
+                    <CardContent
+                        sx={{ width: '100%' }}
+                    ><PlayerList
+                            filteredPlayers={
+                                players.filter((p) => {
+                                    return p.team === 'AWAY';
+                                })
+                            }
+                        /></CardContent>
+                </Card>
             </div>
         </DndProvider>
     );

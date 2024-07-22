@@ -275,13 +275,9 @@ export const Ground: React.FC<GroundProps> = ({ players }) => {
 
     return (
         <Box
-            sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 2 }}
+            sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', padding: 2}}
         >
             <div style={{
-                width: '100%',
-                minWidth: '100%',
-
-                height: '60%',
                 justifyContent: 'center',
                 alignItems: 'center'
             }}

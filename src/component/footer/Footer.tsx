@@ -3,32 +3,26 @@ import { Box, Container, IconButton, Typography } from "@mui/material";
 import { Link } from "react-router-dom";
 import ShareIcon from '@mui/icons-material/Share';
 
-function Copyright() {
-    return (
-        <Typography variant="body2" color="text.secondary" align="center">
-            {'Copyright © '}
-            <Link color="inherit" to="/">
-                Lavolpiana
-            </Link>{' '}
-            {new Date().getFullYear()}
-            {'.'}
-        </Typography>
-    );
-}
-
 export default function Footer() {
     return (
-        <Box component="footer" sx={{ bgcolor: 'background.paper', py: 6 }}>
+        <Box component="footer" sx={{ bgcolor: 'transparent', py: 6 }}>
             <Container maxWidth="lg">
                 <Typography
                     variant="subtitle1"
                     align="center"
-                    color="text.secondary"
+                    color="white"
                     component="p"
                 >
-                    Created By Koseyun
+                    Create By Twovolanchi
                 </Typography>
-                <Copyright />
+                <Typography
+                    variant="subtitle1"
+                    align="center"
+                    color="white"
+                    component="p"
+                >
+                    Image From Freepik
+                </Typography>
                 <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
                     <IconButton
                         component="a"

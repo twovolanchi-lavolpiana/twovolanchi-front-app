@@ -61,7 +61,7 @@ function Navbar({ darkMode, onThemeChange }: NavbarProps) {
     };
 
     return (
-        <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, backgroundColor: '#3BB26F' }} className='App-header'>
+        <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, backgroundColor: 'transparent' }} className='first'>
             <Container maxWidth="xl">
                 <Toolbar disableGutters sx={{ justifyContent: 'space-between', flexWrap: 'wrap' }}>
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -99,9 +99,6 @@ function Navbar({ darkMode, onThemeChange }: NavbarProps) {
                     <Box sx={{ display: 'flex', alignItems: 'center' }}>
                         <IconButton sx={{ ml: 'auto' }} onClick={changeLanguage} color="inherit">
                             <TranslateIcon />
-                        </IconButton>
-                        <IconButton sx={{ ml: 1 }} onClick={onThemeChange} color="inherit">
-                            {darkMode ? <Brightness7Outlined /> : <Brightness4Outlined />}
                         </IconButton>
                     </Box>
                 </Toolbar>

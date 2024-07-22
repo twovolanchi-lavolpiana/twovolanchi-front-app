@@ -115,11 +115,11 @@ export const Share = () => {
                 mr: 2
             }}
         >
-            <IosShare sx={{ color: 'purple' }} />
+            <IosShare sx={{ color: 'white' }} />
             <Typography
                 variant="body1"
                 ml={1}
-                color={isPossible ? 'auto' : 'gray'}
+                color={isPossible ? 'white' : 'gray'}
             >{t('Share')}</Typography>
         </Box>
 

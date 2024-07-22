@@ -57,7 +57,13 @@ export const EditBoard: React.FC<EditProps> = ({ editKey }) => {
                     </Card>
                     <Card className="player-list">
                         <CardContent>
-                            <PlayerList width={300} />
+                            <PlayerList
+                                filteredPlayers={
+                                    players.filter((p) => {
+                                        return p.team === 'HOME';
+                                    })
+                                }
+                            />
                         </CardContent>
                     </Card>
                 </div>
@@ -80,7 +86,7 @@ export const EditBoard: React.FC<EditProps> = ({ editKey }) => {
                     <Card className="menu-bar react-flex" sx={{ flexDirection: 'row', maxWidth: 800, marginTop: 5 }}>
                         <CardContent>
                             <Stack direction="row" sx={{ flexWrap: 'wrap' }}>
-                                <Menu 
+                                <Menu
                                     editKey={editKey}
                                 />
                             </Stack>
@@ -105,7 +111,13 @@ export const EditBoard: React.FC<EditProps> = ({ editKey }) => {
                                 marginTop: 3
                             }}
                         >
-                            <PlayerList width={700}></PlayerList>
+                            <PlayerList
+                                filteredPlayers={
+                                    players.filter((p) => {
+                                        return p.team === 'AWAY';
+                                    })
+                                }
+                            ></PlayerList>
                         </CardContent>
                     </Card>
                 </div>
