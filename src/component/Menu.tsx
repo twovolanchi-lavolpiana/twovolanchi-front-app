@@ -177,7 +177,7 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
         switch (homeFormationState) {
             case Formation.FOFOTW:
                 addPlayers = [
-                    { top: 5,  left: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'HOME' },
+                    { top: 5, left: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'HOME' },
                     { top: 15, left: 16, backNumber: 3, position: PlayerPositionEnum.LB, team: 'HOME' },
                     { top: 15, left: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'HOME' },
                     { top: 15, left: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'HOME' },
@@ -192,7 +192,7 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                 break;
             case Formation.FOTWTRON:
                 addPlayers = [
-                    { top: 5,  left: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'HOME' },
+                    { top: 5, left: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'HOME' },
                     { top: 15, left: 16, backNumber: 3, position: PlayerPositionEnum.LB, team: 'HOME' },
                     { top: 15, left: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'HOME' },
                     { top: 15, left: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'HOME' },
@@ -208,7 +208,7 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
 
             case Formation.FOTRTR:
                 addPlayers = [
-                    { top: 5,  left: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'HOME' },
+                    { top: 5, left: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'HOME' },
                     { top: 15, left: 16, backNumber: 3, position: PlayerPositionEnum.LB, team: 'HOME' },
                     { top: 15, left: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'HOME' },
                     { top: 15, left: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'HOME' },
@@ -224,7 +224,7 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
 
             case Formation.THFITW:
                 addPlayers = [
-                    { top: 5,  left: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'HOME' },
+                    { top: 5, left: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'HOME' },
                     { top: 15, left: 20, backNumber: 3, position: PlayerPositionEnum.CB, team: 'HOME' },
                     { top: 15, left: 50, backNumber: 4, position: PlayerPositionEnum.CB, team: 'HOME' },
                     { top: 15, left: 80, backNumber: 5, position: PlayerPositionEnum.CB, team: 'HOME' },
@@ -750,6 +750,10 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                 onClose={handleRecommendFormationModalClose}
                 aria-labelledby="modal-title"
                 aria-describedby="modal-description"
+                sx={{
+                    backdropFilter: 'blur(5px)',
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)', // 반투명 검정 배경
+                }}
             >
                 <Box
                     sx={{
@@ -757,23 +761,36 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                         top: '50%',
                         left: '50%',
                         transform: 'translate(-50%, -50%)',
-                        width: 400,
-                        bgcolor: 'background.paper',
+                        width: 300,
+                        bgcolor: 'linear-gradient(to right, hsl(210, 30%, 20%), hsl(255, 30%, 25%))', // 그라데이션 배경
+                        color: 'var(--light)',
+                        borderRadius: '.8rem',
+                        boxShadow: 'var(--m-shadow, .4rem .4rem 10.2rem .2rem) var(--shadow-1)',
+                        border: '2px solid rgba(63, 81, 181, 0.7)', // 외곽선 설정
                         p: 4,
                         display: 'flex',
                         flexDirection: 'column',
                         gap: 2, // 요소 간의 간격
                     }}
                 >
-                    <h3 id="modal-title" style={{ marginTop: 0, marginBottom: 10 }}>{t('Edit Player')}</h3>
-                    <FormControl fullWidth>
-                        <InputLabel id="home-formation-label">{t('Home Team Formation')}</InputLabel>
+                    <h3 id="modal-title" style={{ marginTop: 0, marginBottom: 10, color: 'white' }}>{t('Recommend Formation')}</h3>
+                    <FormControl fullWidth sx={{marginTop: 2}}>
+                        <InputLabel id="home-formation-label" style={{ color: 'white' }}>{t('Home Team Formation')}</InputLabel>
                         <Select
                             labelId="home-formation-label"
                             id="home-formation-select"
                             value={homeFormationState}
                             label="Home Team Formation"
                             onChange={(e) => setHomeFormation(e.target.value as Formation)}
+                            sx={{ bgcolor: 'rgba(255, 255, 255, 0.1)', borderRadius: 1, color: 'white' }}
+                            MenuProps={{
+                                PaperProps: {
+                                    sx: {
+                                        bgcolor: 'rgba(33, 33, 33, 0.9)', // 메뉴 배경색 설정
+                                        color: 'white', // 메뉴 텍스트 색상 설정
+                                    },
+                                },
+                            }}
                         >
                             <MenuItem value={Formation.FOFOTW}>4-4-2</MenuItem>
                             <MenuItem value={Formation.FOTRTR}>4-3-3</MenuItem>
@@ -781,28 +798,46 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                             <MenuItem value={Formation.THFITW}>3-5-2</MenuItem>
                         </Select>
                     </FormControl>
-                    <FormControl fullWidth>
-                        <InputLabel id="home-country-label">{t('Home Team')}</InputLabel>
+                    <FormControl fullWidth sx={{marginTop: 2}}>
+                        <InputLabel id="home-country-label" style={{ color: 'white' }}>{t('Home Team')}</InputLabel>
                         <Select
                             labelId="home-country-label"
                             id="home-country-select"
                             value={homeCountryState}
                             label="Home Team Country"
                             onChange={(e) => setHomeCountry(e.target.value as TeamCountry)}
+                            sx={{ bgcolor: 'rgba(255, 255, 255, 0.1)', borderRadius: 1, color: 'white' }}
+                            MenuProps={{
+                                PaperProps: {
+                                    sx: {
+                                        bgcolor: 'rgba(33, 33, 33, 0.9)', // 메뉴 배경색 설정
+                                        color: 'white', // 메뉴 텍스트 색상 설정
+                                    },
+                                },
+                            }}
                         >
                             <MenuItem value={TeamCountry.SPAIN}>Spain</MenuItem>
                             <MenuItem value={TeamCountry.ENGLAND}>England</MenuItem>
                             <MenuItem value={TeamCountry.GERMANY}>Germany</MenuItem>
                         </Select>
                     </FormControl>
-                    <FormControl fullWidth>
-                        <InputLabel id="away-formation-label">{t('Away Team Formation')}</InputLabel>
+                    <FormControl fullWidth sx={{marginTop: 2}}>
+                        <InputLabel id="away-formation-label" style={{ color: 'white' }}>{t('Away Team Formation')}</InputLabel>
                         <Select
                             labelId="away-formation-label"
                             id="away-formation-select"
                             value={awayFormationState}
                             label="Away Team Formation"
                             onChange={(e) => setAwayFormation(e.target.value as Formation)}
+                            sx={{ bgcolor: 'rgba(255, 255, 255, 0.1)', borderRadius: 1, color: 'white' }}
+                            MenuProps={{
+                                PaperProps: {
+                                    sx: {
+                                        bgcolor: 'rgba(33, 33, 33, 0.9)', // 메뉴 배경색 설정
+                                        color: 'white', // 메뉴 텍스트 색상 설정
+                                    },
+                                },
+                            }}
                         >
                             <MenuItem value={Formation.FOFOTW}>4-4-2</MenuItem>
                             <MenuItem value={Formation.FOTRTR}>4-3-3</MenuItem>
@@ -810,14 +845,23 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                             <MenuItem value={Formation.THFITW}>3-5-2</MenuItem>
                         </Select>
                     </FormControl>
-                    <FormControl fullWidth>
-                        <InputLabel id="away-country-label">{t('Away Team')}</InputLabel>
+                    <FormControl fullWidth sx={{marginTop: 2}}>
+                        <InputLabel id="away-country-label" style={{ color: 'white' }}>{t('Away Team')}</InputLabel>
                         <Select
                             labelId="away-country-label"
                             id="away-country-select"
                             value={awayCountryState}
                             label="Away Team Country"
                             onChange={(e) => setAwayCountry(e.target.value as TeamCountry)}
+                            sx={{ bgcolor: 'rgba(255, 255, 255, 0.1)', borderRadius: 1, color: 'white' }}
+                            MenuProps={{
+                                PaperProps: {
+                                    sx: {
+                                        bgcolor: 'rgba(33, 33, 33, 0.9)', // 메뉴 배경색 설정
+                                        color: 'white', // 메뉴 텍스트 색상 설정
+                                    },
+                                },
+                            }}
                         >
                             <MenuItem value={TeamCountry.SPAIN}>Spain</MenuItem>
                             <MenuItem value={TeamCountry.ENGLAND}>England</MenuItem>
@@ -828,9 +872,14 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                         sx={{
                             marginTop: 2, // 버튼과 다른 요소들 간의 간격
                             color: 'white', // 텍스트 색상
+                            backgroundColor: '#3B6FB2', // 배경 색상
                             '&:hover': {
-                                backgroundColor: 'darken(renderSaveButtonInfo(), 0.2)', // 호버 시 배경 색상
+                                backgroundColor: '#3B6FB2', // 호버 시 배경 색상을 기본 상태와 동일하게 설정
+                                borderColor: 'var(--border-color)', // 호버 시 테두리 색상을 기본 상태와 동일하게 설정
+                                transform: 'translateY(-.2rem)',
                             },
+                            border: '1px solid var(--border-color)',
+                            borderRadius: '100rem',
                         }}
                         variant="contained"
                         onClick={handleFormationUpdate}

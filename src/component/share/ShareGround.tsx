@@ -248,6 +248,7 @@ export const ShareGround: React.FC<GroundProps> = ({ players, tactics }) => {
                     backNumber={player.backNumber}
                     team={player.team}
                     name={player.name}
+                    position={player.position}
                     left={player.leftPercent}
                     top={player.topPercent}
                     imgRef={imgRef} />
@@ -275,6 +276,7 @@ export const ShareGround: React.FC<GroundProps> = ({ players, tactics }) => {
                         backNumber={player.backNumber}
                         team={player.team}
                         name={player.name}
+                        position={player.position}
                         left={player.leftPercent}
                         top={player.topPercent}
                         imgRef={imgRef}
@@ -293,6 +295,7 @@ export const ShareGround: React.FC<GroundProps> = ({ players, tactics }) => {
                         backNumber={player.backNumber}
                         team={player.team}
                         name={player.name}
+                        position={player.position}
                         left={position?.leftPercent}
                         top={position?.topPercent}
                         imgRef={imgRef}

@@ -33,9 +33,9 @@ function App() {
     setDarkMode(!darkMode);
   };
 
-  useEffect(() => {
-    setOpenSnackbar(true);
-  }, []);
+  // useEffect(() => {
+  //   setOpenSnackbar(true);
+  // }, []);
 
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
@@ -77,7 +77,7 @@ function App() {
       </Routes>
       <Footer />
 
-      <Snackbar
+      {/* <Snackbar
         open={openSnackbar}
         autoHideDuration={6000}
         onClose={handleCloseSnackbar}
@@ -86,7 +86,7 @@ function App() {
         <Alert onClose={handleCloseSnackbar} severity="warning" sx={{ width: '100%' }}>
           {t('Mobile Snack Bar')}
         </Alert>
-      </Snackbar>
+      </Snackbar> */}
 
     </ScreenSizeProvider>
   );

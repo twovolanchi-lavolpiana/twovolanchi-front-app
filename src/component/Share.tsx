@@ -96,7 +96,6 @@ export const Share = () => {
 
     const handleCopyUrl = (url: string) => {
         navigator.clipboard.writeText(url);
-        alert("URL copied to clipboard");
     };
 
     const isPossible = sequencesState.sequences[sequencesState.currentSequenceNumber] &&
@@ -123,19 +122,30 @@ export const Share = () => {
             >{t('Share')}</Typography>
         </Box>
 
-        <Modal open={isModalOpen} onClose={handleClose}>
+        <Modal
+            open={isModalOpen}
+            onClose={handleClose}
+            sx={{
+                backdropFilter: 'blur(5px)',
+                backgroundColor: 'rgba(0, 0, 0, 0.5)', // 반투명 검정 배경
+            }}
+        >
             <Box
                 sx={{
                     position: 'absolute',
                     top: '50%',
                     left: '50%',
                     transform: 'translate(-50%, -50%)',
-                    width: 400,
-                    bgcolor: 'background.paper',
+                    width: 300,
+                    bgcolor: 'linear-gradient(to right, hsl(210, 30%, 20%), hsl(255, 30%, 25%))', // 그라데이션 배경
+                    color: 'var(--light)',
+                    borderRadius: '.8rem',
+                    boxShadow: 'var(--m-shadow, .4rem .4rem 10.2rem .2rem) var(--shadow-1)',
+                    border: '2px solid rgba(63, 81, 181, 0.7)', // 외곽선 설정
                     p: 4,
                     display: 'flex',
                     flexDirection: 'column',
-                    gap: 2,
+                    gap: 2, // 요소 간의 간격
                 }}
             >
                 <IconButton
@@ -144,27 +154,53 @@ export const Share = () => {
                         position: 'absolute',
                         top: 8,
                         right: 8,
+                        color: 'white'
                     }}
                 >
                     <CloseOutlined />
                 </IconButton>
 
-                <Typography variant="body2" gutterBottom>
+                <Typography
+                    variant="body2"
+                    gutterBottom
+                    color={'white'}>
                     {t('Share Message')}
                 </Typography>
 
-                <Typography variant="body2">{t('Edit URL')}</Typography>
+                <Typography
+                    variant="body2"
+                    color={'white'}>
+                    {t('Edit URL')}</Typography>
                 <TextField
                     value={generatedEditUrl}
+                    sx={{
+                        mb: 2,
+                        bgcolor: 'rgba(255, 255, 255, 0.1)', // 배경색 추가
+                        borderRadius: 1, // 테두리 둥글게
+                        '& .MuiInputBase-input': {
+                            color: 'white', // 텍스트 색상
+                        },
+                    }}
                     InputProps={{
                         readOnly: true,
                     }}
                     onClick={() => handleCopyUrl(generatedEditUrl)}
                 />
 
-                <Typography variant="body2">{t('Share URL')}</Typography>
+                <Typography
+                    variant="body2"
+                    color={'white'}>
+                    {t('Share URL')}</Typography>
                 <TextField
                     value={generatedShareUrl}
+                    sx={{
+                        mb: 2,
+                        bgcolor: 'rgba(255, 255, 255, 0.1)', // 배경색 추가
+                        borderRadius: 1, // 테두리 둥글게
+                        '& .MuiInputBase-input': {
+                            color: 'white', // 텍스트 색상
+                        },
+                    }}
                     InputProps={{
                         readOnly: true,
                     }}

@@ -79,9 +79,12 @@ const resources = {
             "Away Team Formation": "Away Team Formation",
             "Away Team": "Away Team",
 
-            "Share Message": "Please use the links below to edit or share your data! 😄",
+            "Share Message": "Please use the links below to edit or share your tactics!",
+            "Edit Message": "Please use the links below to share your tactics!",
             "Edit URL": "Edit URL",
             "Share URL": "Share URL",
+            "Not Found Message 1": "Sorry, the URL you have entered is incorrect.",
+            "Not Found Message 2": "Please check the link and try again.",
 
             "GUIDE": "GUIDE",
             "INTRODUCE": "INTRODUCE",
@@ -177,9 +180,12 @@ const resources = {
             "Away Team Formation": "어웨이 팀 포메이션",
             "Away Team": "어웨이 팀",
             
-            "Share Message": "편집 혹은 공유를 위해 하단의 링크를 복사해서 저장해주세요! 😄",
+            "Share Message": "편집 혹은 공유를 위해 하단의 링크를 복사해서 저장해주세요!",
+            "Edit Message": "공유를 위해 하단의 링크를 복사해서 저장해주세요!",
             "Edit URL": "편집 URL",
             "Share URL": "공유 URL",
+            "Not Found Message 1": "죄송합니다, URL 주소가 올바르지 않습니다.",
+            "Not Found Message 2": "링크 확인 후 재시도 해주세요.",
 
             "GUIDE": "가이드",
             "INTRODUCE": "소개",

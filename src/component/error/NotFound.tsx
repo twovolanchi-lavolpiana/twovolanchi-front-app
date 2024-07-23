@@ -1,5 +1,8 @@
 import { Box, Card, CardContent, Grid, Typography } from "@mui/material";
 import Navbar from "../Navbar";
+import background from '../../image/board.webp';
+import boardImage from "../../image/board-background.jpg"
+import { useTranslation } from "react-i18next";
 
 export interface NotFoundComponentProps {
     darkMode: boolean;
@@ -7,32 +10,30 @@ export interface NotFoundComponentProps {
 }
 
 const NotFoundPage: React.FC<NotFoundComponentProps> = (props) => {
-    return (
-        <Box minHeight="100vh" display="flex" flexDirection="column">
-            <Box>
-                <Navbar darkMode={props.darkMode} onThemeChange={props.onThemeChange} />
-            </Box>
-            <Box display="flex" flexGrow={1} alignItems="center" justifyContent="center">
-                <Grid container spacing={2} justifyContent="center" alignItems="center">
-                    <Grid item xs={12} display="flex" justifyContent="center" alignItems="center">
-                        <Card sx={{ maxWidth: 800, textAlign: "center" }}>
-                            <CardContent>
-                                <div style={{ width: '100%', maxWidth: '500px', margin: 'auto' }}>
-                                    <Typography
-                                        gutterBottom
-                                        variant="h5"
-                                        component="div"
-                                        style={{ wordWrap: 'break-word', wordBreak: 'break-word' }}>
-                                        Sorry, the URL you have entered is incorrect. <br /> Please check the link and try again. 😊
-                                    </Typography>
-                                </div>
-                            </CardContent>
-                        </Card>
-                    </Grid>
-                </Grid>
-            </Box>
-        </Box>
-    );
+    const { t } = useTranslation();
+    return <div className="App">
+        <div className="App-container">
+            <Navbar darkMode={props.darkMode} onThemeChange={props.onThemeChange} />
+            <div className="second" style={{ overflow: 'hidden' }}>
+                <img src={background} style={{
+                    overflow: 'hidden'
+                }} />
+            </div>
+            <div className="third">
+                <Typography
+                    gutterBottom
+                    variant="h5"
+                    component="div"
+                    color={'white'}
+                    style={{ wordWrap: 'break-word', wordBreak: 'break-word' }}>
+                    {t('Not Found Message 1')}
+                    <br/>
+                    {t('Not Found Message 2')}
+                </Typography>
+            </div>
+
+        </div>
+    </div>
 }
 
 export default NotFoundPage;
