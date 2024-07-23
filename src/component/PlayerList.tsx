@@ -2,21 +2,25 @@ import { useDispatch, useSelector } from "react-redux"
 import { RootState } from "../store/Store"
 import { useEffect, useState } from "react";
 import { PlayerPosition } from "./PlayerPosition";
-import { Avatar, Box, Button, FormControl, InputLabel, MenuItem, Modal, Paper, Select, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
+import { Avatar, Box, Button, FormControl, InputLabel, MenuItem, Modal, Pagination, PaginationItem, Paper, Select, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Typography } from "@mui/material";
 import { PlayerPositionEnum } from "./PlayerPositionEnum";
 import { setPlayer } from "../store/PlayersListSlice";
 import { selectPlayer } from "../store/PlayerSlice";
 import { useTranslation } from "react-i18next";
+import { ArrowBackIosNew, ArrowForwardIos } from "@mui/icons-material";
 
-export interface PlayerListProps {
-    width: number;
+
+type PlayerListProps = {
+    filteredPlayers: PlayerPosition[]
 }
 
-export const PlayerList: React.FC<PlayerListProps> = ({ width }) => {
+export const PlayerList: React.FC<PlayerListProps> = ({ filteredPlayers }) => {
     const dispatch = useDispatch();
     const { t } = useTranslation();
-    const players = useSelector((state: RootState) => state.players.players);
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
+
+    const [page, setPage] = useState(1);
+    const itemsPerPage = 5;
 
     const [positionState, setPosition] = useState<PlayerPositionEnum>(PlayerPositionEnum.CM);
     const [backNumberState, setBackNumber] = useState<number>(0);
@@ -98,17 +102,14 @@ export const PlayerList: React.FC<PlayerListProps> = ({ width }) => {
     }, [selectedPlayer])
 
     useEffect(() => {
-    }, [players])
-
-    useEffect(() => {
     }, [isModalOpen])
 
-    const sortedPlayers = players.slice().sort((a, b) => {
-        if (a.team === b.team) {
-            return a.backNumber - b.backNumber; // 같은 팀일 경우 backNumber로 정렬
-        }
-        return a.team === 'HOME' ? -1 : 1; // 'home' 팀이 먼저 오도록 정렬
-    });
+    const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
+        setPage(value);
+    };
+
+    const paginatedPlayers = filteredPlayers.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+    const totalPageCount = Math.ceil(filteredPlayers.length / itemsPerPage);
 
     const handleModalClose = () => {
         setIsModalOpen(false); // 모달 닫기
@@ -118,22 +119,33 @@ export const PlayerList: React.FC<PlayerListProps> = ({ width }) => {
         <div>
             <TableContainer component={Paper} sx={{
                 maxHeight: 700,
-                width: width,
                 overflowY: 'auto',
+                background: 'transparent'
             }}>
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell align="center"><Typography variant="subtitle1" fontWeight="bold">{t('Position')}</Typography></TableCell>
-                            <TableCell align="center"><Typography variant="subtitle1" fontWeight="bold">{t('Name')}</Typography></TableCell>
-                            <TableCell align="center"><Typography variant="subtitle1" fontWeight="bold">{t('No')}</Typography></TableCell>
-                            {/* <TableCell align="center"><Typography variant="subtitle1" fontWeight="bold">Team</Typography></TableCell> */}
+                            <TableCell align="center" sx={{ border: 0 }}>
+                                <Typography variant="subtitle1" fontWeight="bold" color={'white'}>
+                                    {t('Position')}
+                                </Typography>
+                            </TableCell>
+                            <TableCell align="center" sx={{ border: 0 }}>
+                                <Typography variant="subtitle1" fontWeight="bold" color={'white'}>
+                                    {t('Name')}
+                                </Typography>
+                            </TableCell>
+                            <TableCell align="center" sx={{ border: 0 }}>
+                                <Typography variant="subtitle1" fontWeight="bold" color={'white'}>
+                                    {t('No')}
+                                </Typography>
+                            </TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {sortedPlayers.map((player: PlayerPosition) => (
-                            <TableRow key={player.id} onDoubleClick={() => handleEditClick(player.id, player)} >
-                                <TableCell align="center">
+                        {paginatedPlayers.map((player) => (
+                            <TableRow key={player.id} onDoubleClick={() => handleEditClick(player.id, player)} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+                                <TableCell align="center" sx={{ border: 0 }}>
                                     <Avatar
                                         sx={{
                                             bgcolor: setColorByPosition(player.position),
@@ -143,25 +155,53 @@ export const PlayerList: React.FC<PlayerListProps> = ({ width }) => {
                                             boxShadow: player.team === 'HOME' ? '0 0 10px 5px #3B6FB2' : '0 0 10px 5px #B23B7F',
                                             borderRadius: '50%', // 원형 외곽선
                                         }}>
-                                        <Typography variant="caption" sx={{ fontSize: '0.8rem', fontWeight: 'bold', color: 'auto' }}>
+                                        <Typography variant="caption" sx={{ fontSize: '0.8rem', fontWeight: 'bold', color: 'white' }}>
                                             {player.position}
                                         </Typography>
                                     </Avatar>
                                 </TableCell>
-                                <TableCell align="center"><Typography variant="body2" fontWeight="bold">{player.name} </Typography></TableCell>
-                                <TableCell align="center"><Typography variant="body2" fontWeight="bold">{player.backNumber}</Typography></TableCell>
-                                {/* <TableCell align="center"><Typography variant="body2" fontWeight="bold">{player.team}</Typography></TableCell> */}
+                                <TableCell align="center" sx={{ border: 0 }}>
+                                    <Typography variant="body2" fontWeight="bold" color={'white'}>
+                                        {player.name}
+                                    </Typography>
+                                </TableCell>
+                                <TableCell align="center" sx={{ border: 0 }}>
+                                    <Typography variant="body2" fontWeight="bold" color={'white'}>
+                                        {player.backNumber}
+                                    </Typography>
+                                </TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
             </TableContainer>
 
+            {totalPageCount > 1 && (
+                <Stack spacing={2} sx={{ marginTop: 2, color: 'white', alignItems: 'center' }}>
+                    <Pagination
+                        count={totalPageCount}
+                        page={page}
+                        onChange={handleChangePage}
+                        renderItem={(item) => (
+                            <PaginationItem
+                                slots={{ previous: ArrowBackIosNew, next: ArrowForwardIos }}
+                                sx={{ color: 'white' }}
+                                {...item}
+                            />
+                        )}
+                    />
+                </Stack>
+            )}
+
             <Modal
                 open={isModalOpen}
                 onClose={handleModalClose}
                 aria-labelledby="modal-title"
                 aria-describedby="modal-description"
+                sx={{
+                    backdropFilter: 'blur(5px)',
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)', // 반투명 검정 배경
+                }}
             >
                 <Box
                     sx={{
@@ -169,15 +209,19 @@ export const PlayerList: React.FC<PlayerListProps> = ({ width }) => {
                         top: '50%',
                         left: '50%',
                         transform: 'translate(-50%, -50%)',
-                        width: 400,
-                        bgcolor: 'background.paper',
+                        width: 300,
+                        bgcolor: 'linear-gradient(to right, hsl(210, 30%, 20%), hsl(255, 30%, 25%))', // 그라데이션 배경
+                        color: 'var(--light)',
+                        borderRadius: '.8rem',
+                        boxShadow: 'var(--m-shadow, .4rem .4rem 10.2rem .2rem) var(--shadow-1)',
+                        border: '2px solid rgba(63, 81, 181, 0.7)', // 외곽선 설정
                         p: 4,
                         display: 'flex',
                         flexDirection: 'column',
                         gap: 2, // 요소 간의 간격
                     }}
                 >
-                    <h3 id="modal-title" style={{ marginTop: 0, marginBottom: 10 }}>{t('Edit Player')}</h3>
+                    <h3 id="modal-title" style={{ marginTop: 0, marginBottom: 10, color: 'white' }}>{t('Edit Player')}</h3>
                     <FormControl fullWidth>
                         <TextField
                             id="name-label"
@@ -185,7 +229,9 @@ export const PlayerList: React.FC<PlayerListProps> = ({ width }) => {
                             variant="outlined"
                             value={nameState}
                             onChange={(e) => setName(e.target.value)}
-                            sx={{ mb: 2 }}
+                            sx={{ mb: 2, bgcolor: 'rgba(255, 255, 255, 0.1)', borderRadius: 1, color: 'white' }}
+                            InputLabelProps={{ style: { color: 'var(--light)' } }}
+                            InputProps={{ style: { color: 'var(--light)' } }}
                         />
                     </FormControl>
                     <FormControl fullWidth>
@@ -196,31 +242,34 @@ export const PlayerList: React.FC<PlayerListProps> = ({ width }) => {
                             value={backNumberState}
                             onChange={handleBackNumberChange}
                             inputProps={{ inputMode: 'numeric', pattern: '[0-9]*' }}
-                            sx={{ mb: 2 }}
+                            sx={{ mb: 2, bgcolor: 'rgba(255, 255, 255, 0.1)', borderRadius: 1, color: 'white' }}
+                            InputLabelProps={{ style: { color: 'var(--light)' } }}
+                            InputProps={{ style: { color: 'var(--light)' } }}
                         />
                     </FormControl>
                     <FormControl fullWidth>
-                        <InputLabel id="position-label">{t('Position')}</InputLabel>
+                        <InputLabel id="position-label" style={{ color: 'white' }}>{t('Position')}</InputLabel>
                         <Select
                             labelId="position-label"
                             id="position-select"
                             value={positionState}
                             label={t('Position')}
                             onChange={(e) => setPosition(e.target.value as PlayerPositionEnum)}
+                            sx={{ bgcolor: 'rgba(255, 255, 255, 0.1)', borderRadius: 1, color: 'white' }}
+                            MenuProps={{
+                                PaperProps: {
+                                    sx: {
+                                        bgcolor: 'rgba(33, 33, 33, 0.9)', // 메뉴 배경색 설정
+                                        color: 'white', // 메뉴 텍스트 색상 설정
+                                    },
+                                },
+                            }}
                         >
-                            <MenuItem value={PlayerPositionEnum.ST}>ST</MenuItem>
-                            <MenuItem value={PlayerPositionEnum.CF}>CF</MenuItem>
-                            <MenuItem value={PlayerPositionEnum.LF}>LF</MenuItem>
-                            <MenuItem value={PlayerPositionEnum.RF}>RF</MenuItem>
-                            <MenuItem value={PlayerPositionEnum.AM}>AM</MenuItem>
-                            <MenuItem value={PlayerPositionEnum.LM}>LM</MenuItem>
-                            <MenuItem value={PlayerPositionEnum.RM}>RM</MenuItem>
-                            <MenuItem value={PlayerPositionEnum.CM}>CM</MenuItem>
-                            <MenuItem value={PlayerPositionEnum.DM}>DM</MenuItem>
-                            <MenuItem value={PlayerPositionEnum.CB}>CB</MenuItem>
-                            <MenuItem value={PlayerPositionEnum.LB}>LB</MenuItem>
-                            <MenuItem value={PlayerPositionEnum.RB}>RB</MenuItem>
-                            <MenuItem value={PlayerPositionEnum.GK}>GK</MenuItem>
+                            {Object.values(PlayerPositionEnum).map((position) => (
+                                <MenuItem key={position} value={position}>
+                                    {position}
+                                </MenuItem>
+                            ))}
                         </Select>
                     </FormControl>
                     <Button
@@ -229,8 +278,12 @@ export const PlayerList: React.FC<PlayerListProps> = ({ width }) => {
                             color: 'white', // 텍스트 색상
                             backgroundColor: renderSaveButtonInfo(), // 배경 색상
                             '&:hover': {
-                                backgroundColor: 'darken(renderSaveButtonInfo(), 0.2)', // 호버 시 배경 색상
+                                backgroundColor: renderSaveButtonInfo(), // 호버 시 배경 색상을 기본 상태와 동일하게 설정
+                                borderColor: 'var(--border-color)', // 호버 시 테두리 색상을 기본 상태와 동일하게 설정
+                                transform: 'translateY(-.2rem)',
                             },
+                            border: '1px solid var(--border-color)',
+                            borderRadius: '100rem',
                         }}
                         variant="contained"
                         onClick={handlePlayerProfileUpdate}
@@ -239,6 +292,6 @@ export const PlayerList: React.FC<PlayerListProps> = ({ width }) => {
                     </Button>
                 </Box>
             </Modal>
-        </div >
+        </div>
     );
 }

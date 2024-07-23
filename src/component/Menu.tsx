@@ -32,6 +32,7 @@ import { setBall } from '../store/BallSlice';
 import { Share } from "./Share";
 import { EditSave } from "./edit/EditSave";
 import { useTranslation } from "react-i18next";
+import '../css/menu.css'
 
 type MenuProps = {
     editKey: string | null
@@ -142,6 +143,7 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
     }
 
     const handleSimulation = () => {
+        dispatch(clearSelectedPlayer())
         dispatch(setPossiblePlayerMoveState({ playerId: null, isPossible: false }))
         dispatch(setPossibleBallMoveState({
             isPossible: true
@@ -175,64 +177,64 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
         switch (homeFormationState) {
             case Formation.FOFOTW:
                 addPlayers = [
-                    { left: 5, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'HOME' },
-                    { left: 15, top: 16, backNumber: 3, position: PlayerPositionEnum.LB, team: 'HOME' },
-                    { left: 15, top: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'HOME' },
-                    { left: 15, top: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'HOME' },
-                    { left: 15, top: 84, backNumber: 2, position: PlayerPositionEnum.RB, team: 'HOME' },
-                    { left: 26, top: 16, backNumber: 7, position: PlayerPositionEnum.LM, team: 'HOME' },
-                    { left: 26, top: 38, backNumber: 8, position: PlayerPositionEnum.CM, team: 'HOME' },
-                    { left: 26, top: 62, backNumber: 6, position: PlayerPositionEnum.CM, team: 'HOME' },
-                    { left: 26, top: 84, backNumber: 11, position: PlayerPositionEnum.RM, team: 'HOME' },
-                    { left: 37, top: 38, backNumber: 9, position: PlayerPositionEnum.ST, team: 'HOME' },
-                    { left: 37, top: 62, backNumber: 10, position: PlayerPositionEnum.CF, team: 'HOME' },
+                    { top: 5, left: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'HOME' },
+                    { top: 15, left: 16, backNumber: 3, position: PlayerPositionEnum.LB, team: 'HOME' },
+                    { top: 15, left: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'HOME' },
+                    { top: 15, left: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'HOME' },
+                    { top: 15, left: 84, backNumber: 2, position: PlayerPositionEnum.RB, team: 'HOME' },
+                    { top: 26, left: 16, backNumber: 7, position: PlayerPositionEnum.LM, team: 'HOME' },
+                    { top: 26, left: 38, backNumber: 8, position: PlayerPositionEnum.CM, team: 'HOME' },
+                    { top: 26, left: 62, backNumber: 6, position: PlayerPositionEnum.CM, team: 'HOME' },
+                    { top: 26, left: 84, backNumber: 11, position: PlayerPositionEnum.RM, team: 'HOME' },
+                    { top: 37, left: 38, backNumber: 9, position: PlayerPositionEnum.ST, team: 'HOME' },
+                    { top: 37, left: 62, backNumber: 10, position: PlayerPositionEnum.CF, team: 'HOME' },
                 ]
                 break;
             case Formation.FOTWTRON:
                 addPlayers = [
-                    { left: 5, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'HOME' },
-                    { left: 15, top: 16, backNumber: 3, position: PlayerPositionEnum.LB, team: 'HOME' },
-                    { left: 15, top: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'HOME' },
-                    { left: 15, top: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'HOME' },
-                    { left: 15, top: 84, backNumber: 2, position: PlayerPositionEnum.RB, team: 'HOME' },
-                    { left: 26, top: 38, backNumber: 6, position: PlayerPositionEnum.DM, team: 'HOME' },
-                    { left: 26, top: 62, backNumber: 8, position: PlayerPositionEnum.DM, team: 'HOME' },
-                    { left: 37, top: 16, backNumber: 7, position: PlayerPositionEnum.LM, team: 'HOME' },
-                    { left: 37, top: 84, backNumber: 11, position: PlayerPositionEnum.RM, team: 'HOME' },
-                    { left: 37, top: 50, backNumber: 10, position: PlayerPositionEnum.AM, team: 'HOME' },
-                    { left: 45, top: 50, backNumber: 9, position: PlayerPositionEnum.ST, team: 'HOME' },
+                    { top: 5, left: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'HOME' },
+                    { top: 15, left: 16, backNumber: 3, position: PlayerPositionEnum.LB, team: 'HOME' },
+                    { top: 15, left: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'HOME' },
+                    { top: 15, left: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'HOME' },
+                    { top: 15, left: 84, backNumber: 2, position: PlayerPositionEnum.RB, team: 'HOME' },
+                    { top: 26, left: 38, backNumber: 6, position: PlayerPositionEnum.DM, team: 'HOME' },
+                    { top: 26, left: 62, backNumber: 8, position: PlayerPositionEnum.DM, team: 'HOME' },
+                    { top: 37, left: 16, backNumber: 7, position: PlayerPositionEnum.LM, team: 'HOME' },
+                    { top: 37, left: 84, backNumber: 11, position: PlayerPositionEnum.RM, team: 'HOME' },
+                    { top: 37, left: 50, backNumber: 10, position: PlayerPositionEnum.AM, team: 'HOME' },
+                    { top: 45, left: 50, backNumber: 9, position: PlayerPositionEnum.ST, team: 'HOME' },
                 ]
                 break;
 
             case Formation.FOTRTR:
                 addPlayers = [
-                    { left: 5, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'HOME' },
-                    { left: 15, top: 16, backNumber: 3, position: PlayerPositionEnum.LB, team: 'HOME' },
-                    { left: 15, top: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'HOME' },
-                    { left: 15, top: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'HOME' },
-                    { left: 15, top: 84, backNumber: 2, position: PlayerPositionEnum.RB, team: 'HOME' },
-                    { left: 30, top: 20, backNumber: 6, position: PlayerPositionEnum.LM, team: 'HOME' },
-                    { left: 30, top: 50, backNumber: 8, position: PlayerPositionEnum.CM, team: 'HOME' },
-                    { left: 30, top: 80, backNumber: 10, position: PlayerPositionEnum.RM, team: 'HOME' },
-                    { left: 45, top: 20, backNumber: 7, position: PlayerPositionEnum.LF, team: 'HOME' },
-                    { left: 45, top: 50, backNumber: 9, position: PlayerPositionEnum.ST, team: 'HOME' },
-                    { left: 45, top: 80, backNumber: 11, position: PlayerPositionEnum.RF, team: 'HOME' },
+                    { top: 5, left: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'HOME' },
+                    { top: 15, left: 16, backNumber: 3, position: PlayerPositionEnum.LB, team: 'HOME' },
+                    { top: 15, left: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'HOME' },
+                    { top: 15, left: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'HOME' },
+                    { top: 15, left: 84, backNumber: 2, position: PlayerPositionEnum.RB, team: 'HOME' },
+                    { top: 30, left: 20, backNumber: 6, position: PlayerPositionEnum.LM, team: 'HOME' },
+                    { top: 30, left: 50, backNumber: 8, position: PlayerPositionEnum.CM, team: 'HOME' },
+                    { top: 30, left: 80, backNumber: 10, position: PlayerPositionEnum.RM, team: 'HOME' },
+                    { top: 45, left: 20, backNumber: 7, position: PlayerPositionEnum.LF, team: 'HOME' },
+                    { top: 45, left: 50, backNumber: 9, position: PlayerPositionEnum.ST, team: 'HOME' },
+                    { top: 45, left: 80, backNumber: 11, position: PlayerPositionEnum.RF, team: 'HOME' },
                 ]
                 break;
 
             case Formation.THFITW:
                 addPlayers = [
-                    { left: 5, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'HOME' },
-                    { left: 15, top: 20, backNumber: 3, position: PlayerPositionEnum.CB, team: 'HOME' },
-                    { left: 15, top: 50, backNumber: 4, position: PlayerPositionEnum.CB, team: 'HOME' },
-                    { left: 15, top: 80, backNumber: 5, position: PlayerPositionEnum.CB, team: 'HOME' },
-                    { left: 30, top: 10, backNumber: 7, position: PlayerPositionEnum.LB, team: 'HOME' },
-                    { left: 30, top: 30, backNumber: 8, position: PlayerPositionEnum.CM, team: 'HOME' },
-                    { left: 30, top: 50, backNumber: 10, position: PlayerPositionEnum.AM, team: 'HOME' },
-                    { left: 30, top: 70, backNumber: 6, position: PlayerPositionEnum.CM, team: 'HOME' },
-                    { left: 30, top: 90, backNumber: 2, position: PlayerPositionEnum.RB, team: 'HOME' },
-                    { left: 45, top: 30, backNumber: 9, position: PlayerPositionEnum.ST, team: 'HOME' },
-                    { left: 45, top: 70, backNumber: 11, position: PlayerPositionEnum.ST, team: 'HOME' },
+                    { top: 5, left: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'HOME' },
+                    { top: 15, left: 20, backNumber: 3, position: PlayerPositionEnum.CB, team: 'HOME' },
+                    { top: 15, left: 50, backNumber: 4, position: PlayerPositionEnum.CB, team: 'HOME' },
+                    { top: 15, left: 80, backNumber: 5, position: PlayerPositionEnum.CB, team: 'HOME' },
+                    { top: 30, left: 10, backNumber: 7, position: PlayerPositionEnum.LB, team: 'HOME' },
+                    { top: 30, left: 30, backNumber: 8, position: PlayerPositionEnum.CM, team: 'HOME' },
+                    { top: 30, left: 50, backNumber: 10, position: PlayerPositionEnum.AM, team: 'HOME' },
+                    { top: 30, left: 70, backNumber: 6, position: PlayerPositionEnum.CM, team: 'HOME' },
+                    { top: 30, left: 90, backNumber: 2, position: PlayerPositionEnum.RB, team: 'HOME' },
+                    { top: 45, left: 30, backNumber: 9, position: PlayerPositionEnum.ST, team: 'HOME' },
+                    { top: 45, left: 70, backNumber: 11, position: PlayerPositionEnum.ST, team: 'HOME' },
                 ]
                 break;
         }
@@ -262,64 +264,64 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
         switch (awayFormationState) {
             case Formation.FOFOTW:
                 addPlayers = [
-                    { left: 95, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'AWAY' },
-                    { left: 85, top: 16, backNumber: 2, position: PlayerPositionEnum.RB, team: 'AWAY' },
-                    { left: 85, top: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'AWAY' },
-                    { left: 85, top: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'AWAY' },
-                    { left: 85, top: 84, backNumber: 3, position: PlayerPositionEnum.LB, team: 'AWAY' },
-                    { left: 75, top: 16, backNumber: 11, position: PlayerPositionEnum.RM, team: 'AWAY' },
-                    { left: 75, top: 38, backNumber: 8, position: PlayerPositionEnum.CM, team: 'AWAY' },
-                    { left: 75, top: 62, backNumber: 6, position: PlayerPositionEnum.CM, team: 'AWAY' },
-                    { left: 75, top: 84, backNumber: 7, position: PlayerPositionEnum.LM, team: 'AWAY' },
-                    { left: 63, top: 38, backNumber: 9, position: PlayerPositionEnum.ST, team: 'AWAY' },
-                    { left: 63, top: 62, backNumber: 10, position: PlayerPositionEnum.CF, team: 'AWAY' },
+                    { top: 95, left: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'AWAY' },
+                    { top: 85, left: 16, backNumber: 2, position: PlayerPositionEnum.RB, team: 'AWAY' },
+                    { top: 85, left: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'AWAY' },
+                    { top: 85, left: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'AWAY' },
+                    { top: 85, left: 84, backNumber: 3, position: PlayerPositionEnum.LB, team: 'AWAY' },
+                    { top: 75, left: 16, backNumber: 11, position: PlayerPositionEnum.RM, team: 'AWAY' },
+                    { top: 75, left: 38, backNumber: 8, position: PlayerPositionEnum.CM, team: 'AWAY' },
+                    { top: 75, left: 62, backNumber: 6, position: PlayerPositionEnum.CM, team: 'AWAY' },
+                    { top: 75, left: 84, backNumber: 7, position: PlayerPositionEnum.LM, team: 'AWAY' },
+                    { top: 63, left: 38, backNumber: 9, position: PlayerPositionEnum.ST, team: 'AWAY' },
+                    { top: 63, left: 62, backNumber: 10, position: PlayerPositionEnum.CF, team: 'AWAY' },
                 ]
                 break;
             case Formation.FOTWTRON:
                 addPlayers = [
-                    { left: 95, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'AWAY' },
-                    { left: 85, top: 16, backNumber: 2, position: PlayerPositionEnum.RB, team: 'AWAY' },
-                    { left: 85, top: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'AWAY' },
-                    { left: 85, top: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'AWAY' },
-                    { left: 85, top: 84, backNumber: 3, position: PlayerPositionEnum.LB, team: 'AWAY' },
-                    { left: 75, top: 38, backNumber: 6, position: PlayerPositionEnum.DM, team: 'AWAY' },
-                    { left: 75, top: 62, backNumber: 8, position: PlayerPositionEnum.DM, team: 'AWAY' },
-                    { left: 65, top: 16, backNumber: 11, position: PlayerPositionEnum.RM, team: 'AWAY' },
-                    { left: 65, top: 84, backNumber: 7, position: PlayerPositionEnum.LM, team: 'AWAY' },
-                    { left: 65, top: 50, backNumber: 10, position: PlayerPositionEnum.AM, team: 'AWAY' },
-                    { left: 55, top: 50, backNumber: 9, position: PlayerPositionEnum.ST, team: 'AWAY' },
+                    { top: 95, left: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'AWAY' },
+                    { top: 85, left: 16, backNumber: 2, position: PlayerPositionEnum.RB, team: 'AWAY' },
+                    { top: 85, left: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'AWAY' },
+                    { top: 85, left: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'AWAY' },
+                    { top: 85, left: 84, backNumber: 3, position: PlayerPositionEnum.LB, team: 'AWAY' },
+                    { top: 75, left: 38, backNumber: 6, position: PlayerPositionEnum.DM, team: 'AWAY' },
+                    { top: 75, left: 62, backNumber: 8, position: PlayerPositionEnum.DM, team: 'AWAY' },
+                    { top: 65, left: 16, backNumber: 11, position: PlayerPositionEnum.RM, team: 'AWAY' },
+                    { top: 65, left: 84, backNumber: 7, position: PlayerPositionEnum.LM, team: 'AWAY' },
+                    { top: 65, left: 50, backNumber: 10, position: PlayerPositionEnum.AM, team: 'AWAY' },
+                    { top: 55, left: 50, backNumber: 9, position: PlayerPositionEnum.ST, team: 'AWAY' },
                 ]
                 break;
 
             case Formation.FOTRTR:
                 addPlayers = [
-                    { left: 95, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'AWAY' },
-                    { left: 85, top: 16, backNumber: 2, position: PlayerPositionEnum.RB, team: 'AWAY' },
-                    { left: 85, top: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'AWAY' },
-                    { left: 85, top: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'AWAY' },
-                    { left: 85, top: 84, backNumber: 3, position: PlayerPositionEnum.LB, team: 'AWAY' },
-                    { left: 70, top: 20, backNumber: 6, position: PlayerPositionEnum.RM, team: 'AWAY' },
-                    { left: 70, top: 50, backNumber: 8, position: PlayerPositionEnum.CM, team: 'AWAY' },
-                    { left: 70, top: 80, backNumber: 10, position: PlayerPositionEnum.LM, team: 'AWAY' },
-                    { left: 55, top: 20, backNumber: 11, position: PlayerPositionEnum.RF, team: 'AWAY' },
-                    { left: 55, top: 50, backNumber: 9, position: PlayerPositionEnum.ST, team: 'AWAY' },
-                    { left: 55, top: 80, backNumber: 7, position: PlayerPositionEnum.LF, team: 'AWAY' },
+                    { top: 95, left: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'AWAY' },
+                    { top: 85, left: 16, backNumber: 2, position: PlayerPositionEnum.RB, team: 'AWAY' },
+                    { top: 85, left: 38, backNumber: 4, position: PlayerPositionEnum.CB, team: 'AWAY' },
+                    { top: 85, left: 62, backNumber: 5, position: PlayerPositionEnum.CB, team: 'AWAY' },
+                    { top: 85, left: 84, backNumber: 3, position: PlayerPositionEnum.LB, team: 'AWAY' },
+                    { top: 70, left: 20, backNumber: 6, position: PlayerPositionEnum.RM, team: 'AWAY' },
+                    { top: 70, left: 50, backNumber: 8, position: PlayerPositionEnum.CM, team: 'AWAY' },
+                    { top: 70, left: 80, backNumber: 10, position: PlayerPositionEnum.LM, team: 'AWAY' },
+                    { top: 55, left: 20, backNumber: 11, position: PlayerPositionEnum.RF, team: 'AWAY' },
+                    { top: 55, left: 50, backNumber: 9, position: PlayerPositionEnum.ST, team: 'AWAY' },
+                    { top: 55, left: 80, backNumber: 7, position: PlayerPositionEnum.LF, team: 'AWAY' },
                 ]
                 break;
 
             case Formation.THFITW:
                 addPlayers = [
-                    { left: 95, top: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'AWAY' },
-                    { left: 85, top: 20, backNumber: 3, position: PlayerPositionEnum.CB, team: 'AWAY' },
-                    { left: 85, top: 50, backNumber: 4, position: PlayerPositionEnum.CB, team: 'AWAY' },
-                    { left: 85, top: 80, backNumber: 5, position: PlayerPositionEnum.CB, team: 'AWAY' },
-                    { left: 70, top: 10, backNumber: 2, position: PlayerPositionEnum.RB, team: 'AWAY' },
-                    { left: 70, top: 30, backNumber: 6, position: PlayerPositionEnum.CM, team: 'AWAY' },
-                    { left: 70, top: 50, backNumber: 10, position: PlayerPositionEnum.AM, team: 'AWAY' },
-                    { left: 70, top: 70, backNumber: 8, position: PlayerPositionEnum.CM, team: 'AWAY' },
-                    { left: 70, top: 90, backNumber: 11, position: PlayerPositionEnum.LB, team: 'AWAY' },
-                    { left: 55, top: 30, backNumber: 9, position: PlayerPositionEnum.ST, team: 'AWAY' },
-                    { left: 55, top: 70, backNumber: 7, position: PlayerPositionEnum.ST, team: 'AWAY' },
+                    { top: 95, left: 50, backNumber: 1, position: PlayerPositionEnum.GK, team: 'AWAY' },
+                    { top: 85, left: 20, backNumber: 3, position: PlayerPositionEnum.CB, team: 'AWAY' },
+                    { top: 85, left: 50, backNumber: 4, position: PlayerPositionEnum.CB, team: 'AWAY' },
+                    { top: 85, left: 80, backNumber: 5, position: PlayerPositionEnum.CB, team: 'AWAY' },
+                    { top: 70, left: 10, backNumber: 2, position: PlayerPositionEnum.RB, team: 'AWAY' },
+                    { top: 70, left: 30, backNumber: 6, position: PlayerPositionEnum.CM, team: 'AWAY' },
+                    { top: 70, left: 50, backNumber: 10, position: PlayerPositionEnum.AM, team: 'AWAY' },
+                    { top: 70, left: 70, backNumber: 8, position: PlayerPositionEnum.CM, team: 'AWAY' },
+                    { top: 70, left: 90, backNumber: 11, position: PlayerPositionEnum.LB, team: 'AWAY' },
+                    { top: 55, left: 30, backNumber: 9, position: PlayerPositionEnum.ST, team: 'AWAY' },
+                    { top: 55, left: 70, backNumber: 7, position: PlayerPositionEnum.ST, team: 'AWAY' },
                 ]
                 break;
         }
@@ -437,278 +439,321 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
     const isSimulationPossible = tempSequenceState && (tempSequenceState.players.length > 0 || tempSequenceState.balls.length > 0)
 
     return (
-        <>
-            <Box
-                display="flex"
-                alignItems="center"
-                onClick={() => handleAddPlusPlayer('HOME', PlayerPositionEnum.CM)}
-                sx={{ cursor: 'pointer', mr: 2 }}
-            >
-                <AddOutlinedIcon sx={{ color: '#3B6FB2' }} />
-                <Typography
-                    variant="body1"
-                    ml={1}
-                >{t('Home Team Player')}</Typography>
-            </Box>
-            <Box
-                display="flex"
-                alignItems="center"
-                onClick={() => handleAddPlusPlayer('AWAY', PlayerPositionEnum.CM)}
-                sx={{ cursor: 'pointer', mr: 2 }}
-            >
-                <AddOutlinedIcon sx={{ color: '#B23B7F' }} />
-                <Typography
-                    variant="body1"
-                    ml={1}
-                >{t('Away Team Player')}</Typography>
-            </Box>
-            <Box
-                display="flex"
-                alignItems="center"
-                onClick={!ball ? handleSetBall : undefined}
-                sx={{
-                    cursor: !ball ? 'pointer' : 'not-allowed',
-                    opacity: !ball ? 1 : 0.5,
-                    mr: 2
-                }}>
-                <AddOutlinedIcon sx={{ color: '#ff93ac' }} />
-                <Typography variant="body1" ml={1} color={!ball ? 'auto' : 'gray'}>{t('Ball')}</Typography>
-            </Box>
-            <Box
-                width="100%"
-                my={2}
-                borderBottom="1px solid gray"
-                sx={{
-                    opacity: 0.5
-                }}
-            />
-            {/* <Box
-                display="flex"
-                alignItems="center"
-                onClick={selectedPlayer ? handleMultiSelect : () => { }}
-                sx={{
-                    cursor: selectedPlayer ? 'pointer' : 'not-allowed',
-                    opacity: selectedPlayer ? 1 : 0.5,
-                    mr: 2
-                }}
-            >
-                <DoneAllOutlinedIcon sx={{ color: 'green' }} />
-                <Typography variant="body1" ml={1} color={selectedPlayer ? 'black' : 'gray'}>
-                    Player Multi Select
-                </Typography>
-            </Box> */}
+        <div className="menu-container">
+            <div className="menu-grid1">
+                <Box
+                    display="flex"
+                    alignItems="center"
+                    onClick={() => handleAddPlusPlayer('HOME', PlayerPositionEnum.CM)}
+                    sx={{
+                        cursor: 'pointer',
+                        mr: 2,
+                    }}
+                >
+                    <AddOutlinedIcon sx={{ color: 'white' }} />
+                    <Typography
+                        variant="body1"
+                        color={'white'}
+                        ml={1}
+                    >{t('Home Team Player')}</Typography>
+                </Box>
+            </div>
+            <div className="menu-grid2">
+                <Box
+                    display="flex"
+                    alignItems="center"
+                    onClick={() => handleAddPlusPlayer('AWAY', PlayerPositionEnum.CM)}
+                    sx={{
+                        cursor: 'pointer',
+                        mr: 2,
+                    }}
+                >
+                    <AddOutlinedIcon sx={{ color: 'white' }} />
+                    <Typography
+                        variant="body1"
+                        color={'white'}
+                        ml={1}
+                    >{t('Away Team Player')}</Typography>
+                </Box>
+            </div>
+            <div className="menu-grid3">
+                <Box
+                    display="flex"
+                    alignItems="center"
+                    onClick={!ball ? handleSetBall : undefined}
+                    sx={{
+                        cursor: !ball ? 'pointer' : 'not-allowed',
+                        opacity: !ball ? 1 : 0.5,
+                        mr: 2,
+                    }}>
+                    <AddOutlinedIcon sx={{ color: 'white' }} />
+                    <Typography
+                        variant="body1"
+                        ml={1}
+                        color={!ball ? 'white' : 'gray'}>{t('Ball')}</Typography>
+                </Box>
+            </div>
+            <div className="menu-grid4">
+                <Box
+                    width="100%"
+                    my={2}
+                    borderBottom="1px solid gray"
+                    sx={{
+                        opacity: 0.5,
+                    }}
+                />
+            </div>
 
-            <Box
-                display="flex"
-                alignItems="center"
-                onClick={isMovable ? handlePlayerMovePossible : () => { }}
-                sx={{
-                    cursor: isMovable ? 'pointer' : 'not-allowed',
-                    opacity: isMovable ? 1 : 0.5,
-                    mr: 2
-                }}>
-                <MoveUpIcon sx={{ color: 'orange' }} />
-                <Typography
-                    variant="body1"
-                    ml={1}
-                    color={isMovable ? 'auto' : 'gray'}
-                >{t('Player Move')}</Typography>
-            </Box>
+            <div className="menu-grid5">
+                <Box
+                    display="flex"
+                    alignItems="center"
+                    onClick={isMovable ? handlePlayerMovePossible : () => { }}
+                    sx={{
+                        cursor: isMovable ? 'pointer' : 'not-allowed',
+                        opacity: isMovable ? 1 : 0.5,
+                        mr: 2,
+                    }}>
+                    <MoveUpIcon sx={{ color: 'white' }} />
+                    <Typography
+                        variant="body1"
+                        ml={1}
+                        color={isMovable ? 'white' : 'gray'}
+                    >{t('Player Move')}</Typography>
+                </Box>
+            </div>
+            <div className="menu-grid6">
+                <Box
+                    display="flex"
+                    alignItems="center"
+                    onClick={isMoveBackable ? handlePlayerBack : () => { }}
+                    sx={{
+                        cursor: isMoveBackable ? 'pointer' : 'not-allowed',
+                        opacity: isMoveBackable ? 1 : 0.5,
+                        mr: 2,
+                    }}>
+                    <ArrowBackIcon sx={{ color: 'white' }} />
+                    <Typography
+                        variant="body1"
+                        ml={1}
+                        color={isMoveBackable ? 'white' : 'gray'}
+                    >{t('Player Back')}</Typography>
+                </Box>
+            </div>
 
+            <div className="menu-grid7">
+                <Box
+                    display="flex"
+                    alignItems="center"
+                    onClick={isPlayerMoveStopable ? handlePlayerMoveNotPossible : () => { }}
+                    sx={{
+                        cursor: isPlayerMoveStopable ? 'pointer' : 'not-allowed',
+                        opacity: isPlayerMoveStopable ? 1 : 0.5,
+                        mr: 2,
+                    }}>
+                    <StopIcon sx={{ color: 'white' }} />
+                    <Typography
+                        variant="body1"
+                        ml={1}
+                        color={isPlayerMoveStopable ? 'white' : 'gray'}
+                    >{t('Player Stop')}</Typography>
+                </Box>
+            </div>
+            <div className="menu-grid8">
+                <Box
+                    display="flex"
+                    alignItems="center"
+                    onClick={selectedPlayer ? handlePlayerRemove : () => { }}
+                    sx={{
+                        cursor: selectedPlayer ? 'pointer' : 'not-allowed',
+                        opacity: selectedPlayer ? 1 : 0.5,
+                        mr: 2,
+                    }}>
+                    <RemoveIcon sx={{ color: 'white' }} />
+                    <Typography
+                        variant="body1"
+                        ml={1}
+                        color={selectedPlayer ? 'white' : 'gray'}
+                    >{t('Player Remove')}</Typography>
+                </Box>
+            </div>
+            <div className="menu-grid9">
+                <Box
+                    width="100%"
+                    my={2}
+                    borderBottom="1px solid gray"
+                    sx={{
+                        opacity: 0.5
+                    }}
+                />
+            </div>
+            <div className="menu-grid10">
+                <Box
+                    display="flex"
+                    alignItems="center"
+                    onClick={ball && !isPossibleBallMove ? handleBallMovePossible : () => { }}
+                    sx={{
+                        cursor: ball && !isPossibleBallMove ? 'pointer' : 'not-allowed',
+                        opacity: ball && !isPossibleBallMove ? 1 : 0.5,
+                        mr: 2
+                    }}>
+                    <MoveUpIcon sx={{ color: 'white' }} />
+                    <Typography
+                        variant="body1"
+                        ml={1}
+                        color={ball && !isPossibleBallMove ? 'white' : 'gray'}
+                    >{t('Ball Move')}</Typography>
+                </Box>
+            </div>
 
-            <Box
-                display="flex"
-                alignItems="center"
-                onClick={isMoveBackable ? handlePlayerBack : () => { }}
-                sx={{
-                    cursor: isMoveBackable ? 'pointer' : 'not-allowed',
-                    opacity: isMoveBackable ? 1 : 0.5,
-                    mr: 2
-                }}>
-                <ArrowBackIcon sx={{ color: '#78492a' }} />
-                <Typography
-                    variant="body1"
-                    ml={1}
-                    color={isMoveBackable ? 'auto' : 'gray'}
-                >{t('Player Back')}</Typography>
-            </Box>
+            <div className="menu-grid11">
+                <Box
+                    display="flex"
+                    alignItems="center"
+                    onClick={isBallMoveBackable ? handleBallBack : () => { }}
+                    sx={{
+                        cursor: isBallMoveBackable ? 'pointer' : 'not-allowed',
+                        opacity: isBallMoveBackable ? 1 : 0.5,
+                        mr: 2
+                    }}>
+                    <ArrowBackIcon sx={{ color: 'white' }} />
+                    <Typography
+                        variant="body1"
+                        ml={1}
+                        color={isBallMoveBackable ? 'white' : 'gray'}
+                    >{t('Ball Back')}</Typography>
+                </Box>
+            </div>
 
-            <Box
-                display="flex"
-                alignItems="center"
-                onClick={isPlayerMoveStopable ? handlePlayerMoveNotPossible : () => { }}
-                sx={{
-                    cursor: isPlayerMoveStopable ? 'pointer' : 'not-allowed',
-                    opacity: isPlayerMoveStopable ? 1 : 0.5,
-                    mr: 2
-                }}>
-                <StopIcon sx={{ color: 'red' }} />
-                <Typography
-                    variant="body1"
-                    ml={1}
-                    color={isPlayerMoveStopable ? 'auto' : 'gray'}
-                >{t('Player Stop')}</Typography>
-            </Box>
+            <div className="menu-grid12">
+                <Box
+                    display="flex"
+                    alignItems="center"
+                    onClick={isBallMoveStopable ? handleBallMoveNotPossible : () => { }}
+                    sx={{
+                        cursor: isBallMoveStopable ? 'pointer' : 'not-allowed',
+                        opacity: isBallMoveStopable ? 1 : 0.5,
+                        mr: 2
+                    }}>
+                    <StopIcon sx={{ color: 'white' }} />
+                    <Typography
+                        variant="body1"
+                        ml={1}
+                        color={isBallMoveStopable ? 'white' : 'gray'}
+                    >{t('Ball Stop')}</Typography>
+                </Box>
+            </div>
 
-            <Box
-                display="flex"
-                alignItems="center"
-                onClick={selectedPlayer ? handlePlayerRemove : () => { }}
-                sx={{
-                    cursor: selectedPlayer ? 'pointer' : 'not-allowed',
-                    opacity: selectedPlayer ? 1 : 0.5,
-                    mr: 2
-                }}>
-                <RemoveIcon sx={{ color: '	#89E9D3' }} />
-                <Typography
-                    variant="body1"
-                    ml={1}
-                    color={selectedPlayer ? 'auto' : 'gray'}
-                >{t('Player Remove')}</Typography>
-            </Box>
+            <div className="menu-grid13">
+                <Box
+                    display="flex"
+                    alignItems="center"
+                    onClick={ball ? handleBallRemove : () => { }}
+                    sx={{
+                        cursor: ball ? 'pointer' : 'not-allowed',
+                        opacity: ball ? 1 : 0.5,
+                        mr: 2
+                    }}>
+                    <RemoveIcon sx={{ color: 'white' }} />
+                    <Typography
+                        variant="body1"
+                        ml={1}
+                        color={ball ? 'white' : 'gray'}
+                    >{t('Ball Remove')}</Typography>
+                </Box>
+            </div>
 
-            <Box
-                width="100%"
-                my={2}
-                borderBottom="1px solid gray"
-                sx={{
-                    opacity: 0.5
-                }}
-            />
-            <Box
-                display="flex"
-                alignItems="center"
-                onClick={ball && !isPossibleBallMove ? handleBallMovePossible : () => { }}
-                sx={{
-                    cursor: ball && !isPossibleBallMove ? 'pointer' : 'not-allowed',
-                    opacity: ball && !isPossibleBallMove ? 1 : 0.5,
-                    mr: 2
-                }}>
-                <MoveUpIcon sx={{ color: 'orange' }} />
-                <Typography
-                    variant="body1"
-                    ml={1}
-                    color={ball && !isPossibleBallMove ? 'auto' : 'gray'}
-                >{t('Ball Move')}</Typography>
-            </Box>
+            <div className="menu-grid14">
+                <Box
+                    width="100%"
+                    my={2}
+                    borderBottom="1px solid gray"
+                    sx={{
+                        opacity: 0.5
+                    }}
+                />
+            </div>
+            <div className="menu-grid15">
+                <Box
+                    display="flex"
+                    alignItems="center"
+                    onClick={isSimulationPossible ? handleSimulation : () => { }}
+                    sx={{
+                        cursor: isSimulationPossible ? 'pointer' : 'not-allowed',
+                        opacity: isSimulationPossible ? 1 : 0.5,
+                        mr: 2
+                    }}>
+                    <PlayArrowOutlinedIcon sx={{ color: 'white' }} />
+                    <Typography
+                        variant="body1"
+                        ml={1}
+                        color={isSimulationPossible ? 'white' : 'gray'}
+                    >{t('Simulation')}</Typography>
+                </Box>
+            </div>
+            <div className="menu-grid16">
+                <Box
+                    display="flex"
+                    alignItems="center"
+                    onClick={isSimulationStart ? handleSimulationEnd : () => { }}
+                    sx={{
+                        cursor: isSimulationStart ? 'pointer' : 'not-allowed',
+                        opacity: isSimulationStart ? 1 : 0.5,
+                        mr: 2
+                    }}>
+                    <PlayArrowOutlinedIcon sx={{ color: 'white' }} />
+                    <Typography
+                        variant="body1"
+                        ml={1}
+                        color={isSimulationStart ? 'white' : 'gray'}
+                    >{t('Simulation Reset')}</Typography>
+                </Box>
+            </div>
 
-            <Box
-                display="flex"
-                alignItems="center"
-                onClick={isBallMoveBackable ? handleBallBack : () => { }}
-                sx={{
-                    cursor: isBallMoveBackable ? 'pointer' : 'not-allowed',
-                    opacity: isBallMoveBackable ? 1 : 0.5,
-                    mr: 2
-                }}>
-                <ArrowBackIcon sx={{ color: '#78492a' }} />
-                <Typography
-                    variant="body1"
-                    ml={1}
-                    color={isBallMoveBackable ? 'auto' : 'gray'}
-                >{t('Ball Back')}</Typography>
-            </Box>
+            <div className="menu-grid17">
+                <Box display="flex" alignItems="center" onClick={handleReset} sx={{ cursor: 'pointer', mr: 2 }}>
+                    <RestartAltIcon sx={{ color: 'white' }} />
+                    <Typography
+                        variant="body1"
+                        ml={1}
+                        color={'white'}
+                    >{t('Ground Reset')}</Typography>
+                </Box>
+            </div>
 
-            <Box
-                display="flex"
-                alignItems="center"
-                onClick={isBallMoveStopable ? handleBallMoveNotPossible : () => { }}
-                sx={{
-                    cursor: isBallMoveStopable ? 'pointer' : 'not-allowed',
-                    opacity: isBallMoveStopable ? 1 : 0.5,
-                    mr: 2
-                }}>
-                <StopIcon sx={{ color: 'red' }} />
-                <Typography
-                    variant="body1"
-                    ml={1}
-                    color={isBallMoveStopable ? 'auto' : 'gray'}
-                >{t('Ball Stop')}</Typography>
-            </Box>
+            <div className="menu-grid18">
+                <Box
+                    width="100%"
+                    my={2}
+                    borderBottom="1px solid gray"
+                    sx={{
+                        opacity: 0.5
+                    }}
+                />
+            </div>
 
-            <Box
-                display="flex"
-                alignItems="center"
-                onClick={ball ? handleBallRemove : () => { }}
-                sx={{
-                    cursor: ball ? 'pointer' : 'not-allowed',
-                    opacity: ball ? 1 : 0.5,
-                    mr: 2
-                }}>
-                <RemoveIcon sx={{ color: '	#89E9D3' }} />
-                <Typography
-                    variant="body1"
-                    ml={1}
-                    color={ball ? 'auto' : 'gray'}
-                >{t('Ball Remove')}</Typography>
-            </Box>
-
-            <Box
-                width="100%"
-                my={2}
-                borderBottom="1px solid gray"
-                sx={{
-                    opacity: 0.5
-                }}
-            />
-            <Box
-                display="flex"
-                alignItems="center"
-                onClick={isSimulationPossible ? handleSimulation : () => { }}
-                sx={{
-                    cursor: isSimulationPossible ? 'pointer' : 'not-allowed',
-                    opacity: isSimulationPossible ? 1 : 0.5,
-                    mr: 2
-                }}>
-                <PlayArrowOutlinedIcon sx={{ color: '#89B2E9' }} />
-                <Typography
-                    variant="body1"
-                    ml={1}
-                    color={isSimulationPossible ? 'auto' : 'gray'}
-                >{t('Simulation')}</Typography>
-            </Box>
-
-            <Box
-                display="flex"
-                alignItems="center"
-                onClick={isSimulationStart ? handleSimulationEnd : () => { }}
-                sx={{
-                    cursor: isSimulationStart ? 'pointer' : 'not-allowed',
-                    opacity: isSimulationStart ? 1 : 0.5,
-                    mr: 2
-                }}>
-                <PlayArrowOutlinedIcon sx={{ color: '#89B2E9' }} />
-                <Typography
-                    variant="body1"
-                    ml={1}
-                    color={isSimulationStart ? 'auto' : 'gray'}
-                >{t('Simulation Reset')}</Typography>
-            </Box>
-
-            <Box display="flex" alignItems="center" onClick={handleReset} sx={{ cursor: 'pointer', mr: 2 }}>
-                <RestartAltIcon sx={{ color: '#D389E9' }} />
-                <Typography variant="body1" ml={1}>{t('Ground Reset')}</Typography>
-            </Box>
-
-            <Box
-                width="100%"
-                my={2}
-                borderBottom="1px solid gray"
-                sx={{
-                    opacity: 0.5
-                }}
-            />
-
-            <Box display="flex" alignItems="center" onClick={handleRecommendFormationModalOpen} sx={{ cursor: 'pointer', mr: 2 }}>
-                <StarBorderOutlinedIcon sx={{ color: '#FFD400' }} />
-                <Typography variant="body1" ml={1}>{t('Recommend Formation')}</Typography>
-            </Box>
-            {editKey ? <EditSave editKey={editKey} /> : <Share />}
+            <div className="menu-grid19">
+                <Box display="flex" alignItems="center" onClick={handleRecommendFormationModalOpen} sx={{ cursor: 'pointer', mr: 2 }}>
+                    <StarBorderOutlinedIcon sx={{ color: 'white' }} />
+                    <Typography
+                        variant="body1"
+                        ml={1}
+                        color={'white'}
+                    >{t('Recommend Formation')}</Typography>
+                </Box>
+            </div>
+            <div className="menu-grid20">
+                {editKey ? <EditSave editKey={editKey} /> : <Share />}
+            </div>
             <Modal
                 open={isModalOpen}
                 onClose={handleRecommendFormationModalClose}
                 aria-labelledby="modal-title"
                 aria-describedby="modal-description"
+                sx={{
+                    backdropFilter: 'blur(5px)',
+                    backgroundColor: 'rgba(0, 0, 0, 0.5)', // 반투명 검정 배경
+                }}
             >
                 <Box
                     sx={{
@@ -716,23 +761,36 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                         top: '50%',
                         left: '50%',
                         transform: 'translate(-50%, -50%)',
-                        width: 400,
-                        bgcolor: 'background.paper',
+                        width: 300,
+                        bgcolor: 'linear-gradient(to right, hsl(210, 30%, 20%), hsl(255, 30%, 25%))', // 그라데이션 배경
+                        color: 'var(--light)',
+                        borderRadius: '.8rem',
+                        boxShadow: 'var(--m-shadow, .4rem .4rem 10.2rem .2rem) var(--shadow-1)',
+                        border: '2px solid rgba(63, 81, 181, 0.7)', // 외곽선 설정
                         p: 4,
                         display: 'flex',
                         flexDirection: 'column',
                         gap: 2, // 요소 간의 간격
                     }}
                 >
-                    <h3 id="modal-title" style={{ marginTop: 0, marginBottom: 10 }}>{t('Edit Player')}</h3>
-                    <FormControl fullWidth>
-                        <InputLabel id="home-formation-label">{t('Home Team Formation')}</InputLabel>
+                    <h3 id="modal-title" style={{ marginTop: 0, marginBottom: 10, color: 'white' }}>{t('Recommend Formation')}</h3>
+                    <FormControl fullWidth sx={{marginTop: 2}}>
+                        <InputLabel id="home-formation-label" style={{ color: 'white' }}>{t('Home Team Formation')}</InputLabel>
                         <Select
                             labelId="home-formation-label"
                             id="home-formation-select"
                             value={homeFormationState}
                             label="Home Team Formation"
                             onChange={(e) => setHomeFormation(e.target.value as Formation)}
+                            sx={{ bgcolor: 'rgba(255, 255, 255, 0.1)', borderRadius: 1, color: 'white' }}
+                            MenuProps={{
+                                PaperProps: {
+                                    sx: {
+                                        bgcolor: 'rgba(33, 33, 33, 0.9)', // 메뉴 배경색 설정
+                                        color: 'white', // 메뉴 텍스트 색상 설정
+                                    },
+                                },
+                            }}
                         >
                             <MenuItem value={Formation.FOFOTW}>4-4-2</MenuItem>
                             <MenuItem value={Formation.FOTRTR}>4-3-3</MenuItem>
@@ -740,28 +798,46 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                             <MenuItem value={Formation.THFITW}>3-5-2</MenuItem>
                         </Select>
                     </FormControl>
-                    <FormControl fullWidth>
-                        <InputLabel id="home-country-label">{t('Home Team')}</InputLabel>
+                    <FormControl fullWidth sx={{marginTop: 2}}>
+                        <InputLabel id="home-country-label" style={{ color: 'white' }}>{t('Home Team')}</InputLabel>
                         <Select
                             labelId="home-country-label"
                             id="home-country-select"
                             value={homeCountryState}
                             label="Home Team Country"
                             onChange={(e) => setHomeCountry(e.target.value as TeamCountry)}
+                            sx={{ bgcolor: 'rgba(255, 255, 255, 0.1)', borderRadius: 1, color: 'white' }}
+                            MenuProps={{
+                                PaperProps: {
+                                    sx: {
+                                        bgcolor: 'rgba(33, 33, 33, 0.9)', // 메뉴 배경색 설정
+                                        color: 'white', // 메뉴 텍스트 색상 설정
+                                    },
+                                },
+                            }}
                         >
                             <MenuItem value={TeamCountry.SPAIN}>Spain</MenuItem>
                             <MenuItem value={TeamCountry.ENGLAND}>England</MenuItem>
                             <MenuItem value={TeamCountry.GERMANY}>Germany</MenuItem>
                         </Select>
                     </FormControl>
-                    <FormControl fullWidth>
-                        <InputLabel id="away-formation-label">{t('Away Team Formation')}</InputLabel>
+                    <FormControl fullWidth sx={{marginTop: 2}}>
+                        <InputLabel id="away-formation-label" style={{ color: 'white' }}>{t('Away Team Formation')}</InputLabel>
                         <Select
                             labelId="away-formation-label"
                             id="away-formation-select"
                             value={awayFormationState}
                             label="Away Team Formation"
                             onChange={(e) => setAwayFormation(e.target.value as Formation)}
+                            sx={{ bgcolor: 'rgba(255, 255, 255, 0.1)', borderRadius: 1, color: 'white' }}
+                            MenuProps={{
+                                PaperProps: {
+                                    sx: {
+                                        bgcolor: 'rgba(33, 33, 33, 0.9)', // 메뉴 배경색 설정
+                                        color: 'white', // 메뉴 텍스트 색상 설정
+                                    },
+                                },
+                            }}
                         >
                             <MenuItem value={Formation.FOFOTW}>4-4-2</MenuItem>
                             <MenuItem value={Formation.FOTRTR}>4-3-3</MenuItem>
@@ -769,14 +845,23 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                             <MenuItem value={Formation.THFITW}>3-5-2</MenuItem>
                         </Select>
                     </FormControl>
-                    <FormControl fullWidth>
-                        <InputLabel id="away-country-label">{t('Away Team')}</InputLabel>
+                    <FormControl fullWidth sx={{marginTop: 2}}>
+                        <InputLabel id="away-country-label" style={{ color: 'white' }}>{t('Away Team')}</InputLabel>
                         <Select
                             labelId="away-country-label"
                             id="away-country-select"
                             value={awayCountryState}
                             label="Away Team Country"
                             onChange={(e) => setAwayCountry(e.target.value as TeamCountry)}
+                            sx={{ bgcolor: 'rgba(255, 255, 255, 0.1)', borderRadius: 1, color: 'white' }}
+                            MenuProps={{
+                                PaperProps: {
+                                    sx: {
+                                        bgcolor: 'rgba(33, 33, 33, 0.9)', // 메뉴 배경색 설정
+                                        color: 'white', // 메뉴 텍스트 색상 설정
+                                    },
+                                },
+                            }}
                         >
                             <MenuItem value={TeamCountry.SPAIN}>Spain</MenuItem>
                             <MenuItem value={TeamCountry.ENGLAND}>England</MenuItem>
@@ -787,9 +872,14 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                         sx={{
                             marginTop: 2, // 버튼과 다른 요소들 간의 간격
                             color: 'white', // 텍스트 색상
+                            backgroundColor: '#3B6FB2', // 배경 색상
                             '&:hover': {
-                                backgroundColor: 'darken(renderSaveButtonInfo(), 0.2)', // 호버 시 배경 색상
+                                backgroundColor: '#3B6FB2', // 호버 시 배경 색상을 기본 상태와 동일하게 설정
+                                borderColor: 'var(--border-color)', // 호버 시 테두리 색상을 기본 상태와 동일하게 설정
+                                transform: 'translateY(-.2rem)',
                             },
+                            border: '1px solid var(--border-color)',
+                            borderRadius: '100rem',
                         }}
                         variant="contained"
                         onClick={handleFormationUpdate}
@@ -798,6 +888,6 @@ export const Menu: React.FC<MenuProps> = ({ editKey }) => {
                     </Button>
                 </Box>
             </Modal>
-        </>
+        </div>
     )
 }

@@ -5,6 +5,8 @@ import { useEffect, useState } from "react";
 import { ShareBoard } from "./ShareBoard";
 import NotFoundPage from "../error/NotFound";
 import { ResponseData } from "../../store/Tactics";
+import background from '../../image/board.webp';
+import '../../App.css'
 
 export interface ShareComponentProps {
     darkMode: boolean;
@@ -66,27 +68,26 @@ const SharePage = (props: ShareComponentProps) => {
             />
         );
     }
-    
+
     return <>
-        <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh" flexDirection="column">
-            <div className="App">
-                <div className="App-container">
-                    <Grid container spacing={2} justifyContent="center" alignItems="center">
-                        <Grid item xs={12}>
-                            <Navbar darkMode={props.darkMode} onThemeChange={props.onThemeChange} />
-                        </Grid>
-                        <Grid item xs={12}>
-                            <ShareBoard
-                                title={data.body.title}
-                                description={data.body.description}
-                                players={data.body.players}
-                                tactics={data.body.tactics}
-                            />
-                        </Grid>
-                    </Grid>
+        <div className="App">
+            <div className="App-container">
+                <Navbar darkMode={props.darkMode} onThemeChange={props.onThemeChange} />
+                <div className="second" style={{ overflow: 'hidden' }}>
+                    <img src={background} style={{
+                        overflow: 'hidden'
+                    }} />
+                </div>
+                <div className="third">
+                    <ShareBoard
+                        title={data.body.title}
+                        description={data.body.description}
+                        players={data.body.players}
+                        tactics={data.body.tactics}
+                    />
                 </div>
             </div>
-        </Box>
+        </div>
     </>
 };
 

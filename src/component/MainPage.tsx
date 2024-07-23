@@ -1,4 +1,3 @@
-import { Box, Grid } from "@mui/material"
 import Navbar from "./Navbar"
 import { Board } from "./Board"
 import { useDispatch } from "react-redux";
@@ -12,6 +11,8 @@ import { clearPlayerId } from "../store/PlayerIdSlice";
 import { clearBall } from "../store/BallSlice";
 import { clearPossibleBallMoveState } from "../store/PossibleBallMoveSlice";
 import { useEffect } from "react";
+import background from '../image/board.webp';
+import '../App.css'
 
 interface MainComponentProps {
     darkMode: boolean;
@@ -40,21 +41,20 @@ const MainPage = (props: MainComponentProps) => {
         handleReset();
     }, []);  // 빈 배열을 두 번째 인자로 전달하여 컴포넌트가 마운트될 때 한 번만 실행되도록 함
 
-    return <>
-        <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh" flexDirection="column">
-            <div className="App">
-                <div className="App-container">
-                    <Grid container spacing={2} justifyContent="center" alignItems="center">
-                        <Grid item xs={12}>
-                            <Navbar darkMode={props.darkMode} onThemeChange={props.onThemeChange}/>
-                        </Grid>
-                        <Grid item xs={12}>
-                            <Board />
-                        </Grid>
-                    </Grid>
+    return (
+        <div className="App">
+            <div className="App-container">
+                <Navbar darkMode={props.darkMode} onThemeChange={props.onThemeChange} />
+                <div className="second" style={{overflow: 'hidden'}}>
+                    <img src={background} style={{
+                        // objectFit: 'cover',
+                        overflow: 'hidden'
+                    }}/>
                 </div>
+                <div className="third"><Board /></div>
             </div>
-        </Box></>
+        </div>
+    )
 }
 
 export default MainPage;

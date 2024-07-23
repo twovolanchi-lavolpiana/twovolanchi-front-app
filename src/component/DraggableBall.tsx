@@ -81,7 +81,7 @@ export const DraggableBall: React.FC<BallProps> = ({ leftPercent, topPercent, im
                     <SportsSoccerIcon
                         className="draggable-icon"
                         sx={{
-                            color: 'black',
+                            color: 'white',
                             fontSize: '1.5rem',
                             boxShadow: '0 0 10px 5px rgba(255, 255, 255, 0.8)', // 외곽선 빛나게 하기
                             borderRadius: '50%', // 원형 외곽선

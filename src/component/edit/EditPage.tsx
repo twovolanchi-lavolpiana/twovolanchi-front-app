@@ -16,6 +16,7 @@ import { clearPlayerId, plusPlayerIdWithNumber } from "../../store/PlayerIdSlice
 import { clearBall } from "../../store/BallSlice";
 import { clearPossibleBallMoveState } from "../../store/PossibleBallMoveSlice";
 import { setTacticsDescription } from "../../store/TacticsDescriptionSlice";
+import background from '../../image/board.webp';
 
 interface EditComponentProps {
     darkMode: boolean;
@@ -30,7 +31,7 @@ const EditPage = (props: EditComponentProps) => {
     const { editKey } = useParams<keyof EditKeyParams>() as EditKeyParams;
     const [isLoading, setLoading] = useState(true);
     const [data, setData] = useState<ResponseData | null>(null);
-    
+
     const dispatch = useDispatch()
 
     const baseUrl = process.env.REACT_APP_SERVER_BASE_URL;
@@ -106,31 +107,26 @@ const EditPage = (props: EditComponentProps) => {
     const currentSequenceNumber = data.body.tactics.currentSequenceNumber
     const playerWithLargestId = players.reduce((max, player) => {
         return player.id > max.id ? player : max;
-      }, players[0]);
+    }, players[0]);
     const title = data.body.title
     const description = data.body.description
 
     dispatch(editPlayers(players))
     dispatch(plusPlayerIdWithNumber(playerWithLargestId.id + 10))
-    dispatch(editSequences({sequences, currentSequenceNumber}))
-    dispatch(setTacticsDescription({title, description}))
+    dispatch(editSequences({ sequences, currentSequenceNumber }))
+    dispatch(setTacticsDescription({ title, description }))
 
-    return <Box display="flex" justifyContent="center" alignItems="center" minHeight="100vh" flexDirection="column">
-    <div className="App">
+    return <div className="App">
         <div className="App-container">
-            <Grid container spacing={2} justifyContent="center" alignItems="center">
-                <Grid item xs={12}>
-                    <Navbar darkMode={props.darkMode} onThemeChange={props.onThemeChange} />
-                </Grid>
-                <Grid item xs={12}>
-                    <EditBoard 
-                        editKey={editKey}
-                    />
-                </Grid>
-            </Grid>
+            <Navbar darkMode={props.darkMode} onThemeChange={props.onThemeChange} />
+            <div className="second" style={{ overflow: 'hidden' }}>
+                <img src={background} style={{
+                    overflow: 'hidden'
+                }} />
+            </div>
+            <div className="third"><EditBoard editKey={editKey} /></div>
         </div>
     </div>
-</Box>
 };
 
 export default EditPage;

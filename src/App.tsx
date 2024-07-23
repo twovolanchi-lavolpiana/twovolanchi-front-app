@@ -23,75 +23,72 @@ function App() {
     },
   });
 
-  const lightTheme = createTheme({
-    palette: {
-      mode: 'light',
-    },
-  });
+  // const lightTheme = createTheme({
+  //   palette: {
+  //     mode: 'light',
+  //   },
+  // });
 
   const handleThemeChange = () => {
     setDarkMode(!darkMode);
   };
 
-  useEffect(() => {
-    setOpenSnackbar(true);
-  }, []);
+  // useEffect(() => {
+  //   setOpenSnackbar(true);
+  // }, []);
 
   const handleCloseSnackbar = () => {
     setOpenSnackbar(false);
   };
 
   return (
-    <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-      <CssBaseline />
-      <ScreenSizeProvider>
-        <Routes>
-          <Route
-            key={'default'}
-            path={''}
-            element={<MainPage darkMode={darkMode} onThemeChange={handleThemeChange} />}
-          />
-          <Route
-            key={'home'}
-            path={'/'}
-            element={<MainPage darkMode={darkMode} onThemeChange={handleThemeChange} />}
-          />
-          <Route
-            key={'edit'}
-            path={'/edit/:editKey'}
-            element={<EditPage darkMode={darkMode} onThemeChange={handleThemeChange} />}
-          />
-          <Route
-            key={'share'}
-            path={'/:shareKey'}
-            element={<SharePage darkMode={darkMode} onThemeChange={handleThemeChange} />}
-          />
-          <Route
-            key={'plan'}
-            path={'/plan'}
-            element={<PlanPage darkMode={darkMode} onThemeChange={handleThemeChange} />}
-          />
-          <Route
-            key={'guide'}
-            path={'/guide'}
-            element={<GuidePage darkMode={darkMode} onThemeChange={handleThemeChange} />}
-          />
-        </Routes>
-        <Footer />
+    <ScreenSizeProvider>
+      <Routes>
+        <Route
+          key={'default'}
+          path={''}
+          element={<MainPage darkMode={darkMode} onThemeChange={handleThemeChange} />}
+        />
+        <Route
+          key={'home'}
+          path={'/'}
+          element={<MainPage darkMode={darkMode} onThemeChange={handleThemeChange} />}
+        />
+        <Route
+          key={'edit'}
+          path={'/edit/:editKey'}
+          element={<EditPage darkMode={darkMode} onThemeChange={handleThemeChange} />}
+        />
+        <Route
+          key={'share'}
+          path={'/:shareKey'}
+          element={<SharePage darkMode={darkMode} onThemeChange={handleThemeChange} />}
+        />
+        <Route
+          key={'plan'}
+          path={'/plan'}
+          element={<PlanPage darkMode={darkMode} onThemeChange={handleThemeChange} />}
+        />
+        <Route
+          key={'guide'}
+          path={'/guide'}
+          element={<GuidePage darkMode={darkMode} onThemeChange={handleThemeChange} />}
+        />
+      </Routes>
+      <Footer />
 
-        <Snackbar
-          open={openSnackbar}
-          autoHideDuration={6000}
-          onClose={handleCloseSnackbar}
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
-        >
-          <Alert onClose={handleCloseSnackbar} severity="warning" sx={{ width: '100%' }}>
-            {t('Mobile Snack Bar')}
-          </Alert>
-        </Snackbar>
+      {/* <Snackbar
+        open={openSnackbar}
+        autoHideDuration={6000}
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: 'bottom', horizontal: 'center' }}
+      >
+        <Alert onClose={handleCloseSnackbar} severity="warning" sx={{ width: '100%' }}>
+          {t('Mobile Snack Bar')}
+        </Alert>
+      </Snackbar> */}
 
-      </ScreenSizeProvider>
-    </ThemeProvider>
+    </ScreenSizeProvider>
   );
 }
 

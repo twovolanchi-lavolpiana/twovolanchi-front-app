@@ -1,11 +1,14 @@
 /* App.css */
 
-body, html, #root {
+body,
+html,
+#root {
   margin: 0;
-  padding-left: 30px; /* 기본 패딩 */
+  max-width: 1900px;
+  padding-left: 30px;
   padding-right: 30px;
   height: 100%;
-  min-width: 870px;
+  background-color: black;
 }
 
 .App {
@@ -13,106 +16,52 @@ body, html, #root {
   text-align: center;
   overflow: auto;
   white-space: nowrap;
+  justify-content: center;
+  align-items: center;
 }
 
 .App-container {
   width: 100%;
-  min-width: 50rem;
   justify-content: center;
   align-items: center;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 16px;
 }
 
-.board-parent {
-  padding-top: 2em;
-  padding-bottom: 2em;
-  width: 100%;
-  min-width: 800px;
-  display: flex;
-  overflow-x: auto; 
-  flex-direction: row;
+.first {
+  grid-column: 1 / 1;
+  grid-row: 1 / 1;
 }
 
-.operation {
-  justify-content: center;
-  align-items: center;
-  padding: 1em;
-  max-width: 30rem; /* 최대 너비 설정 */
-  min-width: 12.5rem; /* 최소 너비 설정 */
+.second {
+  grid-column: 1 / 1;
+  grid-row: 2 / 2;
+  padding: 0;
+  margin: 0;
+  height: 95vh;
 }
 
-.board-container {
-  flex: 1;
-  justify-content: center;
-  align-items: center;
-}
-
-.ground {
-  padding: 2em;
-  width: 100%;
-  justify-content: center;
-  align-items: center;
-  min-width: 30rem; /* 최소 너비 설정 */
-}
-
-.simulation-card {
-  padding-top: 2em;
-  justify-content: center;
-  align-items: center;
-  height: 100px;
+.third {
+  grid-column: 1 / 1;
+  grid-row: 3 / 3;
 }
 
 
-.MuiDrawer-paper {
-  position: relative;
-}
+@media (max-width: 1780px) {}
 
-/* @media (max-width: 1200px) {
-  .board-image {
-    width: 100%;
+@media (max-width: 768px) {
+
+  body,
+  html,
+  #root {
+    height: 100%;
+    background-color: black;
+    padding-left: 0px;
+    padding-right: 0px;
   }
 
-  .ground,
-  .operation {
-    width: 100%;
+  .second {
+    display: none;
   }
-} */
-
-/* 반응형 설정: 화면 크기가 768px 이하일 때 패딩을 줄입니다. */
-@media (max-width: 1496px) {
-  body, html, #root {
-    padding: 0;
-  }
-
-  .App {
-    overflow-x: auto;
-  }
-
-  .App-header {
-    overflow-x: auto;
-  }  
-
-  .board-parent {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .board-container {
-    width: 800px;
-    order: 1;
-  }
-
-  .react-flex {
-    display: flex;
-    flex-direction: column;
-    order: 2;
-  }
-
-  .menu-bar {
-    order: 2;
-  }
-
-  .player-list {
-    order: 3;
-  }
-
 }

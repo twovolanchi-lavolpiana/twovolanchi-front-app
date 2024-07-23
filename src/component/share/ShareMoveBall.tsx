@@ -49,7 +49,6 @@ export const ShareMoveBall: React.FC<ShareBallProps> = ({ left, top, imgRef }) =
                     }}
                 >
                     <SportsSoccerIcon
-                        className="draggable-icon"
                         sx={{
                             color: 'black',
                             fontSize: '1.5rem',
