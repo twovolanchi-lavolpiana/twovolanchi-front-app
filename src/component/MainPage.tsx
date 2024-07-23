@@ -1,4 +1,3 @@
-import { Box, Card, CardContent, Grid } from "@mui/material"
 import Navbar from "./Navbar"
 import { Board } from "./Board"
 import { useDispatch } from "react-redux";
@@ -46,8 +45,11 @@ const MainPage = (props: MainComponentProps) => {
         <div className="App">
             <div className="App-container">
                 <Navbar darkMode={props.darkMode} onThemeChange={props.onThemeChange} />
-                <div className="second">
-                    <img src={background}/>
+                <div className="second" style={{overflow: 'hidden'}}>
+                    <img src={background} style={{
+                        // objectFit: 'cover',
+                        overflow: 'hidden'
+                    }}/>
                 </div>
                 <div className="third"><Board /></div>
             </div>

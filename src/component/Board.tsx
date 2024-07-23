@@ -11,15 +11,12 @@ import { Card, CardContent, Stack } from '@mui/material';
 import { useScreenSize } from '../provider/ScreenSizeProvider';
 import { PlayerList } from './PlayerList';
 import { Description } from './Description';
-import { useTranslation } from 'react-i18next';
 import boardImage from "../image/board-background.jpg"
 
 export const Board = () => {
     const selectedPlayer = useSelector((state: RootState) => state.player.selectedPlayer);
     const players = useSelector((state: RootState) => state.players.players)
     const { vw } = useScreenSize(); // width 값 사용
-    const { t } = useTranslation();
-
 
     useEffect(() => {
     }, [players]);
@@ -64,7 +61,9 @@ export const Board = () => {
                         backgroundColor: "transparent"
                     }}
                 >
-                    <CardContent><Menu editKey={null} /></CardContent>
+                    <CardContent
+                        sx={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}
+                    ><Menu editKey={null} /></CardContent>
                 </Card>
                 <Card
                     className="card card-grid4"

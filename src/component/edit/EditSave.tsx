@@ -60,7 +60,7 @@ export const EditSave: React.FC<EditProps> = ({ editKey }) => {
                 }))
             }
         };
-        
+
 
         try {
             const response = await fetch(`${baseUrl}/api/v1/edit/${editKey}`, {
@@ -100,52 +100,52 @@ export const EditSave: React.FC<EditProps> = ({ editKey }) => {
     };
 
     return <>
-    <Box display="flex" alignItems="center" onClick={handleShare} sx={{ cursor: 'pointer', mr: 2 }}>
-        <IosShare sx={{ color: 'purple' }} />
-        <Typography variant="body1" ml={1}>Save</Typography>
-    </Box>
+        <Box display="flex" alignItems="center" onClick={handleShare} sx={{ cursor: 'pointer', mr: 2 }}>
+            <IosShare sx={{ color: 'white' }} />
+            <Typography variant="body1" ml={1} style={{ color: "white" }}>Save</Typography>
+        </Box>
 
-    <Modal open={isModalOpen} onClose={handleClose}>
-        <Box
-            sx={{
-                position: 'absolute',
-                top: '50%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)',
-                width: 400,
-                bgcolor: 'background.paper',
-                p: 4,
-                display: 'flex',
-                flexDirection: 'column',
-                gap: 2,
-            }}
-        >
-            <IconButton
-                onClick={handleClose}
+        <Modal open={isModalOpen} onClose={handleClose}>
+            <Box
                 sx={{
                     position: 'absolute',
-                    top: 8,
-                    right: 8,
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    width: 400,
+                    bgcolor: 'background.paper',
+                    p: 4,
+                    display: 'flex',
+                    flexDirection: 'column',
+                    gap: 2,
                 }}
             >
-                <CloseOutlined />
-            </IconButton>
+                <IconButton
+                    onClick={handleClose}
+                    sx={{
+                        position: 'absolute',
+                        top: 8,
+                        right: 8,
+                    }}
+                >
+                    <CloseOutlined />
+                </IconButton>
 
-            <Typography variant="body2" gutterBottom>
-                Edit your Tactics! 😄 <br/>
-                The URL is the same as the previously generated one. <br/>
-                Changes are reflected and can be simulated.
-            </Typography>
+                <Typography variant="body2" gutterBottom>
+                    Edit your Tactics! 😄 <br />
+                    The URL is the same as the previously generated one. <br />
+                    Changes are reflected and can be simulated.
+                </Typography>
 
-            <Typography variant="body2">Share URL</Typography>
-            <TextField
-                value={generatedShareUrl}
-                InputProps={{
-                    readOnly: true,
-                }}
-                onClick={() => handleCopyUrl(generatedShareUrl)}
-            />
-        </Box>
-    </Modal>
-</>
+                <Typography variant="body2">Share URL</Typography>
+                <TextField
+                    value={generatedShareUrl}
+                    InputProps={{
+                        readOnly: true,
+                    }}
+                    onClick={() => handleCopyUrl(generatedShareUrl)}
+                />
+            </Box>
+        </Modal>
+    </>
 }

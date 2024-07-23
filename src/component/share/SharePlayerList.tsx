@@ -1,15 +1,20 @@
-import { Avatar, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
+import { Avatar, Pagination, PaginationItem, Paper, Stack, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography } from "@mui/material";
 import { PlayerPositionEnum } from "../PlayerPositionEnum";
 import { PlayerPosition } from "../PlayerPosition";
 import { useTranslation } from "react-i18next";
+import { useState } from "react";
+import { ArrowBackIosNew, ArrowForwardIos } from "@mui/icons-material";
 
 export interface SharePlayerListProps {
-    width: number;
-    players: PlayerPosition[],
+    filteredPlayers: PlayerPosition[],
 }
 
-export const SharePlayerList: React.FC<SharePlayerListProps> = ({ width, players }) => {    
+export const SharePlayerList: React.FC<SharePlayerListProps> = ({ filteredPlayers }) => {
     const { t } = useTranslation();
+
+    const [page, setPage] = useState(1);
+    const itemsPerPage = 5;
+
     const setColorByPosition = (position: PlayerPositionEnum) => {
         switch (position) {
             case 'ST':
@@ -33,33 +38,44 @@ export const SharePlayerList: React.FC<SharePlayerListProps> = ({ width, players
         }
     }
 
-    const sortedPlayers = players.slice().sort((a, b) => {
-        if (a.team === b.team) {
-            return a.backNumber - b.backNumber; // 같은 팀일 경우 backNumber로 정렬
-        }
-        return a.team === 'HOME' ? -1 : 1; // 'home' 팀이 먼저 오도록 정렬
-    });
+    const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
+        setPage(value);
+    };
+
+    const paginatedPlayers = filteredPlayers.slice((page - 1) * itemsPerPage, page * itemsPerPage);
+    const totalPageCount = Math.ceil(filteredPlayers.length / itemsPerPage);
 
     return (
         <div>
             <TableContainer component={Paper} sx={{
                 maxHeight: 700,
-                width: width,
                 overflowY: 'auto',
+                background: 'transparent'
             }}>
                 <Table>
                     <TableHead>
                         <TableRow>
-                            <TableCell align="center"><Typography variant="subtitle1" fontWeight="bold">{t('Position')}</Typography></TableCell>
-                            <TableCell align="center"><Typography variant="subtitle1" fontWeight="bold">{t('Name')}</Typography></TableCell>
-                            <TableCell align="center"><Typography variant="subtitle1" fontWeight="bold">{t('No')}</Typography></TableCell>
-                            {/* <TableCell align="center"><Typography variant="subtitle1" fontWeight="bold">Team</Typography></TableCell> */}
+                            <TableCell align="center"><Typography
+                                variant="subtitle1"
+                                fontWeight="bold"
+                                color={'white'}
+                            >{t('Position')}</Typography></TableCell>
+                            <TableCell align="center"><Typography
+                                variant="subtitle1"
+                                fontWeight="bold"
+                                color={'white'}
+                            >{t('Name')}</Typography></TableCell>
+                            <TableCell align="center"><Typography
+                                variant="subtitle1"
+                                fontWeight="bold"
+                                color={'white'}
+                            >{t('No')}</Typography></TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {sortedPlayers.map((player: PlayerPosition) => (
+                        {paginatedPlayers.map((player: PlayerPosition) => (
                             <TableRow key={player.id} >
-                                <TableCell align="center">
+                                <TableCell align="center" sx={{ border: 0 }}>
                                     <Avatar
                                         sx={{
                                             bgcolor: setColorByPosition(player.position),
@@ -69,18 +85,35 @@ export const SharePlayerList: React.FC<SharePlayerListProps> = ({ width, players
                                             boxShadow: player.team === 'HOME' ? '0 0 10px 5px #3B6FB2' : '0 0 10px 5px #B23B7F',
                                             borderRadius: '50%', // 원형 외곽선
                                         }}>
-                                        <Typography variant="caption" sx={{ fontSize: '0.8rem', fontWeight: 'bold', color: 'auto' }}>
+                                        <Typography variant="caption" sx={{ fontSize: '0.8rem', fontWeight: 'bold', color: 'white' }}>
                                             {player.position}
                                         </Typography>
                                     </Avatar>
                                 </TableCell>
-                                <TableCell align="center"><Typography variant="body2" fontWeight="bold">{player.name} </Typography></TableCell>
-                                <TableCell align="center"><Typography variant="body2" fontWeight="bold">{player.backNumber}</Typography></TableCell>
+                                <TableCell align="center" sx={{ border: 0 }}><Typography variant="body2" fontWeight="bold" color="white">{player.name} </Typography></TableCell>
+                                <TableCell align="center" sx={{ border: 0 }}><Typography variant="body2" fontWeight="bold" color="white">{player.backNumber}</Typography></TableCell>
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
             </TableContainer>
+
+            {totalPageCount > 1 && (
+                <Stack spacing={2} sx={{ marginTop: 2, color: 'white', alignItems: 'center' }}>
+                    <Pagination
+                        count={totalPageCount}
+                        page={page}
+                        onChange={handleChangePage}
+                        renderItem={(item) => (
+                            <PaginationItem
+                                slots={{ previous: ArrowBackIosNew, next: ArrowForwardIos }}
+                                sx={{ color: 'white' }}
+                                {...item}
+                            />
+                        )}
+                    />
+                </Stack>
+            )}
         </div >
     );
 }

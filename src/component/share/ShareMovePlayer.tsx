@@ -59,10 +59,9 @@ export const ShareMovePlayer: React.FC<SharePlayerProps> = ({ id, team, backNumb
                             justifyContent: 'center',
                         }}>
                         <CircleIcon
-                                className="draggable-icon"
                                 sx={{
                                     color: team === 'HOME' ? '#3B6FB2' : '#B23B7F',
-                                    fontSize: '2.3rem',
+                                    fontSize: ['1.5rem', '2.3rem'],
                                     pointerEvents: 'auto'
                                 }}
                             />

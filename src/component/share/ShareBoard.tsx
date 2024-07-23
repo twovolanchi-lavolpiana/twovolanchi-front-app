@@ -1,4 +1,5 @@
 import '../../App.css';
+import '../../css/main.css';
 import { ShareMenu } from './ShareMenu'
 import { ShareGround } from './ShareGround';
 import { useEffect } from 'react'
@@ -10,6 +11,7 @@ import { ShareDescription } from './ShareDescription';
 import { Tactics } from '../../store/Tactics';
 import { SharePlayerList } from './SharePlayerList';
 import { PlayerPosition } from '../PlayerPosition';
+import boardImage from "../../image/board-background.jpg"
 
 type BoardProps = {
     title: string;
@@ -18,7 +20,7 @@ type BoardProps = {
     tactics: Tactics;
 }
 
-export const ShareBoard: React.FC<BoardProps> = ({ title, description, players, tactics }) => {    
+export const ShareBoard: React.FC<BoardProps> = ({ title, description, players, tactics }) => {
     const { vw } = useScreenSize(); // width 값 사용
 
     useEffect(() => {
@@ -29,88 +31,81 @@ export const ShareBoard: React.FC<BoardProps> = ({ title, description, players, 
 
     return (
         <DndProvider backend={HTML5Backend}>
-            {vw >= 14.96 ? (
-                <div className='board-parent'>
-                    <Card className="menu-bar" sx={{ width: 250, overflowY: 'auto' }}>
-                        <CardContent>
-                            <Stack direction="column" spacing={2}>
-                                <ShareMenu />
-                            </Stack>
-                        </CardContent>
-                    </Card>
-                    <Card className="board-container">
-                        <Stack
-                            direction="column"
-                            spacing={2}
-                            sx={{
-                                justifyContent: 'center',
-                                alignContent: 'center',
-                                alignItems: 'center',
-                                paddingTop: 2,
-                            }}>
-                            <ShareDescription 
-                                title={title}
-                                description={description}
-                            />
-                            <ShareGround players={players} tactics={tactics} />
-                        </Stack>
-                    </Card>
-                    <Card className="player-list">
-                        <CardContent>
-                            <SharePlayerList width={300} players={players}/>
-                        </CardContent>
-                    </Card>
-                </div>
-            ) : (
-                <div className='board-parent' style={{width: '100%', minWidth: 800}}>
-                    <Card className="board-container">
-                        <Stack
-                            direction="column"
-                            spacing={2}
-                            sx={{
-                                justifyContent: 'center',
-                                alignContent: 'center',
-                                alignItems: 'center',
-                                paddingTop: 2,
-                            }}>
-                            <ShareDescription 
-                                title={title}
-                                description={description}
-                            />
-                            <ShareGround players={players} tactics={tactics} />
-                        </Stack>
-                    </Card>
-                    <Card className="menu-bar react-flex" sx={{ flexDirection: 'row', maxWidth: 800, marginTop: 5 }}>
-                        <CardContent>
-                            <Stack direction="row" sx={{ flexWrap: 'wrap' }}>
-                                <ShareMenu />
-                            </Stack>
-                        </CardContent>
-                    </Card>
-                    <Card
-                        className="player-list"
-                        sx={{
-                            flexDirection: 'row',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            width: 800,
-                            marginTop: 5,
-                        }}>
-                        <CardContent
-                            sx={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                alignContent: 'center',
-                                width: '100%',  // CardContent의 너비를 카드 전체 너비로 설정
-                                marginTop: 3
-                            }}
-                        >
-                            <SharePlayerList width={700} players={players}></SharePlayerList>
-                        </CardContent>
-                    </Card>
-                </div>
-            )}
+            <div
+                className='container'
+                style={{
+                    background: `url(${boardImage}) no-repeat center center`,
+                    backgroundSize: 'cover'
+                }}
+            >
+                <Card
+                    className="card card-grid1"
+                    style={{
+                        backgroundColor: "transparent"
+                    }}
+                >
+                    <CardContent>
+                        <ShareDescription
+                            title={title}
+                            description={description}
+                        />
+                    </CardContent>
+                </Card>
+                <Card
+                    className="card card-grid2"
+                    style={{
+                        backgroundColor: "transparent"
+                    }}
+                >
+                    <CardContent
+                        sx={{ width: '100%' }}
+                    >
+                        <ShareGround players={players} tactics={tactics} />
+                    </CardContent>
+                </Card>
+                <Card
+                    className="card card-grid3"
+                    style={{
+                        backgroundColor: "transparent"
+                    }}
+                >
+                    <CardContent
+                        sx={{ width: '100%', justifyContent: 'center', alignItems: 'center' }}
+                    ><ShareMenu /></CardContent>
+                </Card>
+                <Card
+                    className="card card-grid4"
+                    style={{
+                        backgroundColor: "transparent"
+                    }}
+                >
+                    <CardContent
+                        sx={{ width: '100%' }}
+                    ><SharePlayerList
+                            filteredPlayers={
+                                players.filter((p) => {
+                                    return p.team === 'HOME';
+                                })
+                            }
+                        /></CardContent>
+                </Card>
+                <Card
+                    className="card card-grid5"
+                    style={{
+                        backgroundColor: "transparent"
+                    }}
+                >
+                    <CardContent
+                        sx={{ width: '100%' }}
+                    ><SharePlayerList
+                            filteredPlayers={
+                                players.filter((p) => {
+                                    return p.team === 'AWAY';
+                                })
+                            }
+                        /></CardContent>
+                </Card>
+            </div>
         </DndProvider>
     );
 }

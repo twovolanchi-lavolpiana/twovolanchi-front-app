@@ -133,21 +133,19 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, n
                         }}>
                         {selectedPlayer && id === selectedPlayer.id ? (
                             <CircleIcon
-                                className="draggable-icon"
                                 sx={{
                                     color: team === 'HOME' ? '#3B6FB2' : '#B23B7F',
-                                    fontSize: '2.3rem',
-                                    boxShadow: '0 0 10px 5px rgba(255, 255, 255, 0.8)', // 외곽선 빛나게 하기
-                                    borderRadius: '50%', // 원형 외곽선
+                                    fontSize: ['1.5rem', '2.3rem'],
+                                    boxShadow: '0 0 10px 5px rgba(255, 255, 255, 0.8)',
+                                    borderRadius: '50%',
                                     pointerEvents: 'auto'
                                 }}
                             />
                         ) : (
                             <CircleIcon
-                                className="draggable-icon"
                                 sx={{
                                     color: team === 'HOME' ? '#3B6FB2' : '#B23B7F',
-                                    fontSize: '2.3rem',
+                                    fontSize: ['1.5rem', '2.3rem'],
                                     pointerEvents: 'auto'
                                 }}
                             />
@@ -167,7 +165,7 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, n
                     <Box
                         sx={{
                             marginTop: '0.1rem', // 아이콘과 이름 사이의 간격
-                            color: 'black', // 이름 텍스트 색상
+                            color: 'white', // 이름 텍스트 색상
                             fontSize: '0.7rem',
                             fontWeight: 'bold',
                         }}
@@ -177,52 +175,6 @@ export const DraggablePlayer: React.FC<PlayerProps> = ({ id, team, backNumber, n
                 </Box>
 
             </div>
-
-            {multiSelectedPlayers && multiSelectedPlayers.map((element) => {
-                const { left: elementLeft, top: elementTop } = getPlayerStyle(element.leftPercent, element.topPercent)
-                return <div
-                    key={element.id}
-                    style={{
-                        position: 'absolute',
-                        left: `${elementLeft}`,
-                        top: `${elementTop}`,
-                        transform: 'translate(-50%, -50%)',
-                        cursor: 'move',
-                        opacity: isDragging ? 0.5 : 1,
-                        zIndex: 100,
-                    }}
-                >
-                    <Box
-                        key={element.id}
-                        sx={{
-                            position: 'relative',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                        }}
-                    >
-                        <CircleIcon
-                            className="draggable-icon"
-                            sx={{
-                                color: element.team === 'HOME' ? '#3B6FB2' : '#B23B7F',
-                                fontSize: '2.3rem',
-                                boxShadow: '0 0 10px 5px rgba(255, 255, 255, 0.8)', // 외곽선 빛나게 하기
-                                borderRadius: '50%', // 원형 외곽선
-                            }}
-                        />
-                        <span
-                            style={{
-                                position: 'absolute',
-                                color: 'white', // 텍스트 색상
-                                fontSize: '0.8rem',
-                                fontWeight: 'bold',
-                            }}
-                        >
-                            {renderPlayerInfo()}
-                        </span>
-                    </Box>
-                </div>
-            })}
         </div>
     );
 }

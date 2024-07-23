@@ -2,7 +2,6 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 16px;
-  padding: 100px;
 }
 
 .card {
@@ -46,6 +45,7 @@
 @media (max-width: 1780px) {
   .container {
     grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
   }
 
   .card {
@@ -89,6 +89,7 @@
 @media (max-width: 768px) {
   .container {
     grid-template-columns: repeat(1, 1fr);
+        gap: 16px;
   }
 
   .card-grid1 {
@@ -103,16 +104,16 @@
 
   .card-grid3 {
     grid-column: 1 / 5;
-    grid-row: 8 / 13;
+    grid-row: 13 / 18;
   }
 
   .card-grid4 {
     grid-column: 1 / 5;
-    grid-row: 13 / 16;
+    grid-row: 18 / 23;
   }
 
   .card-grid5 {
     grid-column: 1 / 5;
-    grid-row: 13 / 16;
+    grid-row: 23 / 28;
   }
 }

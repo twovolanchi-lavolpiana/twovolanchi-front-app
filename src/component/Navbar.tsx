@@ -102,7 +102,7 @@ function Navbar({ darkMode, onThemeChange }: NavbarProps) {
                         </IconButton>
                     </Box>
                 </Toolbar>
-                {anchorElNav && (
+                {/* {anchorElNav && (
                     <Menu
                         id="menu-appbar"
                         anchorEl={anchorElNav}
@@ -135,7 +135,7 @@ function Navbar({ darkMode, onThemeChange }: NavbarProps) {
                             <Typography textAlign="center">Plan</Typography>
                         </MenuItem>
                     </Menu>
-                )}
+                )} */}
             </Container>
         </AppBar>
     );
